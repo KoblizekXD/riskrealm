@@ -1,6 +1,11 @@
 <h1 align="center">Risk Realm</h1>
-<a align="center" href="https://riskrealm.7f454c46.xyz/">![Website](https://img.shields.io/website?url=https%3A%2F%2Friskrealm.7f454c46.xyz%2F)</a>
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Chigga-Solutions/Cock-Down-Shooter/node.js.yml)
+<p style="font-size: 17px" align="center">Fullstack gambling website application for school project</p>
+
+<p>
+
+  <a align="center" href="https://riskrealm.7f454c46.xyz/">![Website](https://img.shields.io/website?url=https%3A%2F%2Friskrealm.7f454c46.xyz%2F)</a>
+  <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/KoblizekXD/riskrealm/deploy.yml">
+</p>
 
 ## Contributing
 You will need a postgres database in order to develop this project.
