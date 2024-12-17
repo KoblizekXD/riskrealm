@@ -2,11 +2,17 @@ services:
   app:
     build:
       context: .
+      args:
+        DATABASE_URL: postgresql://${PG_USER}:${PG_PASS}@db:5432/riskrealm
     container_name: RiskRealm
     environment:
-      - DATABASE_URL=postgresql://${PG_USER}:${PG_PASS}@db:5432/riskrealm
+      - DATABASE_URL=${DATABASE_URL}
+    env_file:
+      - .env.production
     depends_on:
       - db
+    ports:
+      - "3000:3000"
   db:
     image: postgres:15
     container_name: riskrealm_db
