@@ -1,5 +1,5 @@
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import NextAuth from 'next-auth';
+import NextAuth, { AuthError, CredentialsSignin } from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 import prisma, { findUserByCredentials } from './db-util';
@@ -48,3 +48,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signOut: '/signout',
   }
 });
+
+export function translateError(error: string): string {
+  switch (error) {
+    case 'CredentialsSignin': return 'Invalid email or password';
+    case 'OAuthCallbackError': return 'Authentication was not finished';
+    default: return 'An error occurred';
+  }
+}
