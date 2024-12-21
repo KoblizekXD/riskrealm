@@ -1,12 +1,13 @@
 import { providerMap, providers, signIn } from "@/lib/auth";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
+import '@/app/globals.css';
 
 export default async function SignInPage(props: { searchParams: { callbackUrl: string | undefined }}) {
   const params = await props.searchParams;
   return (
     <main className={'flex bg-[#1e1e2e] justify-center items-center min-h-screen'}>
-      <div className="lg:w-1/4 lg:bg-[#181825] lg:shadow-lg lg:flex-none flex-1 rounded-md flex flex-col p-4">
+      <div className="lg:w-1/4 z-10 lg:bg-[#181825] lg:shadow-lg lg:flex-none flex-1 rounded-md flex flex-col p-4">
         <form className="flex flex-col">
           <h1 className={'font-extrabold text-2xl'}>Sign in to Risk Realm</h1>
           <label className={'mt-4'}>
@@ -59,6 +60,15 @@ export default async function SignInPage(props: { searchParams: { callbackUrl: s
             </form>
           ))}
         </div>
+      </div>
+      <div className={'fixed invisible lg:visible w-full -translate-y-16 h-full rotate-2'}>
+        {Array.from({ length: 100 }).map((_, i) => (
+          <div key={i} className={'flex select-none animate-[moveToRight_20s_infinite_linear] gap-x-2 text-5xl opacity-20'}>
+            {Array.from({ length: 100 }).fill('🎰💸', 0).map((emoji, i) => {
+              return <span key={i}>{emoji as string}</span>;
+            })}
+          </div>
+        ))}
       </div>
     </main>
   );
