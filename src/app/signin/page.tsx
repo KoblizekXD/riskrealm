@@ -4,6 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { GenericErrorPopup } from "@/components/generic-error";
+import Image from "next/image";
 
 export default async function SignInPage(props: { searchParams: { callbackUrl: string | undefined, error: string | undefined } }) {
   const params = await props.searchParams;
@@ -69,8 +70,10 @@ export default async function SignInPage(props: { searchParams: { callbackUrl: s
               }}>
               <button
                 type={'submit'}
-                className={'flex-1 h-full p-2'}
-              >Continue with {provider.name}</button>
+                className={'flex-1 hover:text-black h-full p-2 flex justify-center items-center gap-x-2 hover:bg-white transition-colors'}>
+                  <Image width={32} height={32} alt="e" src={`https://raw.githubusercontent.com/nextauthjs/next-auth/refs/heads/main/docs/public/img/providers/${provider.id}.svg`} />
+                  Continue with {provider.name}
+              </button>
             </form>
           ))}
         </div>

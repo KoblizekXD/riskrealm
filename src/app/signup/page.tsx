@@ -1,6 +1,7 @@
 import { providerMap, signIn } from "@/lib/auth";
 import { GitBranch } from "lucide-react";
 import { AuthError } from "next-auth";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 
 export default async function SignUp(props: { searchParams: { callbackUrl: string | undefined, error: string | undefined } }) {
@@ -75,8 +76,10 @@ export default async function SignUp(props: { searchParams: { callbackUrl: strin
               }}>
               <button
                 type={'submit'}
-                className={'flex-1 w-full h-full py-2 px-6'}
-              >Continue with {provider.name}</button>
+                className={'flex-1 flex gap-x-2 items-center w-full h-full py-2 px-6'}>
+                  <Image width={32} height={32} alt="e" src={`https://raw.githubusercontent.com/nextauthjs/next-auth/refs/heads/main/docs/public/img/providers/${provider.id}.svg`} />
+                  Continue with {provider.name}
+              </button>
             </form>
           ))}
           <form action={'/signin'}>
