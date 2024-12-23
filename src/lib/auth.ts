@@ -26,19 +26,19 @@ export const providers: Provider[] = [
         credentials.password as string
       );
     },
-  })
-]
+  }),
+];
 
 export const providerMap = providers
   .map((provider) => {
-    if (typeof provider === "function") {
+    if (typeof provider === 'function') {
       const providerData = provider();
-      return { id: providerData.id, name: providerData.name }
+      return { id: providerData.id, name: providerData.name };
     } else {
-      return { id: provider.id, name: provider.name }
+      return { id: provider.id, name: provider.name };
     }
   })
-  .filter((provider) => provider.id !== "credentials")
+  .filter((provider) => provider.id !== 'credentials');
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -46,13 +46,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: '/signin',
     signOut: '/signout',
-  }
+  },
 });
 
 export function translateError(error: string): string {
   switch (error) {
-    case 'CredentialsSignin': return 'Invalid email or password';
-    case 'OAuthCallbackError': return 'Authentication was not finished';
-    default: return 'An error occurred';
+    case 'CredentialsSignin':
+      return 'Invalid email or password';
+    case 'OAuthCallbackError':
+      return 'Authentication was not finished';
+    default:
+      return 'An error occurred';
   }
 }
