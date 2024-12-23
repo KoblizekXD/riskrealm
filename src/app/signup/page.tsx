@@ -2,14 +2,15 @@
 
 import { GenericErrorPopup } from "@/components/generic-error";
 import { providerMap, translateError } from "@/lib/auth";
-import { AuthError } from "next-auth";
+import { LoaderCircle } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { redirect, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 
 export default function SignUp(props: { searchParams: { callbackUrl: string | undefined, error: string | undefined } }) {
   const [error, setError] = useState<string | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   return (
@@ -32,15 +33,17 @@ export default function SignUp(props: { searchParams: { callbackUrl: string | un
               setError('You must comply with the age requirement in order to register.');
               return
             }
-            signIn('credentials', {
-              email: fd.get('email') as string,
-              password: fd.get('password') as string,
-              redirect: false
-            }).then((res) => {
-              if (res?.error) {
-                setError(res.error);
-              }
-            });
+            startTransition(async () => {
+              await signIn('credentials', {
+                email: fd.get('email') as string,
+                password: fd.get('password') as string,
+                redirect: false
+              }).then((res) => {
+                if (res?.error) {
+                  setError(res.error);
+                }
+              });
+            })
           }} className={'mt-24 lg:w-[70%] flex flex-col gap-y-4'}>
             <label className={'mt-4 font-semibold'}>
               <span>Email</span>
@@ -70,6 +73,7 @@ export default function SignUp(props: { searchParams: { callbackUrl: string | un
             <button
               type={'submit'}
               className={'bg-transparent border hover:text-black hover:bg-white transition-colors font-semibold text-white rounded flex items-center justify-center gap-x-2 p-2 mt-4'}>
+                {isPending && <LoaderCircle className={'animate-spin'} />}
                 Sign me up!
             </button>
           </form>
