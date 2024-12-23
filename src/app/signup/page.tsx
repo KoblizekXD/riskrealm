@@ -31,7 +31,7 @@ export default function SignUp(props: {
         className={'w-full h-full z-10 flex flex-col gap-x-2 lg:flex-row p-2'}>
         <div className='flex-1 flex justify-center flex-col items-center'>
           <h1 className={'text-4xl mt-12 font-extrabold text-center'}>
-            Let's start your journey here!
+            Let&#39;s start your journey here!
           </h1>
           <h2
             className={
@@ -97,7 +97,7 @@ export default function SignUp(props: {
             <label className={'flex gap-x-4'}>
               <input name='age-required' required type={'checkbox'} />
               <span>
-                I'm <span className='font-semibold'>18 years</span> or older,
+                I&#39;m <span className='font-semibold'>18 years</span> or older,
                 have read our Terms Of Service,
                 <br />
                 or{' '}
@@ -159,7 +159,7 @@ export default function SignUp(props: {
             className={
               'bg-transparent border px-12 text-xl hover:text-black hover:bg-white transition-colors font-semibold text-white rounded flex items-center justify-center gap-x-2 p-2 mt-4'
             }>
-            I'm already registered!
+            I&#39;m already registered!
           </button>
         </div>
       </div>
