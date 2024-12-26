@@ -2,17 +2,19 @@
 
 import { GenericErrorPopup } from '@/components/generic-error';
 import { providerMap, translateError } from '@/lib/auth';
+import { createUser } from '@/lib/db-util';
 import { LoaderCircle } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState, useTransition } from 'react';
+import { useActionState, useState, useTransition } from 'react';
+
 
 export default function SignUp(props: {
   searchParams: { callbackUrl: string | undefined; error: string | undefined };
 }) {
   const [error, setError] = useState<string | undefined>(undefined);
-  const [isPending, startTransition] = useTransition();
+  const [state, formAction, isPending] = useActionState(createUser, undefined);
   const router = useRouter();
 
   return (
@@ -20,11 +22,11 @@ export default function SignUp(props: {
       className={
         'min-h-screen md:h-screen lg:bg-black from-[#1e1e2e] to-[#181825] bg-gradient-to-br flex justify-center p-16 items-center'
       }>
-      {error && (
+      {state && (
         <GenericErrorPopup
           onClose={() => setError(undefined)}
           closeable
-          message={translateError(error)}
+          message={translateError(state)}
         />
       )}
       <div
@@ -59,19 +61,22 @@ export default function SignUp(props: {
                 );
                 return;
               }
-              startTransition(async () => {
-                await signIn('credentials', {
-                  email: fd.get('email') as string,
-                  password: fd.get('password') as string,
-                  redirect: false,
-                }).then((res) => {
-                  if (res?.error) {
-                    setError(res.error);
-                  }
-                });
-              });
+              formAction(fd);
             }}
             className={'mt-24 lg:w-[70%] flex flex-col gap-y-4'}>
+            <label className={'mt-4 font-semibold'}>
+              <span>Username</span>
+              <input
+                required
+                type={'text'}
+                maxLength={32}
+                minLength={3}
+                name={'username'}
+                className={
+                  'block border-[#313244] border bg-[#11111b] rounded w-full p-2 mt-1 outline-none'
+                }
+              />
+            </label>
             <label className={'mt-4 font-semibold'}>
               <span>Email</span>
               <input

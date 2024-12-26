@@ -1,10 +1,12 @@
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import NextAuth, { AuthError, CredentialsSignin } from 'next-auth';
+import NextAuth from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
-import prisma, { findUserByCredentials } from './db-util';
+import { findUserByCredentials } from './db-util';
 import Credentials from 'next-auth/providers/credentials';
 import { Provider } from 'next-auth/providers';
+import { prisma } from './prisma';
+import { hash } from 'crypto';
 
 export const providers: Provider[] = [
   GitHub({
@@ -21,12 +23,14 @@ export const providers: Provider[] = [
       password: { label: 'Password', type: 'password' },
     },
     authorize: async (credentials) => {
-      return await findUserByCredentials(
-        credentials.email as string,
-        credentials.password as string
-      );
+      try {
+        return findUserByCredentials(credentials.email as string, credentials.password as string);
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
     },
-  }),
+  })
 ];
 
 export const providerMap = providers
@@ -43,10 +47,22 @@ export const providerMap = providers
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: providers,
-  pages: {
-    signIn: '/signin',
-    signOut: '/signout',
+  session: {
+    strategy: "jwt",
+    maxAge: 3000,
   },
+  debug: process.env.NODE_ENV === 'development',
+  callbacks: {
+    async jwt({ token, account }) {
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
+    session({ session, user }) {
+      return session;
+    }
+  }
 });
 
 export function translateError(error: string): string {
