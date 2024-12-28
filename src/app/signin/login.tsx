@@ -19,7 +19,7 @@ export default function SignInPage() {
     if (session) {
       router.push('/');
     }
-  }, [session]);
+  }, [session, router]);
 
   return (
     <main
@@ -32,7 +32,7 @@ export default function SignInPage() {
               signIn('credentials', {
                 email: formData.get('email') as string,
                 password: formData.get('password') as string,
-                redirectTo: '/'
+                redirectTo: '/',
               });
             } catch (error) {
               if (error instanceof AuthError) {
@@ -115,9 +115,7 @@ export default function SignInPage() {
           Not a member yet?
         </Link>
       </div>
-      {error && (
-        <GenericErrorPopup message={translateError(error)} />
-      )}
+      {error && <GenericErrorPopup message={translateError(error)} />}
       <div
         className={
           'fixed invisible lg:visible w-full -translate-y-16 h-full rotate-2'

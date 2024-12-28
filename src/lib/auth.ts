@@ -23,13 +23,16 @@ export const providers: Provider[] = [
     },
     authorize: async (credentials) => {
       try {
-        return findUserByCredentials(credentials.email as string, credentials.password as string);
+        return findUserByCredentials(
+          credentials.email as string,
+          credentials.password as string
+        );
       } catch (error) {
         console.error(error);
         return null;
       }
     },
-  })
+  }),
 ];
 
 export const providerMap = providers
@@ -47,7 +50,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: providers,
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
     maxAge: 3000,
   },
   debug: process.env.NODE_ENV === 'development',
@@ -60,8 +63,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     session({ session, user }) {
       return session;
-    }
-  }
+    },
+  },
 });
 
 export function translateError(error: string): string {

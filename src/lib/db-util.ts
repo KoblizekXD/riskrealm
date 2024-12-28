@@ -31,9 +31,9 @@ export const createUser = async (prevState: any, formData: FormData) => {
   const signInResult = await signIn('credentials', {
     email: formData.get('email') as string,
     password: formData.get('email') as string,
-    redirect: false
+    redirect: false,
   });
 
   console.log(signInResult);
   return signInResult;
-}
+};

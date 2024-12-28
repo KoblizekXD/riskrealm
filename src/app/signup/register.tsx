@@ -9,7 +9,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
 
-
 export default function Register() {
   const [error, setError] = useState<string | undefined>(undefined);
   const [state, formAction, isPending] = useActionState(createUser, undefined);
@@ -20,7 +19,7 @@ export default function Register() {
     if (session) {
       router.push('/');
     }
-  }, [session]);
+  }, [session, router]);
 
   return (
     <main
@@ -107,8 +106,8 @@ export default function Register() {
             <label className={'flex gap-x-4'}>
               <input name='age-required' required type={'checkbox'} />
               <span>
-                I&#39;m <span className='font-semibold'>18 years</span> or older,
-                have read our Terms Of Service,
+                I&#39;m <span className='font-semibold'>18 years</span> or
+                older, have read our Terms Of Service,
                 <br />
                 or{' '}
                 <span className='font-semibold'>
