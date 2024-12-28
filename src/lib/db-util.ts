@@ -1,11 +1,10 @@
-import { PrismaClient } from '@prisma/client';
+'use server';
+
 import { hash } from 'crypto';
+import { signIn } from './auth';
+import { prisma } from './prisma';
 
-const prisma = new PrismaClient();
-
-export default prisma;
-
-export const hashPassword = (password: string) => {
+export const hashPassword = async (password: string) => {
   return hash('sha256', password);
 };
 
@@ -16,7 +15,25 @@ export const findUserByCredentials = async (
   return await prisma.user.findFirst({
     where: {
       email: email,
-      password: hashPassword(password),
+      password: await hashPassword(password),
     },
   });
+};
+
+export const createUser = async (prevState: any, formData: FormData) => {
+  const res = await prisma.user.create({
+    data: {
+      name: formData.get('username') as string,
+      email: formData.get('email') as string,
+      password: await hashPassword(formData.get('password') as string),
+    },
+  });
+  const signInResult = await signIn('credentials', {
+    email: formData.get('email') as string,
+    password: formData.get('email') as string,
+    redirect: false,
+  });
+
+  console.log(signInResult);
+  return signInResult;
 };
