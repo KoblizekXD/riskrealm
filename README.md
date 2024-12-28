@@ -1,5 +1,5 @@
 <h1 align="center">Risk Realm</h1>
-<p style="font-size: 17px" align="center">Fullstack gambling website application for school project</p>
+<p style="font-size: 17px" align="center">Fullstack gambling website application school project</p>
 
 <p>
 
@@ -7,6 +7,10 @@
 <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/KoblizekXD/riskrealm/deploy.yml">
 
 </p>
+
+## About
+
+## Developers
 
 ## Contributing
 
