@@ -53,6 +53,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: 'jwt',
     maxAge: 3000,
   },
+  pages: {
+    signIn: '/signin',
+    signOut: '/signout',
+    error: '/signin',
+  },
   debug: process.env.NODE_ENV === 'development',
   callbacks: {
     async jwt({ token, account }) {
