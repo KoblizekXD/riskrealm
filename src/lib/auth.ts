@@ -6,7 +6,6 @@ import { findUserByCredentials } from './db-util';
 import Credentials from 'next-auth/providers/credentials';
 import { Provider } from 'next-auth/providers';
 import { prisma } from './prisma';
-import { hash } from 'crypto';
 
 export const providers: Provider[] = [
   GitHub({
