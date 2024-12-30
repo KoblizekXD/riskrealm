@@ -7,7 +7,7 @@ import { LoaderCircle } from 'lucide-react';
 import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
 
 export default function Register() {
   const [error, setError] = useState<string | undefined>(undefined);
@@ -174,22 +174,8 @@ export default function Register() {
       </div>
       <div
         className={
-          'fixed invisible lg:visible w-full brightness-[30%] -translate-y-16 h-full -rotate-2'
-        }>
-        {Array.from({ length: 100 }).map((_, i) => (
-          <div
-            key={i}
-            className={
-              'flex select-none animate-[moveToRight_20s_infinite_linear] gap-x-2 text-5xl opacity-20'
-            }>
-            {Array.from({ length: 100 })
-              .fill('🎰💸', 0)
-              .map((emoji, i) => {
-                return <span key={i}>{emoji as string}</span>;
-              })}
-          </div>
-        ))}
-      </div>
+          'fixed invisible lg:visible texl-5xl w-full brightness-[30%] -translate-y-16 select-none h-full -rotate-2'
+        }></div>
     </main>
   );
 }
