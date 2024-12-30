@@ -23,7 +23,7 @@ export default function SignInPage() {
 
   return (
     <main
-      className={'flex bg-[#1e1e2e] justify-center items-center min-h-screen'}>
+      className={'flex from-[#1e1e2e] to-[#181825] bg-gradient-to-br justify-center items-center min-h-screen'}>
       <div className='lg:w-1/4 z-10 lg:bg-[#181825] lg:shadow-lg lg:flex-none flex-1 rounded-md flex flex-col p-4'>
         <form
           className='flex flex-col'
@@ -120,19 +120,6 @@ export default function SignInPage() {
         className={
           'fixed invisible lg:visible w-full -translate-y-16 h-full rotate-2'
         }>
-        {Array.from({ length: 100 }).map((_, i) => (
-          <div
-            key={i}
-            className={
-              'flex select-none animate-[moveToRight_20s_infinite_linear] gap-x-2 text-5xl opacity-20'
-            }>
-            {Array.from({ length: 100 })
-              .fill('🎰💸', 0)
-              .map((emoji, i) => {
-                return <span key={i}>{emoji as string}</span>;
-              })}
-          </div>
-        ))}
       </div>
     </main>
   );
