@@ -1,6 +1,6 @@
 'use client';
 
-export default function NotLoggedHome() {
+export default function HomePage() {
     return (
         <div className="bg-black min-h-screen flex flex-col">
         

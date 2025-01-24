@@ -1,7 +1,7 @@
-import NotLoggedHome from "./notlogged";
+import HomePage from "./homepage";
 
 export default async function Home() {
   return (
-    <NotLoggedHome />
+    <HomePage />
   );
 }
