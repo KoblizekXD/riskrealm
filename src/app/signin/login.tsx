@@ -23,7 +23,7 @@ export default function SignInPage() {
 
   return (
     <main
-      className={'flex from-[#1e1e2e] to-[#181825] bg-gradient-to-br justify-center items-center min-h-screen'}>
+      className={'flex from-[#1e1e2e] to-[#181825] bg-linear-to-br justify-center items-center min-h-screen'}>
       <div className='lg:w-1/4 z-10 lg:bg-[#181825] lg:shadow-lg lg:flex-none flex-1 rounded-md flex flex-col p-4'>
         <form
           className='flex flex-col'
@@ -48,7 +48,7 @@ export default function SignInPage() {
               type={'email'}
               name={'email'}
               className={
-                'block bg-[#11111b] rounded w-full p-2 mt-1 outline-none'
+                'block bg-[#11111b] rounded-sm w-full p-2 mt-1 outline-hidden'
               }
             />
           </label>
@@ -59,14 +59,14 @@ export default function SignInPage() {
               type={'password'}
               name={'password'}
               className={
-                'block bg-[#11111b] rounded w-full p-2 mt-1 outline-none'
+                'block bg-[#11111b] rounded-sm w-full p-2 mt-1 outline-hidden'
               }
             />
           </label>
           <button
             type={'submit'}
             className={
-              'bg-blue-600 font-semibold text-white rounded flex items-center justify-center gap-x-2 p-2 mt-4'
+              'bg-blue-600 font-semibold text-white rounded-sm flex items-center justify-center gap-x-2 p-2 mt-4'
             }>
             Continue
           </button>
