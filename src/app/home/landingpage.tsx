@@ -21,7 +21,38 @@ export default function LandingPage() {
             </header>
 
             <main className="relative flex-grow p-8 flex flex-col items-center justify-center">
-                
+            <h1 className="text-5xl font-extrabold bg-gradient-to-r from-lime-400 to-cyan-400 text-transparent bg-clip-text mb-2">
+                    Welcome to Risk Realm
+                </h1>
+                <p className="text-gray-300 text-lg text-center mb-8 max-w-3xl">
+                    Lets go gamble!!!
+                </p>
+                <div className="flex space-x-4">
+                    <button className="bg-lime-500 text-black font-semibold py-2 px-6 rounded-xl shadow-lg hover:bg-lime-400 cursor-pointer"
+                    onClick={() => {}}>
+                  
+                        Play Now
+                    </button>
+                    <button className="bg-gray-800 border border-lime-500 text-lime-500 font-semibold py-2 px-6 rounded-xl shadow-lg hover:bg-gray-700 cursor-pointer"
+                    onClick={() => {}}>
+                        Learn More
+                    </button>
+                </div>
+              
+                <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-6 rounded-xl shadow-lg hover:scale-110 transition transform cursor-pointer text-center">
+                        <h3 className="text-2xl font-bold text-lime-400 mb-2">🎰 Slots 🎰</h3>
+                        <p className="text-gray-300">Spin and Win! Try our best paying slots!</p>
+                    </div>
+                    <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-6 rounded-xl shadow-lg hover:scale-110 transition transform cursor-pointer text-center">
+                        <h3 className="text-2xl font-bold text-purple-400 mb-2">🃏 Cards 🃏</h3>
+                        <p className="text-gray-300">Test your skill against best players in Blackjack and Poker!</p>
+                    </div>
+                    <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-6 rounded-xl shadow-lg hover:scale-110 transition transform cursor-pointer text-center">
+                        <h3 className="text-2xl font-bold text-yellow-400 mb-2">💰🎁 Bonus 💰🎁</h3>
+                        <p className="text-gray-300">Gamble and login everyday to gain maximum bonus!</p>
+                    </div>
+                </div>
             </main>
 
             <footer className="h-20 flex items-center justify-center border-t border-gray-800">
