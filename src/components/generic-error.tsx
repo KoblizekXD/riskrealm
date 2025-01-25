@@ -19,7 +19,7 @@ export function GenericErrorPopup({
 }: GenericErrorPopupProps) {
   return (
     <div
-      className={`absolute flex gap-x-2 items-center z-10 left-1/2 top-2 -translate-x-1/2 ${background} rounded p-2`}>
+      className={`absolute flex gap-x-2 items-center z-10 left-1/2 top-2 -translate-x-1/2 ${background} rounded-sm p-2`}>
       {icon}
       <span className={`font-semibold ${color} -translate-y-[1px]`}>
         {message}
