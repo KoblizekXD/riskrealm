@@ -24,7 +24,7 @@ export default function Register() {
   return (
     <main
       className={
-        'min-h-screen md:h-screen lg:bg-black from-[#1e1e2e] to-[#181825] bg-gradient-to-br flex justify-center p-16 items-center'
+        'min-h-screen md:h-screen lg:bg-black from-[#1e1e2e] to-[#181825] bg-linear-to-br flex justify-center p-16 items-center'
       }>
       {state && (
         <GenericErrorPopup
@@ -50,7 +50,7 @@ export default function Register() {
             You will be rewarded with
             <span
               className={
-                'from-yellow-300 text-transparent to-yellow-600 bg-gradient-to-r bg-clip-text font-bold'
+                'from-yellow-300 text-transparent to-yellow-600 bg-linear-to-r bg-clip-text font-bold'
               }>
               {' '}
               500 tickets{' '}
@@ -77,7 +77,7 @@ export default function Register() {
                 minLength={3}
                 name={'username'}
                 className={
-                  'block border-[#313244] border bg-[#11111b] rounded w-full p-2 mt-1 outline-none'
+                  'block border-[#313244] border bg-[#11111b] rounded-sm w-full p-2 mt-1 outline-hidden'
                 }
               />
             </label>
@@ -88,7 +88,7 @@ export default function Register() {
                 type={'email'}
                 name={'email'}
                 className={
-                  'block border-[#313244] border bg-[#11111b] rounded w-full p-2 mt-1 outline-none'
+                  'block border-[#313244] border bg-[#11111b] rounded-sm w-full p-2 mt-1 outline-hidden'
                 }
               />
             </label>
@@ -99,7 +99,7 @@ export default function Register() {
                 type={'password'}
                 name={'password'}
                 className={
-                  'block border-[#5d5e6e] border bg-[#11111b] rounded w-full p-2 mt-1 outline-none'
+                  'block border-[#5d5e6e] border bg-[#11111b] rounded-sm w-full p-2 mt-1 outline-hidden'
                 }
               />
             </label>
@@ -118,7 +118,7 @@ export default function Register() {
             <button
               type={'submit'}
               className={
-                'bg-transparent border hover:text-black hover:bg-white transition-colors font-semibold text-white rounded flex items-center justify-center gap-x-2 p-2 mt-4'
+                'bg-transparent border hover:text-black hover:bg-white transition-colors font-semibold text-white rounded-sm flex items-center justify-center gap-x-2 p-2 mt-4'
               }>
               {isPending && <LoaderCircle className={'animate-spin'} />}
               Sign me up!
@@ -129,9 +129,9 @@ export default function Register() {
           className={
             'flex select-none lg:flex-col items-center gap-x-2 gap-y-2 py-4'
           }>
-          <div className='flex-1 border border-[#cdd6f4] rounded' />
+          <div className='flex-1 border border-[#cdd6f4] rounded-sm' />
           or
-          <div className='flex-1 border border-[#cdd6f4] rounded' />
+          <div className='flex-1 border border-[#cdd6f4] rounded-sm' />
         </div>
         <div className='flex-1 flex flex-col gap-y-8 justify-center items-center'>
           {Object.values(providerMap).map((provider) => (
@@ -166,7 +166,7 @@ export default function Register() {
           <button
             onClick={() => router.push('/signin')}
             className={
-              'bg-transparent border px-12 text-xl hover:text-black hover:bg-white transition-colors font-semibold text-white rounded flex items-center justify-center gap-x-2 p-2 mt-4'
+              'bg-transparent border px-12 text-xl hover:text-black hover:bg-white transition-colors font-semibold text-white rounded-sm flex items-center justify-center gap-x-2 p-2 mt-4'
             }>
             I&#39;m already registered!
           </button>
