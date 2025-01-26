@@ -13,7 +13,7 @@ export default function LandingPage() {
                     <button className="text-white text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer">About Us</button>
                 </nav>
                 <div>
-                    <button className="bg-lime-500 text-black font-semibold py-1 px-4 rounded hover:bg-lime-400 cursor-pointer hover:scale-110"
+                    <button className="bg-lime-500 text-black font-semibold py-1 px-4 rounded hover:bg-lime-400 cursor-pointer hover:scale-110 transition transform"
                         onClick={() => {}}>                    
                         Sign In
                     </button>
@@ -28,12 +28,12 @@ export default function LandingPage() {
                     Lets go gamble!!!
                 </p>
                 <div className="flex space-x-4">
-                    <button className="bg-lime-500 text-black font-semibold py-2 px-6 rounded-xl shadow-lg hover:bg-lime-400 cursor-pointer hover:scale-110"
+                    <button className="bg-lime-500 text-black font-semibold py-2 px-6 rounded-xl shadow-lg hover:bg-lime-400 cursor-pointer hover:scale-110 transition transform"
                     onClick={() => {}}>
                   
                         Play Now
                     </button>
-                    <button className="bg-gray-800 border border-lime-500 text-lime-500 font-semibold py-2 px-6 rounded-xl shadow-lg hover:bg-gray-700 cursor-pointer hover:scale-110"
+                    <button className="bg-gray-800 border border-lime-500 text-lime-500 font-semibold py-2 px-6 rounded-xl shadow-lg hover:bg-gray-700 cursor-pointer hover:scale-110 transition transform"
                     onClick={() => {}}>
                         Learn More
                     </button>
