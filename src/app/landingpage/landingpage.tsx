@@ -21,9 +21,10 @@ export default function LandingPage() {
             </header>
 
             <main className="relative flex-grow p-8 flex flex-col items-center">
-            <h1 className="text-5xl font-extrabold bg-gradient-to-r from-lime-400 to-cyan-400 text-transparent bg-clip-text mb-2 pt-14">
-                    Welcome to Risk Realm
-                </h1>
+            <h1 className="text-5xl font-extrabold bg-gradient-to-r from-[#7e02bc] via-[#8E00BF] via-[#B200D8] to-[#D600F0] text-transparent bg-clip-text mb-2 pt-14">
+                Welcome to Risk Realm
+            </h1>
+
                 <p className="text-gray-300 text-lg text-center mb-8 max-w-3xl">
                     Lets go gamble!!!
                 </p>
