@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { type ZodError, z } from "zod";
+import { removeAttrFromObject } from "../util";
 import { createClient } from "./server";
 
 export const signUpSchema = z.object({
@@ -50,9 +51,17 @@ export async function signup(
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
+    full_name: formData.get("full_name") as string,
   };
 
-  const { error } = await supabase.auth.signUp(data);
+  const { error } = await supabase.auth.signUp({
+    ...removeAttrFromObject(data, "full_name"),
+    options: {
+      data: {
+        full_name: data.full_name,
+      },
+    },
+  });
 
   if (error) {
     return error.message;
