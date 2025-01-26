@@ -61,3 +61,13 @@ export async function signup(
   revalidatePath("/", "layout");
   if (navigateTo) redirect(navigateTo);
 }
+
+export async function signOut(navigateTo?: boolean) {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  revalidatePath("/", "layout");
+
+  if (navigateTo) {
+    redirect("/signin");
+  }
+}
