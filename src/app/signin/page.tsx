@@ -1,10 +1,11 @@
-import { SessionProvider } from 'next-auth/react';
-import SignInPage from './login';
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
+import SignInPage from "./login";
 
-export default function SignIn() {
-  return (
-    <SessionProvider>
-      <SignInPage />
-    </SessionProvider>
-  );
+export default async function SignIn() {
+  const client = await createClient();
+
+  if ((await client.auth.getUser()).data.user !== null) return redirect("/");
+
+  return <SignInPage />;
 }
