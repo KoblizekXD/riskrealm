@@ -1,14 +1,6 @@
-'use client';
+import { signOut } from "@/lib/supabase/actions";
 
-import { signOut } from "next-auth/react";
-import { useEffect } from "react";
-
-export default function SignOut() {
-  useEffect(() => {
-    signOut({
-      redirectTo: '/signin'
-    });
-  }, []);
-
+export default async function SignOut() {
+  await signOut(true);
   return <h1>Well, this is awkward.</h1>;
 }

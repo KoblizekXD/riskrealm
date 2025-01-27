@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-COPY prisma ./prisma
+# COPY prisma ./prisma
 RUN \
   if [ -f yarn.lock ]; then yarn; \
   elif [ -f package-lock.json ]; then npm ci; \
@@ -23,10 +23,13 @@ COPY --from=deps /app/node_modules ./node_modules
 
 COPY . .
 
-ARG DATABASE_URL
-ENV DATABASE_URL=${DATABASE_URL}
-RUN yarn prisma generate
+# RUN yarn prisma generate
 
+ARG BUILD_NEXT_PUBLIC_SUPABASE_ANON_KEY
+ARG BUILD_NEXT_PUBLIC_SUPABASE_URL
+
+ENV NEXT_PUBLIC_SUPABASE_URL=$BUILD_NEXT_PUBLIC_SUPABASE_URL
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$BUILD_NEXT_PUBLIC_SUPABASE_ANON_KEY
 ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN \
