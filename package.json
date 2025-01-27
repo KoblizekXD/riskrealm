@@ -10,13 +10,10 @@
     "lint": "biome check --write ."
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^2.7.4",
-    "@prisma/client": "^6.1.0",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.48.1",
     "lucide-react": "^0.469.0",
     "next": "15.1.0",
-    "next-auth": "^5.0.0-beta.25",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sonner": "^1.7.2",
@@ -30,7 +27,6 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "postcss": "^8",
-    "prisma": "^6.1.0",
     "tailwindcss": "^4.0.0",
     "typescript": "^5"
   },
