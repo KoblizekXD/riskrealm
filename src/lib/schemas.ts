@@ -17,7 +17,7 @@ export interface User {
   tickets: number;
   email: string;
   gems: number;
-  description: string;
-  avatar_url: string;
+  description?: string;
+  avatar_url?: string;
   created_at: string;
 }
