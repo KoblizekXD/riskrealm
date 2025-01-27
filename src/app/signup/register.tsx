@@ -1,9 +1,7 @@
 "use client";
 
-import { providerMap } from "@/lib/auth";
 import { signup } from "@/lib/supabase/actions";
 import { LoaderCircle, XCircle } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -149,7 +147,7 @@ export default function Register() {
           <div className="flex-1 border border-[#cdd6f4] rounded-sm" />
         </div>
         <div className="flex-1 flex flex-col gap-y-8 justify-center items-center">
-          {Object.values(providerMap).map((provider) => (
+          {/* {Object.values(providerMap).map((provider) => (
             <form
               className="text-center hover:bg-white hover:text-black transition-colors border flex rounded-md"
               key={provider.name}
@@ -171,7 +169,7 @@ export default function Register() {
                 Continue with {provider.name}
               </button>
             </form>
-          ))}
+          ))} */}
           <button
             type="button"
             onClick={() => router.push("/signin")}

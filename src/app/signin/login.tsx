@@ -1,10 +1,8 @@
 "use client";
 
 import "@/app/globals.css";
-import { providerMap } from "@/lib/auth";
 import { login } from "@/lib/supabase/actions";
 import { Loader2, XCircle } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -93,7 +91,7 @@ export default function SignInPage() {
           <hr className="flex-1 border-[#cdd6f4]" />
         </div>
         <div className={"flex flex-col gap-y-2"}>
-          {Object.values(providerMap).map((provider) => (
+          {/* {Object.values(providerMap).map((provider) => (
             <form
               className="text-center bg-[#11111b] flex rounded-md"
               key={provider.name}
@@ -114,7 +112,7 @@ export default function SignInPage() {
                 Continue with {provider.name}
               </button>
             </form>
-          ))}
+          ))} */}
         </div>
         <Link
           className="mt-2 text-center text-emerald-500 underline"

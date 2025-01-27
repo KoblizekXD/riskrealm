@@ -1,7 +1,7 @@
-import { auth } from '@/lib/auth';
+import { getUser } from "@/lib/supabase/actions";
 
 export default async function Home() {
-  const a = await auth();
-
-  return <div>{JSON.stringify(a) || 'Not authenticated'}</div>;
+  const user = await getUser();
+  
+  return JSON.stringify(user, null, 2);
 }
