@@ -1,7 +1,7 @@
 "use client";
 
 import { providerMap } from "@/lib/auth";
-import { login } from "@/lib/supabase/actions";
+import { signup } from "@/lib/supabase/actions";
 import { LoaderCircle, XCircle } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -71,7 +71,7 @@ export default function Register() {
                 return;
               }
               startTransition(async () => {
-                const res = await login(fd, "/");
+                const res = await signup(fd, "/");
                 if (res) {
                   if (res instanceof ZodError) {
                     setError(res.errors.map((err) => err.message).join("\n"));
@@ -88,7 +88,7 @@ export default function Register() {
                 type={"text"}
                 maxLength={32}
                 minLength={3}
-                name={"full_name"}
+                name={"username"}
                 className={
                   "block border-[#313244] border bg-[#11111b] rounded-sm w-full p-2 mt-1 outline-hidden"
                 }
