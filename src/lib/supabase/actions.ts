@@ -64,7 +64,6 @@ export async function signup(
 export async function signOut(navigateTo?: boolean) {
   const supabase = await createClient();
   await supabase.auth.signOut();
-  revalidatePath("/", "layout");
 
   if (navigateTo) {
     redirect("/signin");
