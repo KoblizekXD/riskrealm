@@ -1,18 +1,35 @@
 "use client";
 
 import "@/app/globals.css";
-import { GenericErrorPopup } from "@/components/generic-error";
-import { providerMap, translateError } from "@/lib/auth";
+import { providerMap } from "@/lib/auth";
 import { login } from "@/lib/supabase/actions";
-import { Loader2 } from "lucide-react";
+import { Loader2, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
+import { toast } from "sonner";
 import { ZodError } from "zod";
 
 export default function SignInPage() {
   const [error, setError] = useState<string | undefined>(undefined);
   const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (error) {
+      console.log(error);
+
+      toast(error, {
+        position: "top-center",
+        icon: <XCircle className="stroke-red-500" />,
+        className: "class",
+        style: {
+          backgroundColor: "#11111B",
+          color: "#FFFFFF",
+          border: "0",
+        },
+      });
+    }
+  }, [error]);
 
   return (
     <main
@@ -27,6 +44,8 @@ export default function SignInPage() {
             startTransition(async () => {
               const res = await login(fd, "/");
               if (res) {
+                console.log(res instanceof ZodError);
+
                 if (res instanceof ZodError) {
                   setError(res.errors.map((err) => err.message).join("\n"));
                 } else setError(res);
@@ -104,7 +123,6 @@ export default function SignInPage() {
           Not a member yet?
         </Link>
       </div>
-      {error && <GenericErrorPopup message={translateError(error)} />}
       <div
         className={
           "fixed invisible lg:visible w-full -translate-y-16 h-full rotate-2"

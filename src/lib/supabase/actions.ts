@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import type { ZodError, z } from "zod";
-import { loginSchema, type signUpSchema } from "../schemas";
+import type { loginSchema, signUpSchema } from "../schemas";
 import { removeAttrFromObject } from "../util";
 import { createClient } from "./server";
 
@@ -13,16 +13,12 @@ export async function login(
 ): Promise<undefined | string | ZodError<z.infer<typeof loginSchema>>> {
   const supabase = await createClient();
 
-  const data = loginSchema.safeParse({
+  const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
-  });
+  };
 
-  if (!data.success) {
-    return data.error;
-  }
-
-  const { error } = await supabase.auth.signInWithPassword(data.data);
+  const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
     return error.message;
