@@ -1,5 +1,22 @@
 "use client";
 
+function SimpleCard({
+  description,
+  title,
+}: {
+  description: string;
+  title: string;
+}) {
+  return (
+    <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-4 md:p-6 rounded-xl shadow-lg hover:scale-105 transition transform cursor-pointer text-center">
+      <h3 className="text-lg md:text-2xl font-bold text-purple-400 mb-2">
+        {title}
+      </h3>
+      <p className="text-gray-300 text-sm md:text-base">{description}</p>
+    </div>
+  );
+}
+
 export default function LandingPage() {
   return (
     <div className="h-screen md:min-h-screen lg:bg-black from-[#1e1e2e] to-[#181825] bg-gradient-to-br text-[#cdd6f4] flex flex-col overflow-hidden">
@@ -10,18 +27,30 @@ export default function LandingPage() {
           </div>
         </div>
         <nav className="flex items-center space-x-3 md:space-x-6">
-          <button type="button" className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer">
+          <button
+            type="button"
+            className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer"
+          >
             Home
           </button>
-          <button type="button" className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer">
+          <button
+            type="button"
+            className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer"
+          >
             Games
           </button>
-          <button type="button" className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer">
+          <button
+            type="button"
+            className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer"
+          >
             About Us
           </button>
         </nav>
         <div>
-          <button type="button" className="bg-lime-500 text-black font-semibold py-1 px-3 md:px-4 rounded hover:bg-lime-400 cursor-pointer hover:scale-110 transition transform">
+          <button
+            type="button"
+            className="bg-lime-500 text-black font-semibold py-1 px-3 md:px-4 rounded hover:bg-lime-400 cursor-pointer hover:scale-110 transition transform"
+          >
             Sign In
           </button>
         </div>
@@ -43,49 +72,37 @@ export default function LandingPage() {
         </p>
 
         <div className="flex space-x-2 md:space-x-4">
-          <button type="button" className="bg-lime-500 text-black font-semibold py-2 px-4 md:px-6 rounded-xl shadow-lg hover:bg-lime-400 cursor-pointer hover:scale-110 transition transform">
+          <button
+            type="button"
+            className="bg-lime-500 text-black font-semibold py-2 px-4 md:px-6 rounded-xl shadow-lg hover:bg-lime-400 cursor-pointer hover:scale-110 transition transform"
+          >
             Play Now
           </button>
-          <button type="button" className="bg-gray-800 border border-lime-500 text-lime-500 font-semibold py-2 px-4 md:px-6 rounded-xl shadow-lg hover:bg-gray-700 cursor-pointer hover:scale-110 transition transform">
+          <button
+            type="button"
+            className="bg-gray-800 border border-lime-500 text-lime-500 font-semibold py-2 px-4 md:px-6 rounded-xl shadow-lg hover:bg-gray-700 cursor-pointer hover:scale-110 transition transform"
+          >
             Learn More
           </button>
         </div>
 
         <div className="mt-6 md:mt-10 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
-          <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-4 md:p-6 rounded-xl shadow-lg hover:scale-105 transition transform cursor-pointer text-center">
-            <h3 className="text-lg md:text-2xl font-bold text-lime-400 mb-2">
-              🎰 Slots 🎰
-            </h3>
-            <p className="text-gray-300 text-sm md:text-base">
-              Spin the reels on our wide selection of classic and modern slot
-              games!
-            </p>
-          </div>
-          <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-4 md:p-6 rounded-xl shadow-lg hover:scale-105 transition transform cursor-pointer text-center">
-            <h3 className="text-lg md:text-2xl font-bold text-purple-400 mb-2">
-              🃏 Cards 🃏
-            </h3>
-            <p className="text-gray-300 text-sm md:text-base">
-              Test your skills and strategies in thrilling card games with
-              competitive odds!
-            </p>
-          </div>
-          <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-4 md:p-6 rounded-xl shadow-lg hover:scale-105 transition transform cursor-pointer text-center">
-            <h3 className="text-lg md:text-2xl font-bold text-blue-400 mb-2">
-              💰🧰 Cases 🧰💰
-            </h3>
-            <p className="text-gray-300 text-sm md:text-base">
-              Open cases, win big, and feel the adrenaline rush of every drop!
-            </p>
-          </div>
-          <div className="bg-gradient-to-r from-gray-800 to-gray-700 p-4 md:p-6 rounded-xl shadow-lg hover:scale-105 transition transform cursor-pointer text-center">
-            <h3 className="text-lg md:text-2xl font-bold text-yellow-400 mb-2">
-              💰🎁 Bonus 🎁💰
-            </h3>
-            <p className="text-gray-300 text-sm md:text-base">
-              Gamble and login every day to gain maximum bonus!
-            </p>
-          </div>
+          <SimpleCard
+            title="🎰 Slots 🎰"
+            description="Spin the reels on our wide selection of classic and modern slot games!"
+          />
+          <SimpleCard
+            title="🃏 Cards 🃏"
+            description="Test your skills and strategies in thrilling card games with competitive odds!"
+          />
+          <SimpleCard
+            title="💰🧰 Cases 🧰💰"
+            description="Open cases, win big, and feel the adrenaline rush of every drop!"
+          />
+          <SimpleCard
+            title="💰🎁 Bonus 🎁💰"
+            description="Gamble and login every day to gain maximum bonus!"
+          />
         </div>
 
         <h1 className="mt-8 text-xl md:text-2xl text-center mb-4 max-w-3xl bg-gradient-to-r from-[#6eff26] to-[#1fb20c] text-transparent bg-clip-text font-semibold">
