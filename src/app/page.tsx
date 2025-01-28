@@ -1,7 +1,8 @@
 import { getUser } from "@/lib/supabase/actions";
+import LandingPage from "./not-logged";
 
 export default async function Home() {
   const user = await getUser();
-  
-  return JSON.stringify(user, null, 2);
+
+  if (!user) return <LandingPage />;
 }
