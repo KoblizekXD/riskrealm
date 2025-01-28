@@ -34,7 +34,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen md:min-h-screen lg:bg-black from-[#1e1e2e] to-[#181825] bg-gradient-to-br text-[#cdd6f4] flex flex-col overflow-hidden">
       <div className="h-screen flex flex-col items-center">
-        <header className="h-20 bg-[#151520] shadow-lg flex items-center w-full justify-between px-4 md:px-6">
+        <header className="h-20 bg-[#151520] shadow-lg flex items-center w-full justify-between">
           <div className="flex items-center space-x-2 md:space-x-4">
             <div className="text-lg md:text-2xl font-bold text-white">
               Risk Realm
@@ -60,10 +60,11 @@ export default function LandingPage() {
               About Us
             </button>
           </nav>
-          <div>
+          <div className="h-full">
             <button
               type="button"
-              className="bg-lime-500 text-black font-semibold py-1 px-3 md:px-4 rounded hover:bg-lime-400 cursor-pointer hover:scale-110 transition transform"
+              onClick={() => router.push("/signin")}
+              className="bg-lime-500 h-full text-black font-semibold py-1 px-3 md:px-4 cursor-pointer"
             >
               Sign In
             </button>
