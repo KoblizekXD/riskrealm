@@ -19,11 +19,11 @@ function SimpleCard({
   title: string;
 }) {
   return (
-    <div className="bg-gradient-to-r select-none from-gray-800 to-gray-700 px-2 py-24 md:px-6 rounded-xl shadow-lg hover:scale-105 transition transform cursor-pointer text-center">
-      <h3 className="text-lg md:text-2xl font-bold text-purple-400 mb-2">
+    <div className="bg-[#18181b] border border-[#28282b] px-2 py-24 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#ce9aff] transition transform cursor-pointer text-center">
+      <h3 className="text-lg md:text-2xl font-bold text-[#be89ff] mb-2">
         {title}
       </h3>
-      <p className="text-gray-300 text-sm md:text-base">{description}</p>
+      <p className="text-[#75507b] text-sm md:text-base">{description}</p>
     </div>
   );
 }
@@ -32,39 +32,39 @@ export default function LandingPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen md:min-h-screen lg:bg-black from-[#1e1e2e] to-[#181825] bg-gradient-to-br text-[#cdd6f4] flex flex-col overflow-hidden">
+    <div className="min-h-screen md:min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#d0bfff] flex flex-col overflow-hidden">
       <div className="h-screen flex flex-col items-center">
-        <header className="h-20 bg-[#151520] shadow-lg flex items-center w-full justify-between">
+        <header className="h-20 bg-[#151520] shadow-lg flex items-center w-full justify-between px-4 md:px-6">
           <div className="flex items-center space-x-2 md:space-x-4">
-            <div className="text-lg md:text-2xl font-bold text-white">
+            <div className="text-lg md:text-2xl font-bold text-[#ce9aff]">
               Risk Realm
             </div>
           </div>
           <nav className="flex items-center space-x-3 md:space-x-6">
             <button
               type="button"
-              className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer"
+              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer"
             >
               Home
             </button>
             <button
               type="button"
-              className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer"
+              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer"
             >
               Games
             </button>
             <button
               type="button"
-              className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer"
+              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer"
             >
               About Us
             </button>
           </nav>
-          <div className="h-full">
+          <div>
             <button
               type="button"
               onClick={() => router.push("/signin")}
-              className="bg-lime-500 h-full text-black font-semibold py-1 px-3 md:px-4 cursor-pointer"
+              className="bg-[#7c3aed] text-white font-bold px-4 py-2 rounded-lg hover:bg-[#6d28d9] hover:shadow-[0px_0px_15px_#7c3aed] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform"
             >
               Sign In
             </button>
@@ -73,18 +73,18 @@ export default function LandingPage() {
 
         <main className="relative text-center flex-grow p-4 md:p-8 flex flex-col items-center overflow-y-auto">
           <h1
-            className={`${luckiestGuy.className} text-6xl md:text-7xl font-extrabold bg-gradient-to-r from-[#7e02bc]  via-[#B200D8] to-[#D600F0] text-transparent bg-clip-text mb-4 pt-6 md:pt-10`}
+            className={`${luckiestGuy.className} text-6xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}
           >
             Welcome to Risk Realm
           </h1>
 
           <p
-            className={`${luckiestGuy.className} font-semibold text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl bg-gradient-to-r from-[#6eff26] to-[#1fb20c] text-transparent bg-clip-text font-semibold"`}
+            className={`${luckiestGuy.className} text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
           >
             Your One-Stop Destination for Thrilling Games and Big Wins
           </p>
 
-          <p className="text-gray-300 text-sm md:text-lg text-center mb-4 md:mb-8 max-w-3xl">
+          <p className="text-[#7c5083] text-sm md:text-lg text-center mb-4 md:mb-8 max-w-3xl">
             At Risk Realm, we bring the excitement of the casino floor right to
             your fingertips. Whether you’re a seasoned player or a casual gamer,
             we’ve got something for everyone:
@@ -94,14 +94,14 @@ export default function LandingPage() {
             <button
               onClick={() => router.push("/signin")}
               type="button"
-              className="bg-lime-500 basis-[50%] text-black font-semibold md:px-6 rounded-xl shadow-lg hover:bg-lime-400 cursor-pointer hover:scale-110 transition transform"
+              className="basis-[50%] bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#7c3aed] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform"
             >
               Play Now
             </button>
             <Link
               href={"#more"}
               type="button"
-              className="bg-gray-800 text-center border basis-[50%] border-lime-500 text-lime-500 font-semibold md:px-6 rounded-xl shadow-lg hover:bg-gray-700 cursor-pointer hover:scale-110 transition transform"
+              className="basis-[50%] bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#7c3aed] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform"
             >
               Learn more
             </Link>
@@ -136,34 +136,34 @@ export default function LandingPage() {
       <div className="text-center flex flex-col items-center gap-y-9 mt-8 h-screen">
         <h1
           id="more"
-          className="mt-8 text-xl md:text-2xl text-center mb-4 max-w-3xl bg-gradient-to-r from-[#6eff26] to-[#1fb20c] text-transparent bg-clip-text font-semibold"
+          className="mt-8 text-xl md:text-2xl text-center mb-4 max-w-3xl bg-gradient-to-r from-[#be89ff] to-[#7c3aed] text-transparent bg-clip-text font-semibold"
         >
           Why Choose Risk Realm?
         </h1>
 
-        <h2 className="text-lg font-semibold md:text-xl text-yellow-300">
+        <h2 className="text-lg md:text-xl text-[#ce9aff]">
           💎 Exclusive Bonuses & Promotions 💎
         </h2>
-        <p className="text-gray-300 font-semibold text-center max-w-3xl text-xs md:text-sm">
+        <p className="text-[#7c5083] text-center max-w-3xl text-xs md:text-sm mb-4">
           Get rewarded with generous welcome bonuses, free spins, and exciting
           offers.
         </p>
-        <h2 className="text-lg md:text-xl font-semibold text-yellow-300">
+        <h2 className="text-lg md:text-xl text-[#ce9aff]">
           📱 Play Anywhere, Anytime 📱
         </h2>
-        <p className="text-gray-300 font-semibold text-center max-w-3xl text-xs md:text-sm">
+        <p className="text-[#7c5083] text-center max-w-3xl text-xs md:text-sm mb-4">
           Enjoy seamless gaming on any device—desktop, tablet, or mobile.
         </p>
-        <h2 className="text-lg font-semibold md:text-xl text-yellow-300">
+        <h2 className="text-lg md:text-xl text-[#ce9aff]">
           🌟 24/7 Support 🌟
         </h2>
-        <p className="text-gray-300 font-semibold text-center max-w-3xl text-xs md:text-sm">
+        <p className="text-[#7c5083] text-center max-w-3xl text-xs md:text-sm mb-4">
           Our dedicated support team is here to help, no matter the time.
         </p>
       </div>
 
-      <footer className="h-16 flex items-center justify-center border-t border-gray-800 bg-[#181825]">
-        <p className="text-gray-400 text-xs md:text-sm">
+      <footer className="h-16 flex items-center justify-center border-t border-[#28282b] bg-[#171020]">
+        <p className="text-[#5a3a60] text-xs md:text-sm">
           © 2025 Risk Realm. All Rights Reserved. Gamble until zero.
         </p>
       </footer>
