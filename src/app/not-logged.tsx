@@ -10,8 +10,7 @@ export const luckiestGuy = Orbitron({
   subsets: ["latin"],
   weight: "variable",
 });
-
-function SimpleCard({
+function SimpleCard({ 
   description,
   title,
 }: {
@@ -19,10 +18,8 @@ function SimpleCard({
   title: string;
 }) {
   return (
-    <div className="bg-[#18181b] border border-[#28282b] px-2 py-24 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#ce9aff] transition transform cursor-pointer text-center">
-      <h3 className="text-lg md:text-2xl font-bold text-[#be89ff] mb-2">
-        {title}
-      </h3>
+    <div className="bg-[#18181b] border border-[#28282b] px-4 py-12 md:px-6 md:py-24 text-[#b090b5] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#ce9aff] transition transform cursor-pointer text-center">
+      <h3 className="text-lg md:text-2xl font-bold text-[#be89ff] mb-2">{title}</h3>
       <p className="text-[#75507b] text-sm md:text-base">{description}</p>
     </div>
   );
@@ -32,39 +29,22 @@ export default function LandingPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen md:min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#d0bfff] flex flex-col overflow-hidden">
-      <div className="h-screen flex flex-col items-center">
-        <header className="h-20 bg-[#151520] shadow-lg flex items-center w-full justify-between px-4 md:px-6">
+    <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#d0bfff] flex flex-col overflow-hidden">
+      <div className="flex flex-col items-center">
+        <header className="h-20 bg-[#151520] shadow-lg flex items-center w-full justify-between px-2 md:px-6">
           <div className="flex items-center space-x-2 md:space-x-4">
-            <div className="text-lg md:text-2xl font-bold text-[#ce9aff]">
-              Risk Realm
-            </div>
+            <div className="text-lg md:text-2xl font-bold text-[#ce9aff]">Risk Realm</div>
           </div>
-          <nav className="flex items-center space-x-3 md:space-x-6">
-            <button
-              type="button"
-              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer"
-            >
-              Home
-            </button>
-            <button
-              type="button"
-              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer"
-            >
-              Games
-            </button>
-            <button
-              type="button"
-              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer"
-            >
-              About Us
-            </button>
+          <nav className="flex items-center space-x-2 md:space-x-6">
+            <button type="button" className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer">Home</button>
+            <button type="button" className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer">Games</button>
+            <button type="button" className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer">About Us</button>
           </nav>
           <div>
             <button
               type="button"
               onClick={() => router.push("/signin")}
-              className="bg-[#7c3aed] text-white font-bold px-4 py-2 rounded-lg hover:bg-[#6d28d9] hover:shadow-[0px_0px_15px_#7c3aed] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform"
+              className="bg-[#7c3aed] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#6d28d9] hover:shadow-[0px_0px_15px_#7c3aed] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm"
             >
               Sign In
             </button>
@@ -72,15 +52,11 @@ export default function LandingPage() {
         </header>
 
         <main className="relative text-center flex-grow p-4 md:p-8 flex flex-col items-center overflow-y-auto">
-          <h1
-            className={`${luckiestGuy.className} text-6xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}
-          >
+          <h1 className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}>
             Welcome to Risk Realm
           </h1>
 
-          <p
-            className={`${luckiestGuy.className} text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
-          >
+          <p className={`${luckiestGuy.className} text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold`}>
             Your One-Stop Destination for Thrilling Games and Big Wins
           </p>
 
@@ -90,24 +66,24 @@ export default function LandingPage() {
             we’ve got something for everyone:
           </p>
 
-          <div className="flex gap-x-2 *:py-4 *:px-4 w-md md:gap-x-4">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-x-4 w-md *:py-2 *:px-4">
             <button
               onClick={() => router.push("/signin")}
               type="button"
-              className="basis-[50%] bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#7c3aed] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform"
+              className="basis-[50%] bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#7c3aed] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto"
             >
               Play Now
             </button>
             <Link
               href={"#more"}
               type="button"
-              className="basis-[50%] bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#7c3aed] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform"
+              className="basis-[50%] bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#7c3aed] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto"
             >
               Learn more
             </Link>
           </div>
 
-          <div className="mt-6 md:mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="mt-6 md:mt-10 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
             <SimpleCard
               title="🎰 Slots 🎰"
               description="Spin the reels on our wide selection of classic and modern slot games!"
@@ -126,37 +102,25 @@ export default function LandingPage() {
             />
           </div>
         </main>
-        <Link
-          href={"#more"}
-          className="mt-auto border-2 mb-6 h-fit w-fit rounded-full animate-bounce"
-        >
+        <Link href={"#more"} className="mt-auto border-2 mb-6 h-fit w-fit rounded-full animate-bounce">
           <ArrowDown className="m-1" />
         </Link>
       </div>
-      <div className="text-center flex flex-col items-center gap-y-9 mt-8 h-screen">
-        <h1
-          id="more"
-          className="mt-8 text-xl md:text-2xl text-center mb-4 max-w-3xl bg-gradient-to-r from-[#be89ff] to-[#7c3aed] text-transparent bg-clip-text font-semibold"
-        >
+
+      <div className="text-center flex flex-col items-center gap-y-9 mt-8">
+        <h1 id="more" className="mt-8 text-xl md:text-2xl text-center mb-4 max-w-3xl bg-gradient-to-r from-[#be89ff] to-[#7c3aed] text-transparent bg-clip-text font-semibold">
           Why Choose Risk Realm?
         </h1>
 
-        <h2 className="text-lg md:text-xl text-[#ce9aff]">
-          💎 Exclusive Bonuses & Promotions 💎
-        </h2>
+        <h2 className="text-lg md:text-xl text-[#ce9aff]">💎 Exclusive Bonuses & Promotions 💎</h2>
         <p className="text-[#7c5083] text-center max-w-3xl text-xs md:text-sm mb-4">
-          Get rewarded with generous welcome bonuses, free spins, and exciting
-          offers.
+          Get rewarded with generous welcome bonuses, free spins, and exciting offers.
         </p>
-        <h2 className="text-lg md:text-xl text-[#ce9aff]">
-          📱 Play Anywhere, Anytime 📱
-        </h2>
+        <h2 className="text-lg md:text-xl text-[#ce9aff]">📱 Play Anywhere, Anytime 📱</h2>
         <p className="text-[#7c5083] text-center max-w-3xl text-xs md:text-sm mb-4">
           Enjoy seamless gaming on any device—desktop, tablet, or mobile.
         </p>
-        <h2 className="text-lg md:text-xl text-[#ce9aff]">
-          🌟 24/7 Support 🌟
-        </h2>
+        <h2 className="text-lg md:text-xl text-[#ce9aff]">🌟 24/7 Support 🌟</h2>
         <p className="text-[#7c5083] text-center max-w-3xl text-xs md:text-sm mb-4">
           Our dedicated support team is here to help, no matter the time.
         </p>
