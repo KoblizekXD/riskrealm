@@ -6,11 +6,6 @@ export default async function Home() {
   const user = await getUser();
 
   if (!user) return <LandingPage />;
-
-  else return <LoggedInPage />
-
-    
-
-
-  }
+  return <LoggedInPage user={user} />
+}
 
