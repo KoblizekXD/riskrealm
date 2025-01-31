@@ -31,27 +31,27 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#d0bfff] flex flex-col overflow-hidden">
       <div className="flex flex-col items-center">
-        <header className="h-20 bg-[#151520] shadow-lg flex items-center w-full justify-between px-2 md:px-6">
-          <div className="flex items-center space-x-2 md:space-x-4">
-            <div className="text-lg md:text-2xl font-bold text-[#ce9aff]">Risk Realm</div>
+        <header className="md:h-20 bg-[#151520] shadow-lg flex flex-col items-center w-full justify-between px-2 md:px-6 md:flex-row">
+          <div className="flex items-center space-x-2 md:space-x-4 mt-4 md:mt-0 border-b-3 border-[#ce9aff] pb-2 md:pb-0 md:border-b-0">
+            <div className="text-4xl md:text-2xl font-bold text-[#ce9aff]">Risk Realm</div>
           </div>
-          <nav className="flex items-center space-x-2 md:space-x-6">
-            <button type="button" className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer">Home</button>
-            <button type="button" className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer">Games</button>
-            <button type="button" className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer">About Us</button>
+          <nav className="flex flex-col items-center space-x-2 md:space-x-6 md:flex-row">
+            <button type="button" className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-2 md:mt-0">Home</button>
+            <button type="button" className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 md:mt-0">Games</button>
+            <button type="button" className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0">About Us</button>
           </nav>
           <div>
             <button
               type="button"
               onClick={() => router.push("/signin")}
-              className="bg-[#7c3aed] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#6d28d9] hover:shadow-[0px_0px_15px_#7c3aed] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm"
+              className="bg-[#7c3aed] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#6d28d9] hover:shadow-[0px_0px_15px_#7c3aed] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm mb-4 md:mb-0"
             >
               Sign In
             </button>
           </div>
         </header>
 
-        <main className="relative text-center flex-grow p-4 md:p-8 flex flex-col items-center overflow-y-auto">
+        <main className="relative text-center flex-grow p-4 md:p-8 flex flex-col items-center overflow-y-auto w-full">
           <h1 className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}>
             Welcome to Risk Realm
           </h1>
@@ -66,7 +66,7 @@ export default function LandingPage() {
             we’ve got something for everyone:
           </p>
 
-          <div className="flex flex-col md:flex-row gap-4 md:gap-x-4 w-md *:py-2 *:px-4">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-x-4 w-full md:w-md *:py-2 *:px-4">
             <button
               onClick={() => router.push("/signin")}
               type="button"
@@ -107,7 +107,7 @@ export default function LandingPage() {
         </Link>
       </div>
 
-      <div className="text-center flex flex-col items-center gap-y-9 mt-8">
+      <div className="text-center flex flex-col items-center gap-y-9 mt-8 h-screen">
         <h1 id="more" className="mt-8 text-xl md:text-2xl text-center mb-4 max-w-3xl bg-gradient-to-r from-[#be89ff] to-[#7c3aed] text-transparent bg-clip-text font-semibold">
           Why Choose Risk Realm?
         </h1>
