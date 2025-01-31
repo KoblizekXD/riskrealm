@@ -5,7 +5,7 @@
 
 <a align="center" href="https://riskrealm.7f454c46.xyz/">![Website](https://img.shields.io/website?url=https%3A%2F%2Friskrealm.7f454c46.xyz%2F&label=Production)
 </a>
-<a align="center" href="https://riskrealm.7f454c46.xyz/">
+<a align="center" href="https://dev-riskrealm.7f454c46.xyz/">
 ![Website](https://img.shields.io/website?url=https%3A%2F%2Fdev-riskrealm.7f454c46.xyz%2F&label=Development)
 </a>
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/KoblizekXD/riskrealm/deploy.yml)
