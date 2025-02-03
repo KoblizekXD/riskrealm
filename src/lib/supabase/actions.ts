@@ -9,7 +9,7 @@ import { createClient } from "./server";
 
 export async function login(
   formData: FormData,
-  navigateTo?: string
+  navigateTo?: string,
 ): Promise<undefined | string | ZodError<z.infer<typeof loginSchema>>> {
   const supabase = await createClient();
   const data = {
@@ -29,7 +29,7 @@ export async function login(
 
 export async function signup(
   formData: FormData,
-  navigateTo?: string
+  navigateTo?: string,
 ): Promise<undefined | string | ZodError<z.infer<typeof signUpSchema>>> {
   const supabase = await createClient();
   const data = {

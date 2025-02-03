@@ -10,18 +10,26 @@ export default function LandingPage() {
           </div>
         </div>
         <nav className="flex items-center space-x-3 md:space-x-6">
-          <button type="button" className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer">
+          <button
+            type="button"
+            className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer">
             Home
           </button>
-          <button type="button" className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer">
+          <button
+            type="button"
+            className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer">
             Games
           </button>
-          <button type="button" className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer">
+          <button
+            type="button"
+            className="text-white text-sm md:text-lg hover:text-lime-400 hover:scale-115 transition transform cursor-pointer">
             About Us
           </button>
         </nav>
         <div>
-          <button type="button" className="bg-lime-500 text-black font-semibold py-1 px-3 md:px-4 rounded hover:bg-lime-400 cursor-pointer hover:scale-110 transition transform">
+          <button
+            type="button"
+            className="bg-lime-500 text-black font-semibold py-1 px-3 md:px-4 rounded hover:bg-lime-400 cursor-pointer hover:scale-110 transition transform">
             Sign In
           </button>
         </div>
@@ -43,10 +51,14 @@ export default function LandingPage() {
         </p>
 
         <div className="flex space-x-2 md:space-x-4">
-          <button type="button" className="bg-lime-500 text-black font-semibold py-2 px-4 md:px-6 rounded-xl shadow-lg hover:bg-lime-400 cursor-pointer hover:scale-110 transition transform">
+          <button
+            type="button"
+            className="bg-lime-500 text-black font-semibold py-2 px-4 md:px-6 rounded-xl shadow-lg hover:bg-lime-400 cursor-pointer hover:scale-110 transition transform">
             Play Now
           </button>
-          <button type="button" className="bg-gray-800 border border-lime-500 text-lime-500 font-semibold py-2 px-4 md:px-6 rounded-xl shadow-lg hover:bg-gray-700 cursor-pointer hover:scale-110 transition transform">
+          <button
+            type="button"
+            className="bg-gray-800 border border-lime-500 text-lime-500 font-semibold py-2 px-4 md:px-6 rounded-xl shadow-lg hover:bg-gray-700 cursor-pointer hover:scale-110 transition transform">
             Learn More
           </button>
         </div>

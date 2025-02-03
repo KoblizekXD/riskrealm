@@ -33,8 +33,7 @@ export default function SignInPage() {
     <main
       className={
         "flex from-[#1e1e2e] to-[#181825] bg-linear-to-br justify-center items-center min-h-screen"
-      }
-    >
+      }>
       <div className="lg:w-1/4 z-10 lg:bg-[#181825] lg:shadow-lg lg:flex-none flex-1 rounded-md flex flex-col p-4">
         <form
           className="flex flex-col"
@@ -49,8 +48,7 @@ export default function SignInPage() {
                 } else setError(res);
               }
             });
-          }}
-        >
+          }}>
           <h1 className={"font-extrabold text-2xl"}>Sign in to Risk Realm</h1>
           <label className={"mt-4"}>
             <span>Email</span>
@@ -79,8 +77,7 @@ export default function SignInPage() {
             disabled={isPending}
             className={
               "bg-blue-600 disabled:brightness-50 cursor-pointer font-semibold text-white rounded-sm flex items-center justify-center gap-x-2 p-2 mt-4"
-            }
-          >
+            }>
             {isPending && <Loader2 className="animate-spin" />}
             Continue
           </button>
@@ -116,8 +113,7 @@ export default function SignInPage() {
         </div>
         <Link
           className="mt-2 text-center text-emerald-500 underline"
-          href={"/signup"}
-        >
+          href={"/signup"}>
           Not a member yet?
         </Link>
       </div>

@@ -55,20 +55,17 @@ export default function LoggedInPage({ user }: { user: UserType }) {
           <nav className="flex items-center space-x-2 md:space-x-6">
             <button
               type="button"
-              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer"
-            >
+              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer">
               Home
             </button>
             <button
               type="button"
-              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer"
-            >
+              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer">
               Games
             </button>
             <button
               type="button"
-              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer"
-            >
+              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer">
               About Us
             </button>
           </nav>
@@ -79,8 +76,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             </div>
             <button
               type="button"
-              className="font-semibold flex items-center gap-x-2 py-1 cursor-pointer"
-            >
+              className="font-semibold flex items-center gap-x-2 py-1 cursor-pointer">
               <User size={40} color="#ce9aff" />
               <span>{user.username}</span>
             </button>
@@ -88,13 +84,11 @@ export default function LoggedInPage({ user }: { user: UserType }) {
         </header>
         <main className="relative text-center flex-grow p-4 md:p-8 flex flex-col items-center overflow-y-auto">
           <h1
-            className={`${orbitron.className} text-6xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}
-          >
+            className={`${orbitron.className} text-6xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}>
             Welcome back, Player!
           </h1>
           <p
-            className={`${orbitron.className} text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
-          >
+            className={`${orbitron.className} text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}>
             Ready to make some money?
           </p>
           <div className="mt-6 md:mt-10 w-full px-4">
