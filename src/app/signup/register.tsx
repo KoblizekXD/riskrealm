@@ -31,11 +31,9 @@ export default function Register() {
     <main
       className={
         "min-h-screen md:h-screen lg:bg-black from-[#1e1e2e] to-[#181825] bg-linear-to-br flex justify-center p-16 items-center"
-      }
-    >
+      }>
       <div
-        className={"w-full h-full z-10 flex flex-col gap-x-2 lg:flex-row p-2"}
-      >
+        className={"w-full h-full z-10 flex flex-col gap-x-2 lg:flex-row p-2"}>
         <div className="flex-1 flex justify-center flex-col items-center">
           <h1 className={"text-4xl mt-12 font-extrabold text-center"}>
             Let&#39;s start your journey here!
@@ -43,8 +41,7 @@ export default function Register() {
           <h2
             className={
               "text-2xl mt-4 font-extrabold text-center text-[#bac2de]"
-            }
-          >
+            }>
             Start today and get a chance to win
             <span className={"text-emerald-500"}> big</span>
           </h2>
@@ -53,8 +50,7 @@ export default function Register() {
             <span
               className={
                 "from-yellow-300 text-transparent to-yellow-600 bg-linear-to-r bg-clip-text font-bold"
-              }
-            >
+              }>
               {" "}
               500 tickets{" "}
             </span>
@@ -64,7 +60,7 @@ export default function Register() {
             action={(fd: FormData) => {
               if (!fd.get("age-required")) {
                 toast(
-                  "You must comply with the age requirement in order to register."
+                  "You must comply with the age requirement in order to register.",
                 );
                 return;
               }
@@ -77,8 +73,7 @@ export default function Register() {
                 }
               });
             }}
-            className={"mt-24 lg:w-[70%] flex flex-col gap-y-4"}
-          >
+            className={"mt-24 lg:w-[70%] flex flex-col gap-y-4"}>
             <label className={"mt-4 font-semibold"}>
               <span>Username</span>
               <input
@@ -130,8 +125,7 @@ export default function Register() {
               type={"submit"}
               className={
                 "bg-transparent border hover:text-black hover:bg-white transition-colors font-semibold text-white rounded-sm flex items-center justify-center gap-x-2 p-2 mt-4"
-              }
-            >
+              }>
               {isPending && <LoaderCircle className={"animate-spin"} />}
               Sign me up!
             </button>
@@ -140,8 +134,7 @@ export default function Register() {
         <div
           className={
             "flex select-none lg:flex-col items-center gap-x-2 gap-y-2 py-4"
-          }
-        >
+          }>
           <div className="flex-1 border border-[#cdd6f4] rounded-sm" />
           or
           <div className="flex-1 border border-[#cdd6f4] rounded-sm" />
@@ -175,8 +168,7 @@ export default function Register() {
             onClick={() => router.push("/signin")}
             className={
               "bg-transparent border px-12 text-xl hover:text-black hover:bg-white transition-colors font-semibold text-white rounded-sm flex items-center justify-center gap-x-2 p-2 mt-4"
-            }
-          >
+            }>
             I&#39;m already registered!
           </button>
         </div>
