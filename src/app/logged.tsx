@@ -1,5 +1,6 @@
 "use client";
 
+import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
 import { User } from "lucide-react";
 import { Orbitron } from "next/font/google";
@@ -70,10 +71,17 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             </button>
           </nav>
           <div className="h-full gap-x-2 flex items-center">
-            <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
-              <span>{user.tickets} 🎫</span>
-              <span>{user.gems} 💎</span>
-            </div>
+            <Tooltip content={
+              <div className="flex flex-col gap-y-2">
+                RiskRealm uses 2 types of currencies:
+                <span> - Tickets 🎫</span>
+                <span> - Gems 💎</span>
+              </div>}>
+              <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
+                <span>{user.tickets} 🎫</span>
+                <span>{user.gems} 💎</span>
+              </div>
+            </Tooltip>
             <button
               type="button"
               className="font-semibold flex items-center gap-x-2 py-1 cursor-pointer">
