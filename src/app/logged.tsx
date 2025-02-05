@@ -45,9 +45,9 @@ function LargeCard({
 
 export default function LoggedInPage({ user }: { user: UserType }) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#d0bfff] flex flex-col overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b bg-[#030712] text-[#d0bfff] flex flex-col overflow-hidden">
       <div className="flex flex-col items-center">
-        <header className="h-20 bg-[#151520] shadow-lg flex items-center w-full justify-between px-2 md:px-6">
+        <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] flex items-center w-full justify-between px-2 md:px-6">
           <div className="flex items-center space-x-2 md:space-x-4">
             <div className="text-lg md:text-2xl font-bold text-[#ce9aff]">
               Risk Realm
@@ -84,7 +84,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             </Tooltip>
             <button
               type="button"
-              className="font-semibold flex items-center gap-x-2 py-1 cursor-pointer">
+              className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer">
               <User size={40} color="#ce9aff" />
               <span>{user.username}</span>
             </button>
@@ -92,11 +92,11 @@ export default function LoggedInPage({ user }: { user: UserType }) {
         </header>
         <main className="relative text-center flex-grow p-4 md:p-8 flex flex-col items-center overflow-y-auto">
           <h1
-            className={`${orbitron.className} text-6xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}>
-            Welcome back, Player!
+            className={"md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10"}>
+            Welcome back, {user.username}!
           </h1>
           <p
-            className={`${orbitron.className} text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}>
+            className={`${orbitron.className} self-start text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}>
             Ready to make some money?
           </p>
           <div className="mt-6 md:mt-10 w-full px-4">
