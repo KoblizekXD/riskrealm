@@ -50,11 +50,14 @@ export default function LandingPage() {
               className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 md:mt-0">
               Games
             </button>
-            <button
-              type="button"
-              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0">
-              About Us
-            </button>
+            <Link href="/aboutus" passHref>
+      <button
+        type="button"
+        className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0"
+      >
+        About Us
+      </button>
+    </Link>
           </nav>
           <div>
             <button
