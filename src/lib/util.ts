@@ -18,3 +18,7 @@ export const removeAttrFromObject = <O extends object, A extends keyof O>(
 
   return newObject;
 };
+
+export function streakCalculator(streak: number): number {
+  return 100 + 100 * (streak - 1) * 0.1;
+}
