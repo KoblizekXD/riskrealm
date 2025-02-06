@@ -20,4 +20,5 @@ export interface User {
   description?: string;
   avatar_url?: string;
   created_at: string;
+  streak: number;
 }
