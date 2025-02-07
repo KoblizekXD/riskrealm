@@ -42,28 +42,31 @@ export default function LandingPage() {
           <nav className="flex flex-col items-center space-x-2 md:space-x-6 md:flex-row">
             <button
               type="button"
-              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-2 md:mt-0">
+              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-2 md:mt-0"
+            >
               Home
             </button>
             <button
               type="button"
-              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 md:mt-0">
+              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 md:mt-0"
+            >
               Games
             </button>
             <Link href="/aboutus" passHref>
-      <button
-        type="button"
-        className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0"
-      >
-        About Us
-      </button>
-    </Link>
+              <button
+                type="button"
+                className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0"
+              >
+                About Us
+              </button>
+            </Link>
           </nav>
           <div>
             <button
               type="button"
               onClick={() => router.push("/signin")}
-              className="bg-[#7c3aed] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#6d28d9] hover:shadow-[0px_0px_15px_#7c3aed] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm mb-4 md:mb-0">
+              className="bg-[#7c3aed] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#6d28d9] hover:shadow-[0px_0px_15px_#7c3aed] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm mb-4 md:mb-0"
+            >
               Sign In
             </button>
           </div>
@@ -71,12 +74,14 @@ export default function LandingPage() {
 
         <main className="relative text-center flex-grow p-4 md:p-8 flex flex-col items-center overflow-y-auto w-full">
           <h1
-            className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}>
+            className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}
+          >
             Welcome to Risk Realm
           </h1>
 
           <p
-            className={`${luckiestGuy.className} text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold`}>
+            className={`${luckiestGuy.className} text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold`}
+          >
             Your One-Stop Destination for Thrilling Games and Big Wins
           </p>
 
@@ -90,13 +95,15 @@ export default function LandingPage() {
             <button
               onClick={() => router.push("/signin")}
               type="button"
-              className="basis-[50%] bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#7c3aed] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto">
+              className="basis-[50%] bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#7c3aed] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto"
+            >
               Play Now
             </button>
             <Link
               href={"#more"}
               type="button"
-              className="basis-[50%] bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#7c3aed] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto">
+              className="basis-[50%] bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#7c3aed] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto"
+            >
               Learn more
             </Link>
           </div>
@@ -122,7 +129,8 @@ export default function LandingPage() {
         </main>
         <Link
           href={"#more"}
-          className="mt-auto border-2 mb-6 h-fit w-fit rounded-full animate-bounce">
+          className="mt-auto border-2 mb-6 h-fit w-fit rounded-full animate-bounce"
+        >
           <ArrowDown className="m-1" />
         </Link>
       </div>
@@ -130,7 +138,8 @@ export default function LandingPage() {
       <div className="text-center flex flex-col items-center gap-y-9 mt-8 h-screen">
         <h1
           id="more"
-          className="mt-8 text-xl md:text-2xl text-center mb-4 max-w-3xl bg-gradient-to-r from-[#be89ff] to-[#7c3aed] text-transparent bg-clip-text font-semibold">
+          className="mt-8 text-xl md:text-2xl text-center mb-4 max-w-3xl bg-gradient-to-r from-[#be89ff] to-[#7c3aed] text-transparent bg-clip-text font-semibold"
+        >
           Why Choose Risk Realm?
         </h1>
 
