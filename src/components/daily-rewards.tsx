@@ -19,8 +19,7 @@ export default function DailyRewards({ user }: { user: User }) {
         </div>
       }
       title="Daily rewards"
-      description="Login daily to get free rewards! 🔥"
-    >
+      description="Login daily to get free rewards! 🔥">
       <h2 className="text-center font-semibold">
         You currently have {user.streak} days of streak.
       </h2>
@@ -54,8 +53,7 @@ export default function DailyRewards({ user }: { user: User }) {
           });
         }}
         type="button"
-        className="bg-blue-500 cursor-pointer hover:scale-105 w-fit self-center px-4 mt-4 transition-transform font-semibold rounded-md p-1"
-      >
+        className="bg-blue-500 cursor-pointer hover:scale-105 w-fit self-center px-4 mt-4 transition-transform font-semibold rounded-md p-1">
         Claim
       </button>
     </MyDialog>

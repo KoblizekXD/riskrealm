@@ -65,20 +65,17 @@ export default function LoggedInPage({ user }: { user: UserType }) {
           <nav className="flex absolute left-1/2 -translate-x-1/2 items-center space-x-2 md:space-x-6">
             <button
               type="button"
-              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer"
-            >
+              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer">
               Home
             </button>
             <button
               type="button"
-              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer"
-            >
+              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer">
               Games
             </button>
             <button
               type="button"
-              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer"
-            >
+              className="text-[#d0bfff] text-sm md:text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer">
               About Us
             </button>
           </nav>
@@ -91,8 +88,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   <span> - Tickets 🎫</span>
                   <span> - Gems 💎</span>
                 </div>
-              }
-            >
+              }>
               <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
                 <span>{user.tickets} 🎫</span>
                 <span>{user.gems} 💎</span>
@@ -100,8 +96,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             </Tooltip>
             <button
               type="button"
-              className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
-            >
+              className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer">
               <User size={40} color="#ce9aff" />
               <span>{user.username}</span>
             </button>
@@ -111,13 +106,11 @@ export default function LoggedInPage({ user }: { user: UserType }) {
           <h1
             className={
               "md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10"
-            }
-          >
+            }>
             Welcome back, {user.username}!
           </h1>
           <p
-            className={`${orbitron.className} self-start text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
-          >
+            className={`${orbitron.className} self-start text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}>
             Ready to make some money?
           </p>
           <div className="mt-6 md:mt-10 w-full px-4">

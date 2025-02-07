@@ -37,21 +37,18 @@ export default function AboutUs() {
           <nav className="flex flex-col items-center space-x-2 md:space-x-6 md:flex-row">
             <button
               type="button"
-              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-2 md:mt-0"
-            >
+              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-2 md:mt-0">
               Home
             </button>
             <button
               type="button"
-              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 md:mt-0"
-            >
+              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 md:mt-0">
               Games
             </button>
             <Link href="/aboutus" passHref>
               <button
                 type="button"
-                className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0"
-              >
+                className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0">
                 About Us
               </button>
             </Link>
@@ -60,16 +57,14 @@ export default function AboutUs() {
             <button
               type="button"
               onClick={() => router.push("/signin")}
-              className="bg-[#7c3aed] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#6d28d9] hover:shadow-[0px_0px_15px_#7c3aed] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm mb-4 md:mb-0"
-            >
+              className="bg-[#7c3aed] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#6d28d9] hover:shadow-[0px_0px_15px_#7c3aed] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm mb-4 md:mb-0">
               Sign In
             </button>
           </div>
         </header>
 
         <h1
-          className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}
-        >
+          className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}>
           Meet our team!
         </h1>
 
