@@ -1,6 +1,10 @@
 "use client";
 
-import { TooltipContent, Tooltip as TooltipRoot, TooltipTrigger } from "@radix-ui/react-tooltip";
+import {
+  TooltipContent,
+  Tooltip as TooltipRoot,
+  TooltipTrigger,
+} from "@radix-ui/react-tooltip";
 import "../app/globals.css";
 
 export default function Tooltip({
@@ -12,12 +16,14 @@ export default function Tooltip({
 }) {
   return (
     <TooltipRoot delayDuration={100}>
-      <TooltipTrigger asChild>
-        {children}
-      </TooltipTrigger>
-      <TooltipContent className="TooltipContent" side="top" sideOffset={5} align="center">
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent
+        className="TooltipContent"
+        side="top"
+        sideOffset={5}
+        align="center">
         {content}
       </TooltipContent>
     </TooltipRoot>
-  )
+  );
 }
