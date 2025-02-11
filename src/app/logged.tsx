@@ -1,11 +1,12 @@
 "use client";
 
 import DailyRewards from "@/components/daily-rewards";
+import MyDialog from "@/components/dialog";
 import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
 import { canClaimStreak } from "@/lib/supabase/actions";
-import { ExternalLink, Settings, User } from "lucide-react";
+import { ExternalLink, Menu, Settings, User } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -50,6 +51,7 @@ function LargeCard({
 
 export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
@@ -58,7 +60,34 @@ export default function LoggedInPage({ user }: { user: UserType }) {
   return (
     <div className="min-h-screen bg-gradient-to-b bg-[#030712] text-[#d0bfff] flex flex-col overflow-hidden">
       <div className="flex flex-col items-center">
-        <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] flex items-center w-full justify-between px-2 md:px-6">
+        <MyDialog
+          title="Menu"
+          className="w-[90vw]"
+          trigger={
+            <div className="fixed cursor-pointer hover:scale-105 transition-transform right-2 top-2 p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
+              <Menu size={32} className="stroke-white" />
+            </div>
+          }
+        >
+          <div className="flex flex-col gap-y-2">
+            <p className="text-sm text-gray-300">Signed in as {user.email}</p>
+            <Link
+              className="font-semibold gap-x-2 flex items-center"
+              href={"/settings"}
+            >
+              <Settings size={16} />
+              Options
+            </Link>
+            <Link
+              className="font-semibold gap-x-2 flex items-center"
+              href={"/signout"}
+            >
+              <ExternalLink size={16} />
+              Sign-out
+            </Link>
+          </div>
+        </MyDialog>
+        <header className="h-20 hidden bg-[#151520] shadow-lg border-b-2 border-[#18181B] md:flex items-center w-full justify-between px-2 md:px-6">
           <div className="flex items-center space-x-2 md:space-x-4">
             <div className="text-lg md:text-2xl font-bold text-[#ce9aff]">
               Risk Realm
@@ -96,11 +125,17 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                 <p className="text-sm text-gray-300">
                   Signed in as {user.email}
                 </p>
-                <Link className="font-semibold gap-x-2 flex items-center" href={"/settings"}>
+                <Link
+                  className="font-semibold gap-x-2 flex items-center"
+                  href={"/settings"}
+                >
                   <Settings size={16} />
                   Options
                 </Link>
-                <Link className="font-semibold gap-x-2 flex items-center" href={"/signout"}>
+                <Link
+                  className="font-semibold gap-x-2 flex items-center"
+                  href={"/signout"}
+                >
                   <ExternalLink size={16} />
                   Sign-out
                 </Link>
