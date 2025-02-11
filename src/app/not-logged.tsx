@@ -68,7 +68,7 @@ export default function LandingPage() {
           </div>
         </header>
 
-        <main className="relative text-center flex-grow p-4 md:p-8 flex flex-col items-center overflow-y-auto w-full">
+        <main className="relative text-center flex-grow p-4 md:p-8 flex flex-col items-center overflow-y-auto xl:max-w-[1700px] mr-auto ml-auto max-w-[1600px]">
           <h1
             className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}>
             Welcome to Risk Realm
