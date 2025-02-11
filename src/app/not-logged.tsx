@@ -18,7 +18,7 @@ function SimpleCard({
   title: string;
 }) {
   return (
-    <div className="bg-[#18181b] border border-[#28282b] px-4 py-12 md:px-6 md:py-24 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#ce9aff] transition transform cursor-pointer text-center">
+    <div className="bg-[#18181b] border border-[#28282b] px-4 py-12 md:px-6 md:py-24 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
       <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
         {title}
       </h3>

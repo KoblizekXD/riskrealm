@@ -35,11 +35,13 @@ export default function AboutUs() {
             </div>
           </div>
           <nav className="flex flex-col items-center space-x-2 md:space-x-6 md:flex-row">
-            <button
-              type="button"
-              className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-2 md:mt-0">
-              Home
-            </button>
+          <Link href="/" passHref>
+              <button
+                type="button"
+                className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0">
+                Home
+              </button>
+            </Link>
             <button
               type="button"
               className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-1 md:mt-0">
