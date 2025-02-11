@@ -115,20 +115,20 @@ export async function claimStreak() {
   if (!user.data.user) return false;
 
   if ((await canClaimStreak()) === false) return false;
-  const currentStreak = (
+  const data = (
     await supabase
       .from("users")
-      .select("streak")
+      .select("streak, tickets")
       .eq("id", user.data.user.id)
       .single()
-  ).data?.streak as number;
+  ).data as { streak: number; tickets: number };
 
   await supabase
     .from("users")
     .update({
-      streak: currentStreak + 1,
+      streak: data.streak + 1,
       streak_claimed: new Date().toISOString(),
-      tickets: streakCalculator(currentStreak + 1),
+      tickets: data.tickets + streakCalculator(data.streak + 1),
     })
     .eq("id", user.data.user.id);
   return true;
