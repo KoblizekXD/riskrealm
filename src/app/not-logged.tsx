@@ -155,7 +155,7 @@ export default function LandingPage() {
       </div>
 
       <footer className="h-16 flex items-center justify-center border-t border-[#28282b] bg-[#171020]">
-        <p className="text-[#5a3a60] text-xs md:text-sm">
+        <p className="text-[#D4AF37] text-xs md:text-sm">
           © 2025 Risk Realm. All Rights Reserved. Gamble until zero.
         </p>
       </footer>
