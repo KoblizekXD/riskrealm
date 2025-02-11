@@ -4,6 +4,7 @@ import { removeAttrFromObject } from "@/lib/util";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { twMerge } from "tailwind-merge";
+import "../app/globals.css";
 
 type DialogProps = {
   trigger: React.ReactNode;
@@ -23,10 +24,14 @@ export default function MyDialog({
     <Dialog.Root>
       <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+        <Dialog.Overlay className="fixed inset-0 DialogOverlay bg-black/50" />
         <Dialog.Content
-          className={twMerge("fixed flex flex-col top-1/2 left-1/2 ring-0 focus:outline-0 -translate-x-1/2 -translate-y-1/2 bg-[#151520] p-6 rounded-lg shadow-xl z-50", props.className)}
-          {...removeAttrFromObject(props, "className")}>
+          className={twMerge(
+            "fixed flex DialogContent flex-col top-1/2 left-1/2 ring-0 focus:outline-0 -translate-x-1/2 -translate-y-1/2 bg-[#151520] p-6 rounded-lg shadow-xl z-50",
+            props.className
+          )}
+          {...removeAttrFromObject(props, "className")}
+        >
           <Dialog.Title className="text-xl font-bold mb-2">
             {title}
           </Dialog.Title>
