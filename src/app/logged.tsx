@@ -51,7 +51,6 @@ function LargeCard({
 
 export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
@@ -229,7 +228,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
         </main>
       </div>
 
-      <footer className="h-16 flex items-center justify-center border-t border-gray-800 bg-[#181825]">
+      <footer className="h-16 mt-auto flex items-center justify-center border-t border-gray-800 bg-[#181825]">
         <p className="text-gray-400 text-xs md:text-sm">
           © 2025 Risk Realm. All Rights Reserved. Gamble until zero.
         </p>
