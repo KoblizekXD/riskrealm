@@ -101,8 +101,7 @@ export async function canClaimStreak(): Promise<boolean> {
   const today = new Date();
 
   if (
-    today.getTime() - lastClaimedDate.getTime() >= 86400000 &&
-    today.getTime() - lastClaimedDate.getTime() <= 172800000
+    today.getTime() - lastClaimedDate.getTime() >= 86400000
   ) {
     return true;
   }
