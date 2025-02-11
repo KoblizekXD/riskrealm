@@ -102,15 +102,15 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             </button>
           </div>
         </header>
-        <main className="relative text-center flex-grow p-4 md:p-8 flex flex-col items-center overflow-y-auto">
+        <main className="relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px]">
           <h1
             className={
-              "md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10"
+              "md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10 px-4"
             }>
             Welcome back, {user.username}!
           </h1>
           <p
-            className={`${orbitron.className} self-start text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}>
+            className={`${orbitron.className} self-start text-[#be89ff] px-4 drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}>
             Ready to make some money?
           </p>
           <div className="mt-6 md:mt-10 w-full px-4">
