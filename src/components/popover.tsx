@@ -1,6 +1,7 @@
 "use client";
 
 import * as Pop from "@radix-ui/react-popover";
+import "../app/globals.css"
 
 export interface PopoverProps {
   children: React.ReactNode;
@@ -14,7 +15,7 @@ export default function Popover({ children, trigger }: PopoverProps) {
         {trigger}
       </Pop.Trigger>
       <Pop.Portal>
-        <Pop.Content sideOffset={4}>
+        <Pop.Content side="bottom" className="PopoverContent duration-300" sideOffset={4}>
           {children}
         </Pop.Content>
       </Pop.Portal>

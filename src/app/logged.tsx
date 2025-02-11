@@ -86,7 +86,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   type="button"
                   className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
                 >
-                  <User size={40} color="#ce9aff" />
+                  <User size={28} color="#ce9aff" />
                   <span>{user.username}</span>
                 </button>
               }
