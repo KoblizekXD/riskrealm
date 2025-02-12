@@ -33,23 +33,6 @@ function SimpleCard({
   );
 }
 
-function LargeCard({
-  description,
-  title,
-}: {
-  description: string;
-  title: string;
-}) {
-  return (
-    <div className="bg-[#18181b] border border-[#28282b] px-2 py-24 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#ce9aff] transition transform cursor-pointer text-center">
-      <h3 className="text-lg md:text-2xl font-bold text-[#be89ff] mb-2">
-        {title}
-      </h3>
-      <p className="text-gray-300 text-sm md:text-base">{description}</p>
-    </div>
-  );
-}
-
 export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
 
@@ -70,6 +53,11 @@ export default function LoggedInPage({ user }: { user: UserType }) {
           }
         >
           <div className="flex flex-col gap-y-2">
+            <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
+              Balance:
+              <span>{user.tickets} 🎫</span>
+              <span>{user.gems} 💎</span>
+            </div>
             <p className="text-sm text-gray-300">Signed in as {user.email}</p>
             <Link
               className="font-semibold gap-x-2 flex items-center"
@@ -147,11 +135,13 @@ export default function LoggedInPage({ user }: { user: UserType }) {
           <h1
             className={
               "md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10 px-4"
-            }>
+            }
+          >
             Welcome back, {user.username}!
           </h1>
           <p
-            className={`${orbitron.className} self-start text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}>
+            className={`${orbitron.className} self-start text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
+          >
             Ready to make some money?
           </p>
           <div className="mt-6 md:mt-10 w-full px-4">
