@@ -105,10 +105,10 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             </button>
           </div>
         </header>
-        <main className="relative text-center flex-grow p-4 md:p-8 flex flex-col items-center overflow-y-auto">
+        <main className="relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px]">
           <h1
             className={
-              "md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10"
+              "md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10 px-4"
             }>
             Welcome back, {user.username}!
           </h1>
