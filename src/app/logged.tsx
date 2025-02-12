@@ -10,7 +10,7 @@ import { ExternalLink, Menu, Settings, User } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
   subsets: ["latin"],
