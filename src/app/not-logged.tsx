@@ -18,11 +18,11 @@ function SimpleCard({
   title: string;
 }) {
   return (
-    <div className="bg-[#18181b] border border-[#28282b] px-4 py-12 md:px-6 md:py-24 text-[#b090b5] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#ce9aff] transition transform cursor-pointer text-center">
-      <h3 className="text-lg md:text-2xl font-bold text-[#be89ff] mb-2">
+    <div className="bg-[#18181b] border border-[#28282b] px-4 py-12 md:px-6 md:py-24 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+      <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
         {title}
       </h3>
-      <p className="text-[#75507b] text-sm md:text-base">{description}</p>
+      <p className="text-[#D4AF37] text-sm md:text-base">{description}</p>
     </div>
   );
 }
@@ -35,25 +35,25 @@ export default function LandingPage() {
       <div className="flex flex-col items-center">
         <header className="md:h-20 bg-[#151520] shadow-lg flex flex-col items-center w-full justify-between px-2 md:px-6 md:flex-row">
           <div className="flex items-center space-x-2 md:space-x-4 mt-4 md:mt-0 border-b-3 border-[#ce9aff] pb-2 md:pb-0 md:border-b-0">
-            <div className="text-4xl md:text-2xl font-bold text-[#ce9aff]">
+            <div className="text-4xl md:text-2xl font-bold text-[#d4af37]">
               Risk Realm
             </div>
           </div>
           <nav className="flex flex-col items-center space-x-2 md:space-x-6 md:flex-row">
             <button
               type="button"
-              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-2 md:mt-0">
+              className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-2 md:mt-0">
               Home
             </button>
             <button
               type="button"
-              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 md:mt-0">
+              className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-1 md:mt-0">
               Games
             </button>
             <Link href="/aboutus" passHref>
               <button
                 type="button"
-                className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0">
+                className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0">
                 About Us
               </button>
             </Link>
@@ -62,24 +62,24 @@ export default function LandingPage() {
             <button
               type="button"
               onClick={() => router.push("/signin")}
-              className="bg-[#7c3aed] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#6d28d9] hover:shadow-[0px_0px_15px_#7c3aed] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm mb-4 md:mb-0">
+              className="bg-[#D4AF37] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#d4bf37] hover:shadow-[0px_0px_15px_#FFD700] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm mb-4 md:mb-0">
               Sign In
             </button>
           </div>
         </header>
 
-        <main className="relative text-center flex-grow p-4 md:p-8 flex flex-col items-center overflow-y-auto w-full">
+        <main className="relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px]">
           <h1
-            className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}>
+            className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4 pt-6 md:pt-10`}>
             Welcome to Risk Realm
           </h1>
 
           <p
-            className={`${luckiestGuy.className} text-[#be89ff] drop-shadow-[0_0_10px_#be89ff] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold`}>
+            className={`${luckiestGuy.className} text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold`}>
             Your One-Stop Destination for Thrilling Games and Big Wins
           </p>
 
-          <p className="text-[#7c5083] text-sm md:text-lg text-center mb-4 md:mb-8 max-w-3xl">
+          <p className="text-[#CFAF4A] text-sm md:text-lg text-center mb-4 md:mb-8 max-w-3xl">
             At Risk Realm, we bring the excitement of the casino floor right to
             your fingertips. Whether you’re a seasoned player or a casual gamer,
             we’ve got something for everyone:
@@ -89,13 +89,13 @@ export default function LandingPage() {
             <button
               onClick={() => router.push("/signin")}
               type="button"
-              className="basis-[50%] bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#7c3aed] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto">
+              className="basis-[50%] bg-[#D4AF37] hover:bg-[#d4bf37] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#FFD700] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto">
               Play Now
             </button>
             <Link
               href={"#more"}
               type="button"
-              className="basis-[50%] bg-[#7c3aed] hover:bg-[#6d28d9] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#7c3aed] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto">
+              className="basis-[50%] bg-[#D4AF37] hover:bg-[#d4bf37] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#FFD700] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto">
               Learn more
             </Link>
           </div>
@@ -129,7 +129,7 @@ export default function LandingPage() {
       <div className="text-center flex flex-col items-center gap-y-9 mt-8 h-screen">
         <h1
           id="more"
-          className="mt-8 text-xl md:text-2xl text-center mb-4 max-w-3xl bg-gradient-to-r from-[#be89ff] to-[#7c3aed] text-transparent bg-clip-text font-semibold">
+          className="mt-8 text-xl md:text-2xl text-center mb-4 max-w-3xl bg-gradient-to-r from-[#FFD700] to-[#f5a802] text-transparent bg-clip-text font-semibold">
           Why Choose Risk Realm?
         </h1>
 
@@ -155,7 +155,7 @@ export default function LandingPage() {
       </div>
 
       <footer className="h-16 flex items-center justify-center border-t border-[#28282b] bg-[#171020]">
-        <p className="text-[#5a3a60] text-xs md:text-sm">
+        <p className="text-[#D4AF37] text-xs md:text-sm">
           © 2025 Risk Realm. All Rights Reserved. Gamble until zero.
         </p>
       </footer>
