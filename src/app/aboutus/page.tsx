@@ -30,41 +30,43 @@ export default function AboutUs() {
       <div className="flex flex-col items-center">
         <header className="md:h-20 bg-[#151520] shadow-lg flex flex-col items-center w-full justify-between px-2 md:px-6 md:flex-row">
           <div className="flex items-center space-x-2 md:space-x-4 mt-4 md:mt-0 border-b-3 border-[#ce9aff] pb-2 md:pb-0 md:border-b-0">
-            <div className="text-4xl md:text-2xl font-bold text-[#ce9aff]">
+            <div className="text-4xl md:text-2xl font-bold text-[#d4af37]">
               Risk Realm
             </div>
           </div>
           <nav className="flex flex-col items-center space-x-2 md:space-x-6 md:flex-row">
+          <Link href="/" passHref>
+              <button
+                type="button"
+                className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0">
+                Home
+              </button>
+            </Link>
             <button
               type="button"
-              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-2 md:mt-0">
-              Home
-            </button>
-            <button
-              type="button"
-              className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 md:mt-0">
+              className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-1 md:mt-0">
               Games
             </button>
             <Link href="/aboutus" passHref>
               <button
                 type="button"
-                className="text-[#d0bfff] text-lg hover:text-[#ce9aff] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0">
+                className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0">
                 About Us
               </button>
             </Link>
           </nav>
           <div>
-            <button
+          <button
               type="button"
               onClick={() => router.push("/signin")}
-              className="bg-[#7c3aed] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#6d28d9] hover:shadow-[0px_0px_15px_#7c3aed] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm mb-4 md:mb-0">
+              className="bg-[#D4AF37] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#d4bf37] hover:shadow-[0px_0px_15px_#FFD700] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm mb-4 md:mb-0">
               Sign In
             </button>
           </div>
         </header>
 
         <h1
-          className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#bd78fe] drop-shadow-[0_0_5px_#bd78fe] mb-4 pt-6 md:pt-10`}>
+          className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4 pt-6 md:pt-10`}>
           Meet our team!
         </h1>
 
@@ -81,10 +83,10 @@ export default function AboutUs() {
             </div>
 
             <div className="w-full md:w-1/2 text-center md:text-left mt-4 md:mt-0">
-              <h3 className="text-3xl font-bold text-[#be89ff] mb-4">
+              <h3 className="text-3xl font-bold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4">
                 Jan Prokůpek
               </h3>
-              <p className="text-[#75507b] text-sm md:text-base">
+              <p className="text-[#D4AF37] text-sm md:text-base">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a
                 urna eget ligula laoreet volutpat sit amet nec justo. Integer
                 feugiat sapien nec feugiat pretium. Sed vestibulum cursus orci
@@ -104,10 +106,10 @@ export default function AboutUs() {
               />
             </div>
             <div className="w-full md:w-1/2 text-center md:text-left mt-4 md:mt-0">
-              <h3 className="text-3xl font-bold text-[#be89ff] mb-4">
+              <h3 className="text-3xl font-bold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4">
                 Jakub Málek
               </h3>
-              <p className="text-[#75507b] text-sm md:text-base">
+              <p className="text-[#D4AF37] text-sm md:text-base">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a
                 urna eget ligula laoreet volutpat sit amet nec justo. Integer
                 feugiat sapien nec feugiat pretium. Sed vestibulum cursus orci
@@ -127,10 +129,10 @@ export default function AboutUs() {
               />
             </div>
             <div className="w-full md:w-1/2 text-center md:text-left mt-4 md:mt-0">
-              <h3 className="text-3xl font-bold text-[#be89ff] mb-4">
+              <h3 className="text-3xl font-bold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4">
                 Jaroslav Rašovský
               </h3>
-              <p className="text-[#75507b] text-sm md:text-base">
+              <p className="text-[#D4AF37] text-sm md:text-base">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a
                 urna eget ligula laoreet volutpat sit amet nec justo. Integer
                 feugiat sapien nec feugiat pretium. Sed vestibulum cursus orci
@@ -140,6 +142,11 @@ export default function AboutUs() {
           </div>
         </div>
       </div>
+      <footer className="h-16 flex items-center justify-center border-t border-[#28282b] bg-[#171020]">
+        <p className="text-[#D4AF37] text-xs md:text-sm">
+          © 2025 Risk Realm. All Rights Reserved. Gamble until zero.
+        </p>
+      </footer>
     </div>
   );
 }
