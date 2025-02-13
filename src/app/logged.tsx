@@ -1,13 +1,16 @@
 "use client";
 
 import DailyRewards from "@/components/daily-rewards";
+import MyDialog from "@/components/dialog";
+import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
 import { canClaimStreak } from "@/lib/supabase/actions";
-import { User } from "lucide-react";
+import { ExternalLink, Menu, Settings, User } from "lucide-react";
 import { Orbitron } from "next/font/google";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
   subsets: ["latin"],
@@ -30,23 +33,6 @@ function SimpleCard({
   );
 }
 
-function LargeCard({
-  description,
-  title,
-}: {
-  description: string;
-  title: string;
-}) {
-  return (
-    <div className="bg-[#18181b] border border-[#28282b] px-2 py-24 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#ce9aff] transition transform cursor-pointer text-center">
-      <h3 className="text-lg md:text-2xl font-bold text-[#be89ff] mb-2">
-        {title}
-      </h3>
-      <p className="text-gray-300 text-sm md:text-base">{description}</p>
-    </div>
-  );
-}
-
 export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
 
@@ -57,31 +43,44 @@ export default function LoggedInPage({ user }: { user: UserType }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
       <div className="flex flex-col items-center">
-        <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] flex items-center w-full justify-between px-2 md:px-6">
+        <MyDialog
+          title="Menu"
+          className="w-[90vw]"
+          trigger={
+            <div className="fixed cursor-pointer hover:scale-105 transition-transform right-2 top-2 p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
+              <Menu size={32} className="stroke-white" />
+            </div>
+          }
+        >
+          <div className="flex flex-col gap-y-2">
+            <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
+              Balance:
+              <span>{user.tickets} 🎫</span>
+              <span>{user.gems} 💎</span>
+            </div>
+            <p className="text-sm text-gray-300">Signed in as {user.email}</p>
+            <Link
+              className="font-semibold gap-x-2 flex items-center"
+              href={"/settings"}
+            >
+              <Settings size={16} />
+              Options
+            </Link>
+            <Link
+              className="font-semibold gap-x-2 flex items-center"
+              href={"/signout"}
+            >
+              <ExternalLink size={16} />
+              Sign-out
+            </Link>
+          </div>
+        </MyDialog>
+        <header className="h-20 hidden bg-[#151520] shadow-lg border-b-2 border-[#18181B] md:flex items-center w-full justify-between px-2 md:px-6">
           <div className="flex items-center space-x-2 md:space-x-4">
             <div className="text-lg md:text-2xl font-bold text-[#d4af37]">
               Risk Realm
             </div>
           </div>
-          <nav className="flex absolute left-1/2 -translate-x-1/2 items-center space-x-2 md:space-x-6">
-            <button
-              type="button"
-              className="text-[#D4AF37] text-sm md:text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer">
-              Home
-            </button>
-            <button
-              type="button"
-              className="text-[#D4AF37] text-sm md:text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer">
-              Games
-            </button>
-            <Link href="/aboutus" passHref>
-              <button
-                type="button"
-                className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0">
-                About Us
-              </button>
-            </Link>
-          </nav>
           <div className="h-full gap-x-2 flex items-center">
             {streakClaimable && <DailyRewards user={user} />}
             <Tooltip
@@ -91,29 +90,58 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   <span> - Tickets 🎫</span>
                   <span> - Gems 💎</span>
                 </div>
-              }>
+              }
+            >
               <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
                 <span>{user.tickets} 🎫</span>
                 <span>{user.gems} 💎</span>
               </div>
             </Tooltip>
-            <button
-              type="button"
-              className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer">
-              <User size={40} color="#D4AF37" />
-              <span>{user.username}</span>
-            </button>
+            <Popover
+              trigger={
+                <button
+                  type="button"
+                  className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
+                >
+                  <User size={28} color="#ce9aff" />
+                  <span>{user.username}</span>
+                </button>
+              }
+            >
+              <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
+                <h2 className="font-semibold">My profile</h2>
+                <p className="text-sm text-gray-300">
+                  Signed in as {user.email}
+                </p>
+                <Link
+                  className="font-semibold gap-x-2 flex items-center"
+                  href={"/settings"}
+                >
+                  <Settings size={16} />
+                  Options
+                </Link>
+                <Link
+                  className="font-semibold gap-x-2 flex items-center"
+                  href={"/signout"}
+                >
+                  <ExternalLink size={16} />
+                  Sign-out
+                </Link>
+              </div>
+            </Popover>
           </div>
         </header>
         <main className="relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px]">
           <h1
             className={
               "md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10 px-4"
-            }>
+            }
+          >
             Welcome back, {user.username}!
           </h1>
           <p
-            className={`${orbitron.className} self-start text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}>
+            className={`${orbitron.className} self-start text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
+          >
             Ready to make some money?
           </p>
           <div className="mt-6 md:mt-10 w-full px-4">
@@ -189,7 +217,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
         </main>
       </div>
 
-      <footer className="h-16 flex items-center justify-center border-t border-gray-800 bg-[#181825]">
+      <footer className="h-16 flex mt-auto items-center justify-center border-t border-gray-800 bg-[#181825]">
         <p className="text-[#D4AF37] text-xs md:text-sm">
           © 2025 Risk Realm. All Rights Reserved. Gamble until zero.
         </p>
