@@ -9,6 +9,8 @@ import { canClaimStreak } from "@/lib/supabase/actions";
 import { ExternalLink, Menu, Settings, User } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
+import SlotPic from "./assets/slotpic.jpg"
+import RoulettePic from "./assets/roulettepic.jpg"
 import { useEffect, useState } from "react";
 
 export const orbitron = Orbitron({
@@ -16,15 +18,19 @@ export const orbitron = Orbitron({
   subsets: ["latin"],
   weight: "variable",
 });
+
 function SimpleCard({
   description,
   title,
+  image,
 }: {
   description: string;
   title: string;
+  image?: string;
 }) {
   return (
-    <div className="bg-[#18181b] border border-[#28282b] px-2 py-24 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+    <div className="bg-[#18181b] border border-[#28282b] px-2 py-12 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+      {image && <img src={image} alt={title} className="w-auto h-42 mb-2 rounded-md" />}
       <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
         {title}
       </h3>
@@ -32,6 +38,8 @@ function SimpleCard({
     </div>
   );
 }
+
+
 
 export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
@@ -140,7 +148,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             Welcome back, {user.username}!
           </h1>
           <p
-            className={`${orbitron.className} self-start text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
+            className={`${orbitron.className} self-start text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] px-4 text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
           >
             Ready to make some money?
           </p>
@@ -152,10 +160,13 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               <SimpleCard
                 title="🎰 Slots 🎰"
                 description="Spin the reels on our wide selection of classic and modern slot games!"
+                image={SlotPic.src} 
               />
+
               <SimpleCard
                 title="🃏 Cards 🃏"
                 description="Test your skills and strategies in thrilling card games with competitive odds!"
+                image={RoulettePic.src}
               />
               <SimpleCard
                 title="💰🧰 Cases 🧰💰"
