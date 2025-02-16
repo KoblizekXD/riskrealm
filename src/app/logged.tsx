@@ -10,6 +10,8 @@ import { ExternalLink, Menu, Settings, User } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import SlotPic from "./assets/slotpic.jpg"
+import CardsPic from "./assets/cardspic.jpg"
+import CasePic from "./assets/casepic.jpg"
 import RoulettePic from "./assets/roulettepic.jpg"
 import { useEffect, useState } from "react";
 
@@ -166,15 +168,17 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               <SimpleCard
                 title="🃏 Cards 🃏"
                 description="Test your skills and strategies in thrilling card games with competitive odds!"
-                image={RoulettePic.src}
+                image={CardsPic.src}
               />
               <SimpleCard
                 title="💰🧰 Cases 🧰💰"
                 description="Open cases, win big, and feel the adrenaline rush of every drop!"
+                image={CasePic.src}
               />
               <SimpleCard
                 title="⚪️ Roulette 🔴"
                 description="Spin the roulette and pray for the best!"
+                image={RoulettePic.src}
               />
             </div>
           </div>
