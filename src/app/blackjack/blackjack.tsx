@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { startGame, hit, stand, getGameState } from "@/lib/games/blackjack";
+import Card from './card';
 
 export default function BlackJack() {
     const [playerHand, setPlayerHand] = useState<string[]>([]);
@@ -12,6 +13,7 @@ export default function BlackJack() {
     const [result, setResult] = useState<string>("");
     const [playerBalance, setPlayerBalance] = useState<number>(1000);
     const [bet, setBet] = useState<number>(0);
+    const [gameStarted, setGameStarted] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchGameState = async () => {
@@ -34,6 +36,7 @@ export default function BlackJack() {
         setGameOver(gameState.gameOver);
         setResult("");
         setPlayerBalance(gameState.playerBalance);
+        setGameStarted(true); 
     };
 
     const handleHit = async () => {
@@ -63,6 +66,7 @@ export default function BlackJack() {
         setGameOver(false);
         setResult("");
         setBet(0);
+        setGameStarted(false);
     };
 
     return (
@@ -76,21 +80,32 @@ export default function BlackJack() {
                         onChange={(e) => setBet(parseInt(e.target.value, 10))}
                         placeholder="Place your bet"
                         className="p-2 text-black"
+                        disabled={gameStarted}
                     />
-                    <button onClick={handleStart} disabled={gameOver} className="ml-2 p-2 bg-blue-500 text-white">Deal</button>
+                    <button onClick={handleStart} disabled={gameStarted} className="ml-2 p-2 bg-blue-500 text-white">
+                        Deal
+                    </button>
                 </div>
                 <div className="flex justify-center space-x-4 mb-4">
-                    <button onClick={handleHit} disabled={gameOver} className="p-2 bg-red-500 text-white">Hit</button>
-                    <button onClick={handleStand} disabled={gameOver} className="p-2 bg-green-500 text-white">Stand</button>
-                    <button onClick={handleReset} className="p-2 bg-yellow-500 text-white">Reset</button>
+                    <button onClick={handleHit} disabled={!gameStarted || gameOver} className="p-2 bg-red-500 text-white">
+                        Hit
+                    </button>
+                    <button onClick={handleStand} disabled={!gameStarted || gameOver} className="p-2 bg-green-500 text-white">
+                        Stand
+                    </button>
+                    <button onClick={handleReset} disabled={!gameStarted} className="p-2 bg-yellow-500 text-white">
+                        Reset
+                    </button>
                 </div>
                 <div className="mb-4">
-                    <h2 className="text-2xl font-bold">Dealer's Hand ({dealerScore})</h2>
+                    <h2 className="text-2xl font-bold">Dealer's Hand ({gameOver ? dealerScore : '?'})</h2>
                     <div className="flex space-x-2">
                         {dealerHand.map((card, index) => (
-                            <div key={index} className="p-2 bg-white text-black rounded">
-                                {card}
-                            </div>
+                            <Card
+                                key={index}
+                                card={card}
+                                isHidden={!gameOver && index === 1}
+                            />
                         ))}
                     </div>
                 </div>
@@ -98,9 +113,7 @@ export default function BlackJack() {
                     <h2 className="text-2xl font-bold">Your Hand ({playerScore})</h2>
                     <div className="flex space-x-2">
                         {playerHand.map((card, index) => (
-                            <div key={index} className="p-2 bg-white text-black rounded">
-                                {card}
-                            </div>
+                            <Card key={index} card={card} />
                         ))}
                     </div>
                 </div>
