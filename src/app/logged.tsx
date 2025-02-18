@@ -11,6 +11,7 @@ import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
   subsets: ["latin"],
@@ -34,239 +35,254 @@ function SimpleCard({
   );
 }
 
+
+
 export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
-  const [isNavbarVisible, setIsNavbarVisible] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  function Navbar({ isOpen }: { isOpen: boolean }) {
+    return (
+      <div
+        className={`fixed left-0 top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${
+          isOpen ? "w-64" : "hidden"
+        }`}
+      >
+        <div className="p-4">
+          <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-[#d4af37] border-b-2 border-[#d4af37]">Risk Realm</h2>
+          <button
+                onClick={() => setIsNavOpen(!isNavOpen)}
+                className="text-lg md:text-2xl font-bold text-[#d4af37] cursor-pointer"
+              >
+                X
+              </button>
+          </div>
+          
+          <ul className="mt-4">
+            <li className="mb-2">
+              <Link href="/" className="text-[#D4AF37] hover:text-[#FFD700]">
+                Home
+              </Link>
+            </li>
+            <li className="mb-2">
+              <Link href="/games" className="text-[#D4AF37] hover:text-[#FFD700]">
+                Games
+              </Link>
+            </li>
+            <li className="mb-2">
+              <Link href="/profile" className="text-[#D4AF37] hover:text-[#FFD700]">
+                Profile
+              </Link>
+            </li>
+            <li className="mb-2">
+              <Link href="/settings" className="text-[#D4AF37] hover:text-[#FFD700]">
+                Settings
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    );
+  }
 
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
   }, []);
 
-  const toggleNavbar = () => {
-    setIsNavbarVisible(!isNavbarVisible);
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex overflow-hidden">
-      {/* Navbar */}
-      <div
-        className={`fixed h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-transform duration-300 ${
-          isNavbarVisible ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <nav className="p-4">
-          <ul className="flex flex-col gap-y-4 text-[#D4AF37] font-semibold text-lg md:text-2xl">
-            <h1 className="pb-4 pt-4 text-5xl">MENU</h1>
-            <li className="cursor-pointer hover:text-[#FFD700] transition-colors">
-              <Link href="/">Home</Link>
-            </li>
-            <li className="cursor-pointer hover:text-[#FFD700] transition-colors">
-              <Link href="/games">Games</Link>
-            </li>
-            <li className="cursor-pointer hover:text-[#FFD700] transition-colors">
-              <Link href="/leaderboard">Leaderboard</Link>
-            </li>
-            <li className="cursor-pointer hover:text-[#FFD700] transition-colors">
-              <Link href="/shop">Shop</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-grow overflow-y-auto">
-        {/* Button to Show Navbar */}
-        {!isNavbarVisible && (
-          <button
-            onClick={toggleNavbar}
-            className="fixed left-4 top-4 p-2 bg-[#D4AF37] text-black rounded z-50"
-          >
-            <Menu size={24} />
-          </button>
-        )}
-
-        <div className="flex flex-col items-center">
-          <MyDialog
-            title="Menu"
-            className="w-[90vw]"
-            trigger={
-              <div className="fixed cursor-pointer hover:scale-105 transition-transform right-2 top-2 p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
-                <Menu size={32} className="stroke-white" />
-              </div>
-            }
-          >
-            <div className="flex flex-col gap-y-2">
-              <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
-                Balance:
+    <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
+      <Navbar isOpen={isNavOpen} />
+      <div className="flex flex-col items-center">
+        <MyDialog
+          title="Menu"
+          className="w-[90vw]"
+          trigger={
+            <div className="fixed cursor-pointer hover:scale-105 transition-transform right-2 top-2 p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
+              <Menu size={32} className="stroke-white" />
+            </div>
+          }
+        >
+          <div className="flex flex-col gap-y-2">
+            <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
+              Balance:
+              <span>{user.tickets} 🎫</span>
+              <span>{user.gems} 💎</span>
+            </div>
+            <p className="text-sm text-gray-300">Signed in as {user.email}</p>
+            <Link
+              className="font-semibold gap-x-2 flex items-center"
+              href={"/settings"}
+            >
+              <Settings size={16} />
+              Options
+            </Link>
+            <Link
+              className="font-semibold gap-x-2 flex items-center"
+              href={"/signout"}
+            >
+              <ExternalLink size={16} />
+              Sign-out
+            </Link>
+          </div>
+        </MyDialog>
+        <header className="h-20 hidden bg-[#151520] shadow-lg border-b-2 border-[#18181B] md:flex items-center w-full justify-between px-2 md:px-6">
+          <div className="flex items-center space-x-2 md:space-x-4">
+            <button
+              onClick={() => setIsNavOpen(!isNavOpen)}
+              className="text-lg md:text-2xl font-bold text-[#d4af37] cursor-pointer"
+            >
+              ☰
+            </button>
+            <div className="text-lg md:text-2xl font-bold text-[#d4af37]">
+              Risk Realm
+            </div>
+          </div>
+          <div className="h-full gap-x-2 flex items-center">
+            {streakClaimable && <DailyRewards user={user} />}
+            <Tooltip
+              content={
+                <div className="flex flex-col gap-y-2">
+                  RiskRealm uses 2 types of currencies:
+                  <span> - Tickets 🎫</span>
+                  <span> - Gems 💎</span>
+                </div>
+              }
+            >
+              <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
                 <span>{user.tickets} 🎫</span>
                 <span>{user.gems} 💎</span>
               </div>
-              <p className="text-sm text-gray-300">Signed in as {user.email}</p>
-              <Link
-                className="font-semibold gap-x-2 flex items-center"
-                href={"/settings"}
-              >
-                <Settings size={16} />
-                Options
-              </Link>
-              <Link
-                className="font-semibold gap-x-2 flex items-center"
-                href={"/signout"}
-              >
-                <ExternalLink size={16} />
-                Sign-out
-              </Link>
-            </div>
-          </MyDialog>
-
-          <header className="h-20 hidden bg-[#151520] shadow-lg border-b-2 border-[#18181B] md:flex items-center w-full justify-between px-2 md:px-6">
-            <div className="flex items-center space-x-2 md:space-x-4">
-              <div className="text-lg md:text-2xl font-bold text-[#d4af37]">
-                Risk Realm
-              </div>
-            </div>
-            <div className="h-full gap-x-2 flex items-center">
-              {streakClaimable && <DailyRewards user={user} />}
-              <Tooltip
-                content={
-                  <div className="flex flex-col gap-y-2">
-                    RiskRealm uses 2 types of currencies:
-                    <span> - Tickets 🎫</span>
-                    <span> - Gems 💎</span>
-                  </div>
-                }
-              >
-                <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
-                  <span>{user.tickets} 🎫</span>
-                  <span>{user.gems} 💎</span>
-                </div>
-              </Tooltip>
-              <Popover
-                trigger={
-                  <button
-                    type="button"
-                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
-                  >
-                    <User size={28} color="#ce9aff" />
-                    <span>{user.username}</span>
-                  </button>
-                }
-              >
-                <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
-                  <h2 className="font-semibold">My profile</h2>
-                  <p className="text-sm text-gray-300">
-                    Signed in as {user.email}
-                  </p>
-                  <Link
-                    className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}
-                  >
-                    <Settings size={16} />
-                    Options
-                  </Link>
-                  <Link
-                    className="font-semibold gap-x-2 flex items-center"
-                    href={"/signout"}
-                  >
-                    <ExternalLink size={16} />
-                    Sign-out
-                  </Link>
-                </div>
-              </Popover>
-            </div>
-          </header>
-
-          <main className="relative text-center flex-grow items-center">
-            <h1
-              className={
-                "md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10 px-4"
+            </Tooltip>
+            <Popover
+              trigger={
+                <button
+                  type="button"
+                  className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
+                >
+                  <User size={28} color="#ce9aff" />
+                  <span>{user.username}</span>
+                </button>
               }
             >
-              Welcome back, {user.username}!
-            </h1>
-            <p
-              className={`${orbitron.className} self-start text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold`}
-            >
-              Ready to make some money?
-            </p>
-            <div className="mt-6 md:mt-10 w-full px-4">
-              <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
-                Just for you:
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <SimpleCard
-                  title="🎰 Slots 🎰"
-                  description="Spin the reels on our wide selection of classic and modern slot games!"
-                />
-                <SimpleCard
-                  title="🃏 Cards 🃏"
-                  description="Test your skills and strategies in thrilling card games with competitive odds!"
-                />
-                <SimpleCard
-                  title="💰🧰 Cases 🧰💰"
-                  description="Open cases, win big, and feel the adrenaline rush of every drop!"
-                />
-                <SimpleCard
-                  title="⚪️ Roulette 🔴"
-                  description="Spin the roulette and pray for the best!"
-                />
+              <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
+                <h2 className="font-semibold">My profile</h2>
+                <p className="text-sm text-gray-300">
+                  Signed in as {user.email}
+                </p>
+                <Link
+                  className="font-semibold gap-x-2 flex items-center"
+                  href={"/settings"}
+                >
+                  <Settings size={16} />
+                  Options
+                </Link>
+                <Link
+                  className="font-semibold gap-x-2 flex items-center"
+                  href={"/signout"}
+                >
+                  <ExternalLink size={16} />
+                  Sign-out
+                </Link>
               </div>
-            </div>
-            <div className="mt-6 md:mt-10 w-full px-4">
-              <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
-                Trending right now:
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-2 gap-6 h-150">
-                <div className="bg-[#18181b] border border-[#28282b] px-2 py-24 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
-                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                    idk yet
-                  </h3>
-                  <p className="text-[#D4AF37] text-sm md:text-base">
-                    ignore this for now
-                  </p>
-                </div>
-                <div className="bg-[#18181b] border border-[#28282b] px-2 py-24 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
-                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                    idk yet
-                  </h3>
-                  <p className="text-[#D4AF37] text-sm md:text-base">
-                    ignore this for now
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-6 md:mt-10 w-full px-4">
-              <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
-                Most played:
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <SimpleCard
-                  title="🎰 Slots 🎰"
-                  description="Spin the reels on our wide selection of classic and modern slot games!"
-                />
-                <SimpleCard
-                  title="🃏 Cards 🃏"
-                  description="Test your skills and strategies in thrilling card games with competitive odds!"
-                />
-                <SimpleCard
-                  title="💰🧰 Cases 🧰💰"
-                  description="Open cases, win big, and feel the adrenaline rush of every drop!"
-                />
-                <SimpleCard
-                  title="💰🎁 Daily rewards 🎁💰"
-                  description="Gamble and login every day to gain maximum bonus!"
-                />
-              </div>
-            </div>
-          </main>
-        </div>
-
-        <footer className="h-16 flex mt-auto items-center justify-center border-t border-gray-800 bg-[#181825]">
-          <p className="text-[#D4AF37] text-xs md:text-sm">
-            © 2025 Risk Realm. All Rights Reserved. Gamble until zero.
+            </Popover>
+          </div>
+        </header>
+        <main
+          className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
+            isNavOpen ? "ml-64" : "ml-0"
+          }`}
+        >
+          <h1
+            className={
+              "md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10 px-4"
+            }
+          >
+            Welcome back, {user.username}!
+          </h1>
+          <p
+            className={`${orbitron.className} self-start text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
+          >
+            Ready to make some money?
           </p>
-        </footer>
+          <div className="mt-6 md:mt-10 w-full px-4">
+            <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
+              Just for you:
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <SimpleCard
+                title="🎰 Slots 🎰"
+                description="Spin the reels on our wide selection of classic and modern slot games!"
+              />
+              <SimpleCard
+                title="🃏 Cards 🃏"
+                description="Test your skills and strategies in thrilling card games with competitive odds!"
+              />
+              <SimpleCard
+                title="💰🧰 Cases 🧰💰"
+                description="Open cases, win big, and feel the adrenaline rush of every drop!"
+              />
+              <SimpleCard
+                title="⚪️ Roulette 🔴"
+                description="Spin the roulette and pray for the best!"
+              />
+            </div>
+          </div>
+          <div className="mt-6 md:mt-10 w-full px-4">
+            <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
+              Trending right now:
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-6 h-150">
+              <div className="bg-[#18181b] border border-[#28282b] px-2 py-24 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                  idk yet
+                </h3>
+                <p className="text-[#D4AF37] text-sm md:text-base">
+                  ignore this for now
+                </p>
+              </div>
+
+              <div className="bg-[#18181b] border border-[#28282b] px-2 py-24 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                  idk yet
+                </h3>
+                <p className="text-[#D4AF37] text-sm md:text-base">
+                  ignore this for now
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="mt-6 md:mt-10 w-full px-4">
+            <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
+              Most played:
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <SimpleCard
+                title="🎰 Slots 🎰"
+                description="Spin the reels on our wide selection of classic and modern slot games!"
+              />
+              <SimpleCard
+                title="🃏 Cards 🃏"
+                description="Test your skills and strategies in thrilling card games with competitive odds!"
+              />
+              <SimpleCard
+                title="💰🧰 Cases �💰"
+                description="Open cases, win big, and feel the adrenaline rush of every drop!"
+              />
+              <SimpleCard
+                title="💰🎁 Daily rewards 🎁💰"
+                description="Gamble and login every day to gain maximum bonus!"
+              />
+            </div>
+          </div>
+        </main>
       </div>
+
+      <footer className="h-16 flex mt-auto items-center justify-center border-t border-gray-800 bg-[#181825]">
+        <p className="text-[#D4AF37] text-xs md:text-sm">
+          © 2025 Risk Realm. All Rights Reserved. Gamble until zero.
+        </p>
+      </footer>
     </div>
   );
 }
