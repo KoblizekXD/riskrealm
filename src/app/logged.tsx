@@ -272,7 +272,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                 description="Test your skills and strategies in thrilling card games with competitive odds!"
               />
               <SimpleCard
-                title="💰🧰 Cases �💰"
+                title="💰🧰 Cases 🧰💰"
                 description="Open cases, win big, and feel the adrenaline rush of every drop!"
               />
               <SimpleCard
