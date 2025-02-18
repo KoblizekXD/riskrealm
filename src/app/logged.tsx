@@ -49,17 +49,18 @@ export default function LoggedInPage({ user }: { user: UserType }) {
         }`}
       >
         <div className="p-4">
-          <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-[#d4af37] border-b-2 border-[#d4af37]">Risk Realm</h2>
-          <button
-                onClick={() => setIsNavOpen(!isNavOpen)}
-                className="text-lg md:text-2xl font-bold text-[#d4af37] cursor-pointer"
-              >
-                X
-              </button>
+            <div className="flex items-center space-x-2 md:space-x-4 justify-between">
+              <h2 className="text-2xl font-bold text-[#d4af37] border-b-2 border-[#d4af37]">Risk Realm</h2>
+                <button
+                  onClick={() => setIsNavOpen(!isNavOpen)}
+                  className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform "
+                >
+                  X
+                </button>
+            </div>
           </div>
           
-          <ul className="mt-4">
+          <ul className="p-4">
             <li className="mb-2">
               <Link href="/" className="text-[#D4AF37] hover:text-[#FFD700]">
                 Home
@@ -82,7 +83,6 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             </li>
           </ul>
         </div>
-      </div>
     );
   }
 
@@ -94,100 +94,106 @@ export default function LoggedInPage({ user }: { user: UserType }) {
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
       <Navbar isOpen={isNavOpen} />
       <div className="flex flex-col items-center">
-        <MyDialog
-          title="Menu"
-          className="w-[90vw]"
-          trigger={
-            <div className="fixed cursor-pointer hover:scale-105 transition-transform right-2 top-2 p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
-              <Menu size={32} className="stroke-white" />
-            </div>
-          }
+        
+      <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
+  <div className={`flex items-center space-x-2 md:space-x-4`}>
+    <button
+      onClick={() => setIsNavOpen(!isNavOpen)}
+      className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform"
+    >
+      ☰
+    </button>
+    <div className="text-2xl md:text-2xl font-bold text-[#d4af37]">
+      Risk Realm
+    </div>
+  </div>
+
+
+  <div className="flex items-center">
+    <MyDialog
+      title="Menu"
+      className="w-[90vw]"
+      trigger={
+        <div className="cursor-pointer hover:scale-105 transition-transform p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
+          <Menu size={32} className="stroke-white" />
+        </div>
+      }
+    >
+      <div className="flex flex-col gap-y-2">
+        <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
+          Balance:
+          <span>{user.tickets} 🎫</span>
+          <span>{user.gems} 💎</span>
+        </div>
+        <p className="text-sm text-gray-300">Signed in as {user.email}</p>
+        <Link
+          className="font-semibold gap-x-2 flex items-center"
+          href={"/settings"}
         >
+          <Settings size={16} />
+          Options
+        </Link>
+        <Link
+          className="font-semibold gap-x-2 flex items-center"
+          href={"/signout"}
+        >
+          <ExternalLink size={16} />
+          Sign-out
+        </Link>
+      </div>
+    </MyDialog>
+
+    <div className="h-full gap-x-2 items-center hidden md:flex">
+      {streakClaimable && <DailyRewards user={user} />}
+      <Tooltip
+        content={
           <div className="flex flex-col gap-y-2">
-            <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
-              Balance:
-              <span>{user.tickets} 🎫</span>
-              <span>{user.gems} 💎</span>
-            </div>
-            <p className="text-sm text-gray-300">Signed in as {user.email}</p>
-            <Link
-              className="font-semibold gap-x-2 flex items-center"
-              href={"/settings"}
-            >
-              <Settings size={16} />
-              Options
-            </Link>
-            <Link
-              className="font-semibold gap-x-2 flex items-center"
-              href={"/signout"}
-            >
-              <ExternalLink size={16} />
-              Sign-out
-            </Link>
+            RiskRealm uses 2 types of currencies:
+            <span> - Tickets 🎫</span>
+            <span> - Gems 💎</span>
           </div>
-        </MyDialog>
-        <header className="h-20 hidden bg-[#151520] shadow-lg border-b-2 border-[#18181B] md:flex items-center w-full justify-between px-2 md:px-6">
-          <div className="flex items-center space-x-2 md:space-x-4">
-            <button
-              onClick={() => setIsNavOpen(!isNavOpen)}
-              className="text-lg md:text-2xl font-bold text-[#d4af37] cursor-pointer"
-            >
-              ☰
-            </button>
-            <div className="text-lg md:text-2xl font-bold text-[#d4af37]">
-              Risk Realm
-            </div>
-          </div>
-          <div className="h-full gap-x-2 flex items-center">
-            {streakClaimable && <DailyRewards user={user} />}
-            <Tooltip
-              content={
-                <div className="flex flex-col gap-y-2">
-                  RiskRealm uses 2 types of currencies:
-                  <span> - Tickets 🎫</span>
-                  <span> - Gems 💎</span>
-                </div>
-              }
-            >
-              <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
-                <span>{user.tickets} 🎫</span>
-                <span>{user.gems} 💎</span>
-              </div>
-            </Tooltip>
-            <Popover
-              trigger={
-                <button
-                  type="button"
-                  className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
-                >
-                  <User size={28} color="#ce9aff" />
-                  <span>{user.username}</span>
-                </button>
-              }
-            >
-              <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
-                <h2 className="font-semibold">My profile</h2>
-                <p className="text-sm text-gray-300">
-                  Signed in as {user.email}
-                </p>
-                <Link
-                  className="font-semibold gap-x-2 flex items-center"
-                  href={"/settings"}
-                >
-                  <Settings size={16} />
-                  Options
-                </Link>
-                <Link
-                  className="font-semibold gap-x-2 flex items-center"
-                  href={"/signout"}
-                >
-                  <ExternalLink size={16} />
-                  Sign-out
-                </Link>
-              </div>
-            </Popover>
-          </div>
-        </header>
+        }
+      >
+        <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
+          <span>{user.tickets} 🎫</span>
+          <span>{user.gems} 💎</span>
+        </div>
+      </Tooltip>
+      <Popover
+        trigger={
+          <button
+            type="button"
+            className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
+          >
+            <User size={28} color="#ce9aff" />
+            <span>{user.username}</span>
+          </button>
+        }
+      >
+        <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
+          <h2 className="font-semibold">My profile</h2>
+          <p className="text-sm text-gray-300">
+            Signed in as {user.email}
+          </p>
+          <Link
+            className="font-semibold gap-x-2 flex items-center"
+            href={"/settings"}
+          >
+            <Settings size={16} />
+            Options
+          </Link>
+          <Link
+            className="font-semibold gap-x-2 flex items-center"
+            href={"/signout"}
+          >
+            <ExternalLink size={16} />
+            Sign-out
+          </Link>
+        </div>
+      </Popover>
+    </div>
+  </div>
+</header>
         <main
           className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
             isNavOpen ? "ml-64" : "ml-0"
@@ -201,7 +207,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             Welcome back, {user.username}!
           </h1>
           <p
-            className={`${orbitron.className} self-start text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
+            className={`${orbitron.className} self-start px-4 text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
           >
             Ready to make some money?
           </p>
