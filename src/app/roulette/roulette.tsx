@@ -8,8 +8,15 @@ export default function Roulette() {
     const [betValue, setBetValue] = useState<number | 'red' | 'black' | 'odd' | 'even'>(0);
     const [result, setResult] = useState<number | null>(null);
     const [color, setColor] = useState<string | null>(null);
-    const [winnings, setWinnings] = useState<number>(0);
     const [win, setWin] = useState<boolean | null>(null);
+
+    const handleBetTypeChange = (newBetType: 'number' | 'color' | 'odd-even') => {
+        setBetType(newBetType);
+        if (newBetType === 'number') setBetValue(0);
+        if (newBetType === 'color') setBetValue('red'); // Defaultně třeba red
+        if (newBetType === 'odd-even') setBetValue('odd'); // Defaultně třeba odd
+    };
+
 
     const handleSpin = async () => {
         const betResult = await PlaceBet(betType, betValue);
@@ -20,14 +27,14 @@ export default function Roulette() {
         
     };
     
-
     return (
         <div className="bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#d0bfff] flex flex-col items-center justify-center h-screen text-center">
             <h1 className="text-4xl font-bold mb-4 text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A]">Roulette</h1>
             
             <div className="mb-4">
                 <label>Bet Type: </label>
-                <select value={betType} onChange={(e) => setBetType(e.target.value as 'number' | 'color' | 'odd-even')}>
+                <select value={betType} onChange={(e) => handleBetTypeChange(e.target.value as 'number' | 'color' | 'odd-even')}>
+
                     <option value="number">Number</option>
                     <option value="color">Color</option>
                     <option value="odd-even">Odd/Even</option>
