@@ -9,6 +9,11 @@ import { canClaimStreak } from "@/lib/supabase/actions";
 import { ExternalLink, Menu, Settings, User } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
+import SlotPic from "./assets/slotpic.jpg"
+import CardsPic from "./assets/cardspic.jpg"
+import CasePic from "./assets/casepic.jpg"
+import RoulettePic from "./assets/roulettepic.jpg"
+import BlackjackPic from "./assets/blackjack.jpg"
 import { useEffect, useState } from "react";
 
 export const orbitron = Orbitron({
@@ -20,12 +25,15 @@ export const orbitron = Orbitron({
 function SimpleCard({
   description,
   title,
+  image,
 }: {
   description: string;
   title: string;
+  image?: string;
 }) {
   return (
-    <div className="bg-[#18181b] border border-[#28282b] px-2 py-24 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+    <div className="bg-[#18181b] border border-[#28282b] px-2 py-12 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+      {image && <img src={image} alt={title} className="w-auto h-42 mb-2 rounded-md" />}
       <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
         {title}
       </h3>
@@ -33,6 +41,8 @@ function SimpleCard({
     </div>
   );
 }
+
+
 
 export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
@@ -226,18 +236,23 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               <SimpleCard
                 title="🎰 Slots 🎰"
                 description="Spin the reels on our wide selection of classic and modern slot games!"
+                image={SlotPic.src} 
               />
+
               <SimpleCard
                 title="🃏 Cards 🃏"
                 description="Test your skills and strategies in thrilling card games with competitive odds!"
+                image={CardsPic.src}
               />
               <SimpleCard
                 title="💰🧰 Cases 🧰💰"
                 description="Open cases, win big, and feel the adrenaline rush of every drop!"
+                image={CasePic.src}
               />
               <SimpleCard
                 title="⚪️ Roulette 🔴"
                 description="Spin the roulette and pray for the best!"
+                image={RoulettePic.src}
               />
             </div>
           </div>
@@ -245,25 +260,29 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
               Trending right now:
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-6 h-150">
-              <div className="bg-[#18181b] border border-[#28282b] px-2 py-24 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+            <div className="mt-6 md:mt-10 w-full px-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
+              <div className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <img src={BlackjackPic.src} alt="High Stakes" className="w-full h-60 object-cover rounded-md mb-2" />
                 <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                  idk yet
+                  🔥 Blackjack 🔥
                 </h3>
                 <p className="text-[#D4AF37] text-sm md:text-base">
-                  ignore this for now
+                  Take your chances with high-risk, high-reward bets!
                 </p>
               </div>
 
-              <div className="bg-[#18181b] border border-[#28282b] px-2 py-24 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+              <div className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <img src={RoulettePic.src} alt="Roulette Madness" className="w-full h-60 object-cover rounded-md mb-2" />
                 <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                  idk yet
+                  🎡 Roulette Madness 🎡
                 </h3>
                 <p className="text-[#D4AF37] text-sm md:text-base">
-                  ignore this for now
+                  Bet big, win bigger – spin the wheel now!
                 </p>
               </div>
             </div>
+          </div>
           </div>
           <div className="mt-6 md:mt-10 w-full px-4">
             <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
