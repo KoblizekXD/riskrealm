@@ -6,15 +6,15 @@ import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
 import { canClaimStreak } from "@/lib/supabase/actions";
-import { ExternalLink, Menu, Settings, User } from "lucide-react";
+import { ExternalLink, Menu, Settings, User, X } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
-import SlotPic from "./assets/slotpic.jpg"
-import CardsPic from "./assets/cardspic.jpg"
-import CasePic from "./assets/casepic.jpg"
-import RoulettePic from "./assets/roulettepic.jpg"
-import BlackjackPic from "./assets/blackjack.jpg"
 import { useEffect, useState } from "react";
+import BlackjackPic from "./assets/blackjack.jpg";
+import CardsPic from "./assets/cardspic.jpg";
+import CasePic from "./assets/casepic.jpg";
+import RoulettePic from "./assets/roulettepic.jpg";
+import SlotPic from "./assets/slotpic.jpg";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -33,7 +33,9 @@ function SimpleCard({
 }) {
   return (
     <div className="bg-[#18181b] border border-[#28282b] px-2 py-12 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
-      {image && <img src={image} alt={title} className="w-auto h-42 mb-2 rounded-md" />}
+      {image && (
+        <img src={image} alt={title} className="w-auto h-42 mb-2 rounded-md" />
+      )}
       <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
         {title}
       </h3>
@@ -42,63 +44,67 @@ function SimpleCard({
   );
 }
 
-
-
 export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   function Navbar({ isOpen }: { isOpen: boolean }) {
     return (
-      <div
-        className={`fixed left-0 top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${
-          isOpen ? "w-64" : "hidden"
-        }`}
-      >
-        <div className="p-4">
-          <div className="flex items-center space-x-2 md:space-x-4 justify-between">
-            <h2 className="text-2xl font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
-              Risk Realm
-            </h2>
-            <button
-              type="button"
-              onClick={() => setIsNavOpen(!isNavOpen)}
-              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform "
-            >
-              X
-            </button>
+      <>
+        <div onClick={() => setIsNavOpen(false)} className={`w-screen fixed h-screen bg-black/50 z-40 ${isOpen ? "block" : "hidden"}`} />
+        <div
+          className={`fixed left-0 overflow-hidden overflow-x-hidden top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${
+            isOpen ? "w-64" : "w-0"
+          }`}
+        >
+          <div className="p-4">
+            <div className="flex items-center space-x-2 md:space-x-4 justify-between">
+              <h2 className="text-2xl -translate-y-[1px] font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
+                Risk Realm
+              </h2>
+              <button
+                type="button"
+                onClick={() => setIsNavOpen(!isNavOpen)}
+                className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform "
+              >
+                <X />
+              </button>
+            </div>
           </div>
-        </div>
 
-        <ul className="p-4">
-          <li className="mb-2">
-            <Link href="/" className="text-[#D4AF37] hover:text-[#FFD700]">
-              Home
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link href="/games" className="text-[#D4AF37] hover:text-[#FFD700]">
-              Games
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link
-              href="/profile"
-              className="text-[#D4AF37] hover:text-[#FFD700]"
-            >
-              Profile
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link
-              href="/settings"
-              className="text-[#D4AF37] hover:text-[#FFD700]"
-            >
-              Settings
-            </Link>
-          </li>
-        </ul>
-      </div>
+          <ul className="p-4">
+            <li className="mb-2">
+              <Link href="/" className="text-[#D4AF37] hover:text-[#FFD700]">
+                Home
+              </Link>
+            </li>
+            <li className="mb-2">
+              <Link
+                href="/games"
+                className="text-[#D4AF37] hover:text-[#FFD700]"
+              >
+                Games
+              </Link>
+            </li>
+            <li className="mb-2">
+              <Link
+                href="/profile"
+                className="text-[#D4AF37] hover:text-[#FFD700]"
+              >
+                Profile
+              </Link>
+            </li>
+            <li className="mb-2">
+              <Link
+                href="/settings"
+                className="text-[#D4AF37] hover:text-[#FFD700]"
+              >
+                Settings
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </>
     );
   }
 
@@ -117,9 +123,9 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               onClick={() => setIsNavOpen(!isNavOpen)}
               className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform"
             >
-              ☰
+              <Menu />
             </button>
-            <div className="text-2xl md:text-2xl font-bold text-[#d4af37]">
+            <div className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
               Risk Realm
             </div>
           </div>
@@ -236,7 +242,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               <SimpleCard
                 title="🎰 Slots 🎰"
                 description="Spin the reels on our wide selection of classic and modern slot games!"
-                image={SlotPic.src} 
+                image={SlotPic.src}
               />
 
               <SimpleCard
@@ -261,28 +267,36 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               Trending right now:
             </h2>
             <div className="mt-6 md:mt-10 w-full px-4">
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
-              <div className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
-                <img src={BlackjackPic.src} alt="High Stakes" className="w-full h-60 object-cover rounded-md mb-2" />
-                <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                  🔥 Blackjack 🔥
-                </h3>
-                <p className="text-[#D4AF37] text-sm md:text-base">
-                  Take your chances with high-risk, high-reward bets!
-                </p>
-              </div>
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
+                <div className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  <img
+                    src={BlackjackPic.src}
+                    alt="High Stakes"
+                    className="w-full h-60 object-cover rounded-md mb-2"
+                  />
+                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                    🔥 Blackjack 🔥
+                  </h3>
+                  <p className="text-[#D4AF37] text-sm md:text-base">
+                    Take your chances with high-risk, high-reward bets!
+                  </p>
+                </div>
 
-              <div className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
-                <img src={RoulettePic.src} alt="Roulette Madness" className="w-full h-60 object-cover rounded-md mb-2" />
-                <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                  🎡 Roulette Madness 🎡
-                </h3>
-                <p className="text-[#D4AF37] text-sm md:text-base">
-                  Bet big, win bigger – spin the wheel now!
-                </p>
+                <div className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  <img
+                    src={RoulettePic.src}
+                    alt="Roulette Madness"
+                    className="w-full h-60 object-cover rounded-md mb-2"
+                  />
+                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                    🎡 Roulette Madness 🎡
+                  </h3>
+                  <p className="text-[#D4AF37] text-sm md:text-base">
+                    Bet big, win bigger – spin the wheel now!
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
           </div>
           <div className="mt-6 md:mt-10 w-full px-4">
             <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
