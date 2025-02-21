@@ -6,6 +6,19 @@ const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 let deck: string[] = [];
 let playerBalance = 1000000; 
 
+const messages = [
+    "So close! Maybe next time luck will be on your side!",
+    "Even the best have off days. Give it another shot!",
+    "Luck is like a cat—sometimes it comes when you least expect it!",
+    "Hey, every legend has a comeback story!",
+    "The reels owe you one! Try again?",
+    "That was just a warm-up, right?",
+    "Think of it as paying rent for the jackpot!",
+    "The casino gods demand more sacrifices!"
+  ];
+  
+  const getRandomMessage = () => messages[Math.floor(Math.random() * messages.length)];
+
 function initializeDeck() {
     deck = [];
     for (let suit of suits) {
@@ -55,6 +68,7 @@ export async function startGame(bet: number) {
     if (bet > playerBalance) {
         throw new Error('Insufficient balance');
     }
+    let oldBalance = playerBalance;
     playerBalance -= bet;
     initializeDeck();
     const playerHand = [dealCard(), dealCard()];
@@ -65,6 +79,7 @@ export async function startGame(bet: number) {
         playerScore: calculateScore(playerHand),
         dealerScore: calculateScore(dealerHand),
         playerBalance,
+        oldBalance,
         gameOver: false,
         bet
     };
@@ -90,22 +105,27 @@ export async function stand(dealerHand: string[], playerScore: number, bet: numb
         currentDealerHand.push(dealCard());
         currentDealerScore = calculateScore(currentDealerHand);
     }
-
+    
     let result = "Draw";
-    let resultMsg = "No money was taken";
+    let resultMsg = "";
+    let winner = "";
     if (currentDealerScore > 21) {
         result = "Player wins!";
+        winner = "player";
         playerBalance += bet * 2;
-        resultMsg = "You win: " + bet * 2;
+        resultMsg = "You win: " + bet;
     } else if (currentDealerScore > playerScore) {
         result = "Dealer wins!";
-        resultMsg = "You lose: " + bet;
+        winner = "dealer";
+        resultMsg = getRandomMessage();
     } else if (currentDealerScore < playerScore) {
         result = "Player wins!";
         playerBalance += bet * 2;
-        resultMsg = "You win: " + bet * 2;
+        resultMsg = "You win: " + bet;
+        winner = "player";
     } else {
         playerBalance += bet;
+        resultMsg = "No money was taken";
     }
 
     return {
@@ -114,7 +134,8 @@ export async function stand(dealerHand: string[], playerScore: number, bet: numb
         gameOver: true,
         result,
         playerBalance,
-        resultMsg
+        resultMsg,
+        winner
     };
 }
 
