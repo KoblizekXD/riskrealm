@@ -265,13 +265,15 @@ export default function BlackJack({ user }: { user: UserType }) {
           </div>
         </header>
         <main
-          className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
+          className={`relative text-center flex-grow p-4 lg:p-4 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
             isNavOpen ? "ml-64" : "ml-0"
           }`}
         >
           <div className="w-full max-w-6xl p-8">
   <h1 className="text-4xl font-bold mb-4 text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A]">Blackjack</h1>
-  <div className="mb-4 flex flex-col md:flex-row items-center justify-center gap-4">
+  <div className="mb-4 flex flex-col items-center justify-center gap-4">
+
+  <div className="flex flex-col md:flex-row items-center justify-center gap-4">
     <p className="text-xl text-[#FFD700]">Balance: ${playerBalance}</p>
     <input
       type="number"
@@ -281,7 +283,6 @@ export default function BlackJack({ user }: { user: UserType }) {
         if (value === "") {
           setBet(null);
         } else {
-          
           const parsedValue = parseInt(value, 10);
           if (!isNaN(parsedValue)) {
             setBet(parsedValue);
@@ -292,17 +293,57 @@ export default function BlackJack({ user }: { user: UserType }) {
       className="p-2 rounded text-white bg-[#11111B] border border-[#D4AF37] focus:outline-none focus:ring focus:ring-[#D4AF37] focus:ring-opacity-50 transition-colors"
       disabled={gameStarted}
     />
+  </div>
 
+
+  <div className="flex flex-wrap gap-2 justify-center">
     <button
-      onClick={handleStart}
+      onClick={() => setBet(playerBalance)}
       disabled={gameStarted}
-      className="p-2 bg-[#D4AF37] text-white rounded hover:bg-[#FFD700] hover:text-black transition-colors cursor-pointer"
+      className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer"
     >
-      Deal
+      All In
+    </button>
+    <button
+      onClick={() => setBet(Math.floor(playerBalance / 2))}
+      disabled={gameStarted}
+      className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer"
+    >
+      Half
+    </button>
+    <button
+      onClick={() => setBet((prevBet) => (prevBet !== null ? prevBet + 100 : 100))}
+      disabled={gameStarted}
+      className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer"
+    >
+      +100
+    </button>
+    <button
+      onClick={() => setBet((prevBet) => (prevBet !== null ? prevBet + 500 : 500))}
+      disabled={gameStarted}
+      className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer"
+    >
+      +500
+    </button>
+    <button
+      onClick={() => setBet((prevBet) => (prevBet !== null ? prevBet + 1000 : 1000))}
+      disabled={gameStarted}
+      className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer"
+    >
+      +1000
     </button>
   </div>
-  <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-4">
-    <button
+
+
+  <div className="flex items-center justify-center gap-4">
+  <button
+    onClick={handleStart}
+    disabled={gameStarted}
+    className="p-2 bg-[#D4AF37] text-white rounded hover:bg-[#FFD700] hover:text-black transition-colors cursor-pointer"
+  >
+    Deal
+  </button>
+  <button
       onClick={handleHit}
       disabled={!gameStarted || gameOver}
       className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors cursor-pointer"
@@ -316,6 +357,10 @@ export default function BlackJack({ user }: { user: UserType }) {
     >
       Stand
     </button>
+    </div>
+</div>
+  <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-4">
+    
   </div>
 
   <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-4">
