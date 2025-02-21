@@ -51,7 +51,7 @@ export default function MinesGame() {
 
     return (
         <div className="bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#d0bfff] flex flex-col items-center justify-center h-screen text-center">
-            <h1 className="text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-4xl font-bold mb-4">Mines</h1>
+            <h1 className="text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-5xl font-bold mb-16">Mines</h1>
             <div className="grid grid-cols-5 gap-2">
                 {board.map((revealed, index) => (
                     <button
