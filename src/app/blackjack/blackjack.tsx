@@ -30,10 +30,12 @@ export default function BlackJack({ user }: { user: UserType }) {
   const [dealerScore, setDealerScore] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [result, setResult] = useState<string>("");
-  const [playerBalance, setPlayerBalance] = useState<number>(1000);
+  const [resultMsg, setResultMsg] = useState<string>("");
+  const [playerBalance, setPlayerBalance] = useState<number>(0);
   const [bet, setBet] = useState<number>(0);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [showBalanceError, setShowBalanceError] = useState<boolean>(false);
+  const [showResultPopup, setShowResultPopup] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchGameState = async () => {
@@ -55,6 +57,7 @@ export default function BlackJack({ user }: { user: UserType }) {
     setDealerScore(gameState.dealerScore);
     setGameOver(gameState.gameOver);
     setResult("");
+    setResultMsg("");
     setPlayerBalance(gameState.playerBalance);
     setGameStarted(true);
   };
@@ -66,6 +69,7 @@ export default function BlackJack({ user }: { user: UserType }) {
     setGameOver(gameState.gameOver);
     if (gameState.gameOver) {
       setResult("Player busts! Dealer wins!");
+      setShowResultPopup(true);
     }
   };
 
@@ -75,7 +79,9 @@ export default function BlackJack({ user }: { user: UserType }) {
     setDealerScore(gameState.dealerScore);
     setGameOver(gameState.gameOver);
     setResult(gameState.result);
+    setResultMsg(gameState.resultMsg);
     setPlayerBalance(gameState.playerBalance);
+    setShowResultPopup(true);
   };
 
   const handleReset = () => {
@@ -85,8 +91,10 @@ export default function BlackJack({ user }: { user: UserType }) {
     setDealerScore(0);
     setGameOver(false);
     setResult("");
+    setResultMsg("");
     setBet(0);
     setGameStarted(false);
+    setShowResultPopup(false);
   };
 
   function Navbar({ isOpen }: { isOpen: boolean }) {
@@ -245,38 +253,37 @@ export default function BlackJack({ user }: { user: UserType }) {
             isNavOpen ? "ml-64" : "ml-0"
           }`}
         >
-          <div className="w-full max-w-4xl bg-green-900 p-8 rounded-lg shadow-lg border-2 border-green-800">
-            <h1 className="text-4xl font-bold mb-4 text-[#FFD700]">Blackjack</h1>
-            <div className="mb-4">
+          <div className="w-full max-w-6xl p-8">
+            <h1 className="text-4xl font-bold mb-4 text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A]">Blackjack</h1>
+            <div className="mb-4 flex flex-col md:flex-row items-center justify-center gap-4">
+              <p className="text-xl text-[#FFD700]">Balance: ${playerBalance}</p>
               <input
-  type="number"
-  value={bet === null ? "" : bet} // Show blank if bet is null
-  onChange={(e) => {
-    const value = e.target.value;
-    // If the input is blank, set bet to null
-    if (value === "") {
-      setBet(null);
-    } else {
-      // Otherwise, parse the value as an integer
-      const parsedValue = parseInt(value, 10);
-      if (!isNaN(parsedValue)) {
-        setBet(parsedValue);
-      }
-    }
-  }}
-  placeholder="Place your bet"
-  className="p-2 text-black rounded"
-  disabled={gameStarted}
-/>
+                type="number"
+                value={bet === null ? "" : bet}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === "") {
+                    setBet(null);
+                  } else {
+                    const parsedValue = parseInt(value, 10);
+                    if (!isNaN(parsedValue)) {
+                      setBet(parsedValue);
+                    }
+                  }
+                }}
+                placeholder="Place your bet"
+                className="p-2 rounded text-white bg-[#11111B] border border-[#D4AF37] focus:outline-none focus:ring focus:ring-[#D4AF37] focus:ring-opacity-50 transition-colors"
+                disabled={gameStarted}
+              />
               <button
                 onClick={handleStart}
                 disabled={gameStarted}
-                className="ml-2 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
               >
                 Deal
               </button>
             </div>
-            <div className="flex justify-center space-x-4 mb-4">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-4">
               <button
                 onClick={handleHit}
                 disabled={!gameStarted || gameOver}
@@ -291,46 +298,35 @@ export default function BlackJack({ user }: { user: UserType }) {
               >
                 Stand
               </button>
-              <button
-                onClick={handleReset}
-                disabled={!gameStarted}
-                className="p-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors"
-              >
-                Reset
-              </button>
             </div>
 
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-4">
             <div className="mb-4">
-              <h2 className="text-2xl font-bold text-[#FFD700]">
-                Dealer's Hand ({gameOver ? dealerScore : '?'})
-              </h2>
-              <div className="flex space-x-2">
-                {dealerHand.map((card, index) => (
-                  <Card
-                    key={index}
-                    card={card}
-                    isHidden={!gameOver && index === 1}
-                  />
-                ))}
+                <h2 className="text-2xl font-bold text-[#FFD700]">
+                  Your Hand ({playerScore})
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {playerHand.map((card, index) => (
+                    <Card key={index} card={card} />
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="mb-4">
-              <h2 className="text-2xl font-bold text-[#FFD700]">
-                Your Hand ({playerScore})
-              </h2>
-              <div className="flex space-x-2">
-                {playerHand.map((card, index) => (
-                  <Card key={index} card={card} />
-                ))}
+              <div className="mb-4">
+                <h2 className="text-2xl font-bold text-[#FFD700]">
+                  Dealer's Hand ({gameOver ? dealerScore : '?'})
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {dealerHand.map((card, index) => (
+                    <Card
+                      key={index}
+                      card={card}
+                      isHidden={!gameOver && index === 1}
+                    />
+                  ))}
+                </div>
               </div>
+              
             </div>
-            <div className="mb-4">
-              <p className="text-xl text-[#FFD700]">Balance: ${playerBalance}</p>
-            </div>
-
-            {result && (
-              <p className="text-xl font-bold text-[#FFD700]">{result}</p>
-            )}
           </div>
 
           {showBalanceError && (
@@ -340,6 +336,25 @@ export default function BlackJack({ user }: { user: UserType }) {
                 <p className="text-gray-300">You don't have enough balance to place this bet.</p>
                 <button
                   onClick={() => setShowBalanceError(false)}
+                  className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+
+          {showResultPopup && (
+            <div className="fixed inset-0  backdrop-blur-[2px] flex items-center justify-center">
+              <div className="bg-[#11111B]/90  p-6 rounded-lg shadow-lg backdrop-blur-[2px] border border-[#D4AF37]">
+                <h2 className="text-2xl font-bold text-[#FFD700] mb-4">{result}</h2>
+                <p>Player: {playerScore}</p>
+                <p>Dealer: {dealerScore}</p>
+                <br></br>
+                <p>{resultMsg}</p>
+                <p>Your balance: ${playerBalance - bet} ➜ ${playerBalance}</p>
+                <button
+                  onClick={handleReset}
                   className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
                 >
                   Close

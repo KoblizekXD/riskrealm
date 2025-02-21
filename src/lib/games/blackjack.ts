@@ -4,7 +4,7 @@ const suits = ['H', 'D', 'C', 'S'];
 const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 
 let deck: string[] = [];
-let playerBalance = 1000; 
+let playerBalance = 1000000; 
 
 function initializeDeck() {
     deck = [];
@@ -92,14 +92,18 @@ export async function stand(dealerHand: string[], playerScore: number, bet: numb
     }
 
     let result = "Draw";
+    let resultMsg = "No money was taken";
     if (currentDealerScore > 21) {
         result = "Player wins!";
         playerBalance += bet * 2;
+        resultMsg = "You win: " + bet * 2;
     } else if (currentDealerScore > playerScore) {
         result = "Dealer wins!";
+        resultMsg = "You lose: " + bet;
     } else if (currentDealerScore < playerScore) {
         result = "Player wins!";
         playerBalance += bet * 2;
+        resultMsg = "You win: " + bet * 2;
     } else {
         playerBalance += bet;
     }
@@ -109,7 +113,8 @@ export async function stand(dealerHand: string[], playerScore: number, bet: numb
         dealerScore: currentDealerScore,
         gameOver: true,
         result,
-        playerBalance
+        playerBalance,
+        resultMsg
     };
 }
 
