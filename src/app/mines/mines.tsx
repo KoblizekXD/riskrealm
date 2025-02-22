@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Bomb } from 'lucide-react';
 
 const GRID_SIZE = 5;
@@ -27,6 +27,10 @@ export default function MinesGame() {
         setGameOver(false);
         setResult("");
     };
+
+    useEffect(() => {
+        handleStart();
+    }, []);
 
     const handleRevealTile = (index: number) => {
         if (gameOver || board[index]) return;
