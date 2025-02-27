@@ -6,7 +6,7 @@ import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
 import { canClaimStreak } from "@/lib/supabase/actions";
-import { ExternalLink, Menu, Settings, User, X } from "lucide-react";
+import { CandlestickChart, ChartCandlestick, ExternalLink, Menu, Settings, User, X } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -53,8 +53,8 @@ export default function LoggedInPage({ user }: { user: UserType }) {
       <>
         <div onClick={() => setIsNavOpen(false)} className={`w-screen fixed h-screen bg-black/50 z-40 ${isOpen ? "block" : "hidden"}`} />
         <div
-          className={`fixed left-0 overflow-hidden overflow-x-hidden top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${
-            isOpen ? "w-64" : "w-0"
+          className={`fixed left-0 w-64 -translate-x-[100%] overflow-hidden overflow-x-hidden top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-transform duration-700 z-50 ${
+            isOpen && "translate-x-[0%]"
           }`}
         >
           <div className="p-4">
@@ -158,6 +158,13 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                 </Link>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
+                  href={"/trade"}
+                >
+                  <ChartCandlestick size={16} />
+                  Trade gems
+                </Link>
+                <Link
+                  className="font-semibold gap-x-2 flex items-center"
                   href={"/signout"}
                 >
                   <ExternalLink size={16} />
@@ -204,6 +211,13 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   >
                     <Settings size={16} />
                     Options
+                  </Link>
+                  <Link
+                    className="font-semibold gap-x-2 flex items-center"
+                    href={"/settings"}
+                  >
+                    <CandlestickChart size={16} />
+                    Trade gems
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
@@ -268,7 +282,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             </h2>
             <div className="mt-6 md:mt-10 w-full px-4">
               <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
-                <div className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <Link href={"/blackjack"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
                     src={BlackjackPic.src}
                     alt="High Stakes"
@@ -280,7 +294,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   <p className="text-[#D4AF37] text-sm md:text-base">
                     Take your chances with high-risk, high-reward bets!
                   </p>
-                </div>
+                </Link>
 
                 <div className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img

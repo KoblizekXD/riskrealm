@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { Start, Hit, DealerPlay, getGameState } from "@/lib/games/blackjack";
+import type { User } from '@/lib/schemas';
 
-export default function BlackJack() {
+export default function BlackJack({ user }: { user: User }) {
     const [playerHand, setPlayerHand] = useState<string[]>([]);
     const [dealerHand, setDealerHand] = useState<string[]>([]);
     const [playerScore, setPlayerScore] = useState<number>(0);
@@ -11,6 +12,7 @@ export default function BlackJack() {
     const [gameOver, setGameOver] = useState<boolean>(false);
     const [result, setResult] = useState<string>("");
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
         const fetchGameState = async () => {
             const gameState = await getGameState(playerHand, dealerHand, playerScore, dealerScore, gameOver);
@@ -56,9 +58,9 @@ export default function BlackJack() {
     return (
         <div className="flex flex-col items-center justify-center h-screen">
             <div className='flex flex-col'>
-                <button onClick={handleHit} disabled={gameOver}>Hit</button>
-                <button onClick={handleDealerPlay} disabled={gameOver}>Stand</button>
-                <button onClick={handleStart}>New Game</button>
+                <button type="button" onClick={handleHit} disabled={gameOver}>Hit</button>
+                <button type="button" onClick={handleDealerPlay} disabled={gameOver}>Stand</button>
+                <button type="button" onClick={handleStart}>New Game</button>
             </div>
             <div>
                 <p>Player: {playerHand.join(", ")} Score: {playerScore}</p>
