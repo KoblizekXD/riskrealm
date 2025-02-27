@@ -6,12 +6,15 @@ import { streakCalculator } from "@/lib/util";
 import { Gift, TicketsIcon } from "lucide-react";
 import { toast } from "sonner";
 import MyDialog from "./dialog";
+import { useState } from "react";
 
 export default function DailyRewards({ user }: { user: User }) {
+  const [open, setOpen] = useState(true);
   const streak = user.streak + 1;
 
   return (
     <MyDialog
+      open={open}
       trigger={
         <div className="rounded-lg bg-red-500 font-semibold text-white flex gap-x-2 duration-500 transition-colors p-2 hover:bg-white/30 cursor-pointer select-none">
           Daily rewards
@@ -50,6 +53,7 @@ export default function DailyRewards({ user }: { user: User }) {
         onClick={() => {
           claimStreak().then(() => {
             toast("Successfully claimed your daily rewards!");
+            setOpen(false);
           });
         }}
         type="button"

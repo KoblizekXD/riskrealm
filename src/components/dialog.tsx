@@ -11,6 +11,7 @@ type DialogProps = {
   children: React.ReactNode;
   title?: string;
   description?: string;
+  open?: boolean;
 } & Dialog.DialogContentProps;
 
 export default function MyDialog({
@@ -18,10 +19,11 @@ export default function MyDialog({
   children,
   title,
   description,
+  open,
   ...props
 }: DialogProps) {
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open}>
       <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 DialogOverlay bg-black/50" />
