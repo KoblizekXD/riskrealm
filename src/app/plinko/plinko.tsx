@@ -8,8 +8,8 @@ class PlinkoGame {
   private balls: { x: number; y: number; vx: number; vy: number }[] = [];
   private pegs: { x: number; y: number }[] = [];
   private multipliers: number[] = [0.5, 1, 1.5, 2, 3, 5, 3, 2, 1.5, 1, 0.5];
-  private gravity = 0.2;
-  private friction = 0.98;
+  private gravity = 0.05;
+  private friction = 0.99;
   private balance: number;
   private betAmount: number;
 
@@ -23,9 +23,13 @@ class PlinkoGame {
   }
 
   initPegs() {
-    for (let row = 0; row < 10; row++) {
-      for (let col = 0; col <= row; col++) {
-        this.pegs.push({ x: col * 50 + (250 - row * 25), y: row * 50 + 50 });
+    // Top row with 3 pegs
+    for (let row = 0; row < 8; row++) {
+      const pegsInRow = row === 0 ? 3 : row + 3; // First row has 3 pegs, others have row + 1
+      const startX = 250 - (pegsInRow - 1) * 25; // Center the pegs horizontally
+
+      for (let col = 0; col < pegsInRow; col++) {
+        this.pegs.push({ x: startX + col * 50, y: row * 50 + 50 });
       }
     }
   }
@@ -56,10 +60,9 @@ class PlinkoGame {
         const dx = ball.x - peg.x;
         const dy = ball.y - peg.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 15) {
-          const angle = Math.atan2(dy, dx);
-          ball.vx += Math.cos(angle) * 0.5;
-          ball.vy += Math.sin(angle) * 0.5;
+        if (dist < 10) {
+          ball.vx += Math.random() > 0.5 ? 1 : -1;
+          ball.vy = -ball.vy * 0.8;
         }
       });
 
@@ -74,26 +77,19 @@ class PlinkoGame {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-    // Draw pegs
-    this.ctx.fillStyle = "#FFD700";
+    this.ctx.fillStyle = "white";
     this.pegs.forEach((peg) => {
       this.ctx.beginPath();
       this.ctx.arc(peg.x, peg.y, 5, 0, Math.PI * 2);
       this.ctx.fill();
     });
-
-    // Draw balls
-    this.ctx.fillStyle = "#00FF00";
     this.balls.forEach((ball) => {
       this.ctx.beginPath();
       this.ctx.arc(ball.x, ball.y, 10, 0, Math.PI * 2);
       this.ctx.fill();
     });
 
-    // Draw multipliers
     this.ctx.fillStyle = "yellow";
-    this.ctx.font = "16px Arial";
     this.multipliers.forEach((multiplier, index) => {
       this.ctx.fillText(multiplier.toString(), index * 50 + 10, this.canvas.height - 20);
     });

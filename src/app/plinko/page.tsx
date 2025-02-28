@@ -1,11 +1,13 @@
-import { getUser } from "@/lib/supabase/actions";
-import { redirect } from "next/navigation";
-import Plinko from "./plinko";
+
+import '../globals.css'
+
+
+import { Plinko } from './components/index'
 
 export default async function Game() {
-  const user = await getUser();
+  //const user = await getUser();
 
-  if (!user) redirect("/signin");
+  //if (!user) redirect("/signin");
 
   return <Plinko />;
 }
