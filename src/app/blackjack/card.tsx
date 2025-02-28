@@ -14,7 +14,7 @@ const Card: React.FC<CardProps> = ({ card, isHidden = false }) => {
     );
   }
 
-  const cardImage = `/cards/${card}.png`;
+  const cardImage = `/Cards/${card}.png`;
 
   return (
     <div className="w-24 h-36 border border-gray-400 rounded-lg flex items-center justify-center bg-white text-black">
