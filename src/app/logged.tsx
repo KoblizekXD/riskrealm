@@ -6,7 +6,15 @@ import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
 import { canClaimStreak } from "@/lib/supabase/actions";
-import { CandlestickChart, ChartCandlestick, ExternalLink, Menu, Settings, User, X } from "lucide-react";
+import {
+  CandlestickChart,
+  ChartCandlestick,
+  ExternalLink,
+  Menu,
+  Settings,
+  User,
+  X,
+} from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -51,12 +59,14 @@ export default function LoggedInPage({ user }: { user: UserType }) {
   function Navbar({ isOpen }: { isOpen: boolean }) {
     return (
       <>
-        <div onClick={() => setIsNavOpen(false)} className={`w-screen fixed h-screen bg-black/50 z-40 ${isOpen ? "block" : "hidden"}`} />
+        <div
+          onClick={() => setIsNavOpen(false)}
+          className={`w-screen fixed h-screen bg-black/50 z-40 ${isOpen ? "block" : "hidden"}`}
+        />
         <div
           className={`fixed left-0 w-64 -translate-x-[100%] overflow-hidden overflow-x-hidden top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-transform duration-700 z-50 ${
             isOpen && "translate-x-[0%]"
-          }`}
-        >
+          }`}>
           <div className="p-4">
             <div className="flex items-center space-x-2 md:space-x-4 justify-between">
               <h2 className="text-2xl -translate-y-[1px] font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
@@ -65,8 +75,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               <button
                 type="button"
                 onClick={() => setIsNavOpen(!isNavOpen)}
-                className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform "
-              >
+                className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform ">
                 <X />
               </button>
             </div>
@@ -81,24 +90,21 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             <li className="mb-2">
               <Link
                 href="/games"
-                className="text-[#D4AF37] hover:text-[#FFD700]"
-              >
+                className="text-[#D4AF37] hover:text-[#FFD700]">
                 Games
               </Link>
             </li>
             <li className="mb-2">
               <Link
                 href="/profile"
-                className="text-[#D4AF37] hover:text-[#FFD700]"
-              >
+                className="text-[#D4AF37] hover:text-[#FFD700]">
                 Profile
               </Link>
             </li>
             <li className="mb-2">
               <Link
                 href="/settings"
-                className="text-[#D4AF37] hover:text-[#FFD700]"
-              >
+                className="text-[#D4AF37] hover:text-[#FFD700]">
                 Settings
               </Link>
             </li>
@@ -121,8 +127,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             <button
               type="button"
               onClick={() => setIsNavOpen(!isNavOpen)}
-              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform"
-            >
+              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
               <Menu />
             </button>
             <div className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
@@ -138,8 +143,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                 <div className="cursor-pointer hover:scale-105 transition-transform p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
                   <Menu size={32} className="stroke-white" />
                 </div>
-              }
-            >
+              }>
               <div className="flex flex-col gap-y-2">
                 <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
                   Balance:
@@ -151,22 +155,19 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                 </p>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/settings"}
-                >
+                  href={"/settings"}>
                   <Settings size={16} />
                   Options
                 </Link>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/trade"}
-                >
+                  href={"/trade"}>
                   <ChartCandlestick size={16} />
                   Trade gems
                 </Link>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/signout"}
-                >
+                  href={"/signout"}>
                   <ExternalLink size={16} />
                   Sign-out
                 </Link>
@@ -182,8 +183,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                     <span> - Tickets 🎫</span>
                     <span> - Gems 💎</span>
                   </div>
-                }
-              >
+                }>
                 <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
                   <span>{user.tickets} 🎫</span>
                   <span>{user.gems} 💎</span>
@@ -193,13 +193,11 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                 trigger={
                   <button
                     type="button"
-                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
-                  >
+                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer">
                     <User size={28} color="#ce9aff" />
                     <span>{user.username}</span>
                   </button>
-                }
-              >
+                }>
                 <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
                   <h2 className="font-semibold">My profile</h2>
                   <p className="text-sm text-gray-300">
@@ -207,22 +205,19 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   </p>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}
-                  >
+                    href={"/settings"}>
                     <Settings size={16} />
                     Options
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}
-                  >
+                    href={"/settings"}>
                     <CandlestickChart size={16} />
                     Trade gems
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/signout"}
-                  >
+                    href={"/signout"}>
                     <ExternalLink size={16} />
                     Sign-out
                   </Link>
@@ -234,18 +229,15 @@ export default function LoggedInPage({ user }: { user: UserType }) {
         <main
           className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
             isNavOpen ? "ml-64" : "ml-0"
-          }`}
-        >
+          }`}>
           <h1
             className={
               "md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10 px-4"
-            }
-          >
+            }>
             Welcome back, {user.username}!
           </h1>
           <p
-            className={`${orbitron.className} self-start px-4 text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
-          >
+            className={`${orbitron.className} self-start px-4 text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}>
             Ready to make some money?
           </p>
           <div className="mt-6 md:mt-10 w-full px-4">
@@ -282,7 +274,9 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             </h2>
             <div className="mt-6 md:mt-10 w-full px-4">
               <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
-                <Link href={"/blackjack"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <Link
+                  href={"/blackjack"}
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
                     src={BlackjackPic.src}
                     alt="High Stakes"

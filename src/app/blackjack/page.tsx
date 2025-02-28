@@ -1,6 +1,6 @@
 import { getUser } from "@/lib/supabase/actions";
-import Blackjack from "./blackjack";
 import { redirect } from "next/navigation";
+import Blackjack from "./blackjack";
 
 export default async function Game() {
   const user = await getUser();

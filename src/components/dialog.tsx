@@ -30,10 +30,9 @@ export default function MyDialog({
         <Dialog.Content
           className={twMerge(
             "fixed flex DialogContent flex-col top-1/2 left-1/2 ring-0 focus:outline-0 -translate-x-1/2 -translate-y-1/2 bg-[#151520] p-6 rounded-lg shadow-xl z-50",
-            props.className
+            props.className,
           )}
-          {...removeAttrFromObject(props, "className")}
-        >
+          {...removeAttrFromObject(props, "className")}>
           <Dialog.Title className="text-xl font-bold mb-2">
             {title}
           </Dialog.Title>

@@ -41,9 +41,9 @@ export default function BlackJack({ user }: { user: UserType }) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (winner === "player") {
-      updateBalance(playerBalance)
+      updateBalance(playerBalance);
     } else if (winner === "dealer") {
-      updateBalance(playerBalance)
+      updateBalance(playerBalance);
     }
   }, [winner]);
 
@@ -87,7 +87,7 @@ export default function BlackJack({ user }: { user: UserType }) {
         playerBalance,
         dealerHand,
         playerScore,
-        bet
+        bet,
       );
       setDealerHand(gameState.dealerHand);
       setDealerScore(gameState.dealerScore);
@@ -118,8 +118,7 @@ export default function BlackJack({ user }: { user: UserType }) {
       <div
         className={`fixed left-0 top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${
           isOpen ? "w-64" : "hidden"
-        }`}
-      >
+        }`}>
         <div className="p-4">
           <div className="flex items-center space-x-2 md:space-x-4 justify-between">
             <h2 className="text-2xl font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
@@ -128,8 +127,7 @@ export default function BlackJack({ user }: { user: UserType }) {
             <button
               type="button"
               onClick={() => setIsNavOpen(!isNavOpen)}
-              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform"
-            >
+              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
               X
             </button>
           </div>
@@ -149,16 +147,14 @@ export default function BlackJack({ user }: { user: UserType }) {
           <li className="mb-2">
             <Link
               href="/profile"
-              className="text-[#D4AF37] hover:text-[#FFD700]"
-            >
+              className="text-[#D4AF37] hover:text-[#FFD700]">
               Profile
             </Link>
           </li>
           <li className="mb-2">
             <Link
               href="/settings"
-              className="text-[#D4AF37] hover:text-[#FFD700]"
-            >
+              className="text-[#D4AF37] hover:text-[#FFD700]">
               Settings
             </Link>
           </li>
@@ -180,8 +176,7 @@ export default function BlackJack({ user }: { user: UserType }) {
             <button
               type="button"
               onClick={() => setIsNavOpen(!isNavOpen)}
-              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform"
-            >
+              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
               ☰
             </button>
             <div className="text-2xl md:text-2xl font-bold text-[#d4af37]">
@@ -197,8 +192,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                 <div className="cursor-pointer hover:scale-105 transition-transform p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
                   <Menu size={32} className="stroke-white" />
                 </div>
-              }
-            >
+              }>
               <div className="flex flex-col gap-y-2">
                 <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
                   Balance:
@@ -210,15 +204,13 @@ export default function BlackJack({ user }: { user: UserType }) {
                 </p>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/settings"}
-                >
+                  href={"/settings"}>
                   <Settings size={16} />
                   Options
                 </Link>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/signout"}
-                >
+                  href={"/signout"}>
                   <ExternalLink size={16} />
                   Sign-out
                 </Link>
@@ -234,8 +226,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                     <span> - Tickets 🎫</span>
                     <span> - Gems 💎</span>
                   </div>
-                }
-              >
+                }>
                 <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
                   <span>{playerBalance} 🎫</span>
                   <span>{user.gems} 💎</span>
@@ -245,13 +236,11 @@ export default function BlackJack({ user }: { user: UserType }) {
                 trigger={
                   <button
                     type="button"
-                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
-                  >
+                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer">
                     <User size={28} color="#ce9aff" />
                     <span>{user.username}</span>
                   </button>
-                }
-              >
+                }>
                 <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
                   <h2 className="font-semibold">My profile</h2>
                   <p className="text-sm text-gray-300">
@@ -259,15 +248,13 @@ export default function BlackJack({ user }: { user: UserType }) {
                   </p>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}
-                  >
+                    href={"/settings"}>
                     <Settings size={16} />
                     Options
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/signout"}
-                  >
+                    href={"/signout"}>
                     <ExternalLink size={16} />
                     Sign-out
                   </Link>
@@ -279,8 +266,7 @@ export default function BlackJack({ user }: { user: UserType }) {
         <main
           className={`relative text-center flex-grow p-4 lg:p-4 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
             isNavOpen ? "ml-64" : "ml-0"
-          }`}
-        >
+          }`}>
           <div className="w-full max-w-6xl p-8">
             <h1 className="text-4xl font-bold mb-4 text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A]">
               Blackjack
@@ -315,52 +301,47 @@ export default function BlackJack({ user }: { user: UserType }) {
                   type="button"
                   onClick={() => setBet(playerBalance)}
                   disabled={gameStarted}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer"
-                >
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
                   All In
                 </button>
                 <button
                   type="button"
                   onClick={() => setBet(Math.floor(playerBalance / 2))}
                   disabled={gameStarted}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer"
-                >
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
                   Half
                 </button>
                 <button
                   type="button"
                   onClick={() =>
                     setBet((prevBet) =>
-                      prevBet !== null ? prevBet + 100 : 100
+                      prevBet !== null ? prevBet + 100 : 100,
                     )
                   }
                   disabled={gameStarted}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer"
-                >
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
                   +100
                 </button>
                 <button
                   type="button"
                   onClick={() =>
                     setBet((prevBet) =>
-                      prevBet !== null ? prevBet + 500 : 500
+                      prevBet !== null ? prevBet + 500 : 500,
                     )
                   }
                   disabled={gameStarted}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer"
-                >
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
                   +500
                 </button>
                 <button
                   type="button"
                   onClick={() =>
                     setBet((prevBet) =>
-                      prevBet !== null ? prevBet + 1000 : 1000
+                      prevBet !== null ? prevBet + 1000 : 1000,
                     )
                   }
                   disabled={gameStarted}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer"
-                >
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
                   +1000
                 </button>
               </div>
@@ -370,24 +351,21 @@ export default function BlackJack({ user }: { user: UserType }) {
                   type="button"
                   onClick={handleStart}
                   disabled={gameStarted}
-                  className="p-2 bg-[#D4AF37] text-white rounded hover:bg-[#FFD700] hover:text-black transition-colors cursor-pointer"
-                >
+                  className="p-2 bg-[#D4AF37] text-white rounded hover:bg-[#FFD700] hover:text-black transition-colors cursor-pointer">
                   Deal
                 </button>
                 <button
                   type="button"
                   onClick={handleHit}
                   disabled={!gameStarted || gameOver}
-                  className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors cursor-pointer"
-                >
+                  className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors cursor-pointer">
                   Hit
                 </button>
                 <button
                   type="button"
                   onClick={handleStand}
                   disabled={!gameStarted || gameOver}
-                  className="p-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors cursor-pointer"
-                >
+                  className="p-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors cursor-pointer">
                   Stand
                 </button>
               </div>
@@ -436,8 +414,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                 <button
                   type="button"
                   onClick={() => setShowBalanceError(false)}
-                  className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-                >
+                  className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
                   Close
                 </button>
               </div>
@@ -465,8 +442,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors cursor-pointer"
-                >
+                  className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors cursor-pointer">
                   Close
                 </button>
               </div>

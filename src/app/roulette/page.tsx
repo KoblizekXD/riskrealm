@@ -1,7 +1,5 @@
-import Roulette from './roulette';
+import Roulette from "./roulette";
 
 export default async function Game() {
-    return (
-        <Roulette />
-    );
+  return <Roulette />;
 }

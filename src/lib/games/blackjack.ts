@@ -117,7 +117,7 @@ export async function stand(
   balance: number,
   dealerHand: string[],
   playerScore: number,
-  bet: number
+  bet: number,
 ) {
   let playerBalance = balance;
   const currentDealerHand = [...dealerHand];

@@ -4,9 +4,9 @@ import type { User } from "@/lib/schemas";
 import { claimStreak } from "@/lib/supabase/actions";
 import { streakCalculator } from "@/lib/util";
 import { Gift, TicketsIcon } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 import MyDialog from "./dialog";
-import { useState } from "react";
 
 export default function DailyRewards({ user }: { user: User }) {
   const [open, setOpen] = useState(true);

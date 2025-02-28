@@ -35,7 +35,7 @@ export default function AboutUs() {
             </div>
           </div>
           <nav className="flex flex-col items-center space-x-2 md:space-x-6 md:flex-row">
-          <Link href="/" passHref>
+            <Link href="/" passHref>
               <button
                 type="button"
                 className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0">
@@ -56,7 +56,7 @@ export default function AboutUs() {
             </Link>
           </nav>
           <div>
-          <button
+            <button
               type="button"
               onClick={() => router.push("/signin")}
               className="bg-[#D4AF37] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#d4bf37] hover:shadow-[0px_0px_15px_#FFD700] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm mb-4 md:mb-0">
