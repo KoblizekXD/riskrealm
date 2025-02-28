@@ -1,146 +1,162 @@
-'use server';
+"use server";
 
-const suits = ['H', 'D', 'C', 'S'];
-const ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+const suits = ["H", "D", "C", "S"];
+const ranks = [
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "J",
+  "Q",
+  "K",
+  "A",
+];
 
 let deck: string[] = [];
-let playerBalance = 1000000; 
 
 const messages = [
-    "So close! Maybe next time luck will be on your side!",
-    "Even the best have off days. Give it another shot!",
-    "Luck is like a cat—sometimes it comes when you least expect it!",
-    "Hey, every legend has a comeback story!",
-    "The reels owe you one! Try again?",
-    "That was just a warm-up, right?",
-    "Think of it as paying rent for the jackpot!",
-    "The casino gods demand more sacrifices!"
-  ];
-  
-  const getRandomMessage = () => messages[Math.floor(Math.random() * messages.length)];
+  "So close! Maybe next time luck will be on your side!",
+  "Even the best have off days. Give it another shot!",
+  "Luck is like a cat—sometimes it comes when you least expect it!",
+  "Hey, every legend has a comeback story!",
+  "The reels owe you one! Try again?",
+  "That was just a warm-up, right?",
+  "Think of it as paying rent for the jackpot!",
+  "The casino gods demand more sacrifices!",
+];
+
+const getRandomMessage = () =>
+  messages[Math.floor(Math.random() * messages.length)];
 
 function initializeDeck() {
-    deck = [];
-    for (let suit of suits) {
-        for (let rank of ranks) {
-            deck.push(`${rank}${suit}`);
-        }
+  deck = [];
+  for (const suit of suits) {
+    for (const rank of ranks) {
+      deck.push(`${rank}${suit}`);
     }
-    shuffleDeck();
+  }
+  shuffleDeck();
 }
 
 function shuffleDeck() {
-    for (let i = deck.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [deck[i], deck[j]] = [deck[j], deck[i]];
-    }
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
 }
 
 function dealCard(): string {
-    if (deck.length === 0) {
-        initializeDeck();
-    }
-    return deck.pop()!;
+  if (deck.length === 0) {
+    initializeDeck();
+  }
+  // biome-ignore lint/style/noNonNullAssertion: <explanation>
+  return deck.pop()!;
 }
 
 function calculateScore(hand: string[]): number {
-    let score = 0;
-    let aces = 0;
-    for (let card of hand) {
-        const rank = card.slice(0, -1);
-        if (rank === 'A') {
-            score += 11;
-            aces++;
-        } else if (['J', 'Q', 'K'].includes(rank)) {
-            score += 10;
-        } else {
-            score += parseInt(rank, 10);
-        }
+  let score = 0;
+  let aces = 0;
+  for (const card of hand) {
+    const rank = card.slice(0, -1);
+    if (rank === "A") {
+      score += 11;
+      aces++;
+    } else if (["J", "Q", "K"].includes(rank)) {
+      score += 10;
+    } else {
+      score += Number.parseInt(rank, 10);
     }
-    while (score > 21 && aces > 0) {
-        score -= 10;
-        aces--;
-    }
-    return score;
+  }
+  while (score > 21 && aces > 0) {
+    score -= 10;
+    aces--;
+  }
+  return score;
 }
 
-export async function startGame(bet: number) {
-    if (bet > playerBalance) {
-        throw new Error('Insufficient balance');
-    }
-    let oldBalance = playerBalance;
-    playerBalance -= bet;
-    initializeDeck();
-    const playerHand = [dealCard(), dealCard()];
-    const dealerHand = [dealCard(), dealCard()];
-    return {
-        playerHand,
-        dealerHand,
-        playerScore: calculateScore(playerHand),
-        dealerScore: calculateScore(dealerHand),
-        playerBalance,
-        oldBalance,
-        gameOver: false,
-        bet
-    };
+export async function startGame(balance: number, bet: number) {
+  let playerBalance = balance;
+  if (bet > playerBalance) {
+    throw new Error("Insufficient balance");
+  }
+  const oldBalance = playerBalance;
+  playerBalance -= bet;
+  initializeDeck();
+  const playerHand = [dealCard(), dealCard()];
+  const dealerHand = [dealCard(), dealCard()];
+  return {
+    playerHand,
+    dealerHand,
+    playerScore: calculateScore(playerHand),
+    dealerScore: calculateScore(dealerHand),
+    playerBalance,
+    oldBalance,
+    gameOver: false,
+    bet,
+  };
 }
 
 export async function hit(playerHand: string[], bet: number) {
-    const newHand = [...playerHand, dealCard()];
-    const newScore = calculateScore(newHand);
-    const gameOver = newScore > 21;
-    return {
-        playerHand: newHand,
-        playerScore: newScore,
-        gameOver,
-        bet
-    };
+  const newHand = [...playerHand, dealCard()];
+  const newScore = calculateScore(newHand);
+  const gameOver = newScore > 21;
+  return {
+    playerHand: newHand,
+    playerScore: newScore,
+    gameOver,
+    bet,
+  };
 }
 
-export async function stand(dealerHand: string[], playerScore: number, bet: number) {
-    let currentDealerHand = [...dealerHand];
-    let currentDealerScore = calculateScore(currentDealerHand);
+export async function stand(
+  balance: number,
+  dealerHand: string[],
+  playerScore: number,
+  bet: number
+) {
+  let playerBalance = balance;
+  const currentDealerHand = [...dealerHand];
+  let currentDealerScore = calculateScore(currentDealerHand);
 
-    while (currentDealerScore < 17) {
-        currentDealerHand.push(dealCard());
-        currentDealerScore = calculateScore(currentDealerHand);
-    }
-    
-    let result = "Draw";
-    let resultMsg = "";
-    let winner = "";
-    if (currentDealerScore > 21) {
-        result = "Player wins!";
-        winner = "player";
-        playerBalance += bet * 2;
-        resultMsg = "You win: " + bet;
-    } else if (currentDealerScore > playerScore) {
-        result = "Dealer wins!";
-        winner = "dealer";
-        resultMsg = getRandomMessage();
-    } else if (currentDealerScore < playerScore) {
-        result = "Player wins!";
-        playerBalance += bet * 2;
-        resultMsg = "You win: " + bet;
-        winner = "player";
-    } else {
-        playerBalance += bet;
-        resultMsg = "No money was taken";
-    }
+  while (currentDealerScore < 17) {
+    currentDealerHand.push(dealCard());
+    currentDealerScore = calculateScore(currentDealerHand);
+  }
 
-    return {
-        dealerHand: currentDealerHand,
-        dealerScore: currentDealerScore,
-        gameOver: true,
-        result,
-        playerBalance,
-        resultMsg,
-        winner
-    };
-}
+  let result = "Draw";
+  let resultMsg = "";
+  let winner = "";
+  if (currentDealerScore > 21) {
+    result = "Player wins!";
+    winner = "player";
+    playerBalance += bet * 2;
+    resultMsg = `You win: ${bet}`;
+  } else if (currentDealerScore > playerScore) {
+    result = "Dealer wins!";
+    winner = "dealer";
+    resultMsg = getRandomMessage();
+  } else if (currentDealerScore < playerScore) {
+    result = "Player wins!";
+    playerBalance += bet * 2;
+    resultMsg = `You win: ${bet}`;
+    winner = "player";
+  } else {
+    playerBalance += bet;
+    resultMsg = "No money was taken";
+  }
 
-export async function getGameState() {
-    return {
-        playerBalance
-    };
+  return {
+    dealerHand: currentDealerHand,
+    dealerScore: currentDealerScore,
+    gameOver: true,
+    result,
+    playerBalance,
+    resultMsg,
+    winner,
+  };
 }
