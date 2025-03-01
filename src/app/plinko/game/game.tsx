@@ -49,7 +49,6 @@ export function Plinko({ user }: { user: UserType }) {
 
   const {
     pins: pinsConfig,
-    colors,
     ball: ballConfig,
     engine: engineConfig,
     world: worldConfig,
@@ -147,7 +146,7 @@ export function Plinko({ user }: { user: UserType }) {
       const maxBallX = worldWidth / 2 - pinsConfig.pinSize * 3 - pinsConfig.pinGap + pinsConfig.pinGap / 2;
 
       const ballX = Math.random() * (maxBallX - minBallX) + minBallX;
-      const ballColor = ballValue <= 0 ? colors.text : colors.purple;
+      const ballColor = ballValue <= 0 ? "white" : "[#D4AF37]";
 
       const ball = Bodies.circle(ballX, 20, ballConfig.ballSize, {
         restitution: 1,
@@ -488,11 +487,12 @@ export function Plinko({ user }: { user: UserType }) {
           </div>
         </header>
         <main
-          className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto my-auto mx-auto max-w-[1550px] lg:min-w-[1000px] transition-all duration-300 `}
+          className={`relative text-center flex-grow p-0 md:p-0 lg:p-8 flex flex-col items-center overflow-y-auto my-auto mx-auto max-w-[1550px] lg:min-w-[1000px] transition-all duration-300 `}
         >
-          <div className="flex w-full h-fit flex-col items-center justify-center  md:flex-row p-8">
+          <div className="flex w-full h-fit flex-col items-center justify-between md:flex-row p-8">
 
-            <div className="relative w-full flex flex-col py-8 px-6 rounded-lg border border-[#D4AF37] bg-[#1E1E1E]">
+                {/*Bet oanel  */}
+            <div className="relative w-sm flex flex-col py-8 px-6 rounded-lg border border-[#D4AF37] bg-[#1E1E1E] shadow-lg">
 
               <div className="flex flex-col gap-2 mb-6">
                 <span className="text-sm font-bold text-[#D4AF37] md:text-lg">
