@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useEffect, useState } from 'react';
 import {
   Bodies,
   Body,
@@ -11,39 +12,17 @@ import {
   Runner,
   World,
 } from 'matter-js';
-import { useCallback, useEffect, useState } from 'react';
 import { useAuthStore } from './store';
 import { useGameStore } from './store';
+import { BetActions, PlinkoGameBody, MultiplierHistory } from './components';
+import { config, getMultiplierByLinesQnt } from './config';
+import { updateBalance, calculateMultiplier, canAddBall } from '../../../lib/games/plinko';
+type MultiplierValues = 110 | 88 | 41 | 33 | 25 | 18 | 15 | 10 | 5 | 3 | 2 | 1.5 | 1 | 0.5 | 0.3;
 
-
-import { BetActions } from './components';
-import { PlinkoGameBody } from './components';
-import { MultiplierHistory } from './components';
-import { config } from './config';
-import { getMultiplierByLinesQnt } from './config';
-
-type LinesType = 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16
-
-type MultiplierValues =
-  | 110
-  | 88
-  | 41
-  | 33
-  | 25
-  | 18
-  | 15
-  | 10
-  | 5
-  | 3
-  | 2
-  | 1.5
-  | 1
-  | 0.5
-  | 0.3
+type LinesType = 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
 
 export function Plinko() {
   // #region States
-  const incrementCurrentBalance = useAuthStore((state) => state.incrementBalance);
   const [lines, setLines] = useState<LinesType>(16);
   const inGameBallsCount = useGameStore((state) => state.gamesRunning);
   const incrementInGameBallsCount = useGameStore((state) => state.incrementGamesRunning);
@@ -61,25 +40,18 @@ export function Plinko() {
   const worldWidth = worldConfig.width;
   const worldHeight = worldConfig.height;
 
-  const [engine] = useState(() => Engine.create()); // Create engine once
-  const [render, setRender] = useState<Render | null>(null); // Store render instance
+  const [engine] = useState(() => Engine.create());
+  const [render, setRender] = useState<Render | null>(null);
   // #endregion
-
-  // Function to generate a random number within a range
-  function random(min: number, max: number) {
-    return Math.random() * (max - min) + min;
-  }
 
   // Initialize the Matter.js engine and renderer
   useEffect(() => {
-    // Clear existing renderer and world if they exist
     if (render) {
       Render.stop(render);
       render.canvas.remove();
       World.clear(engine.world, true);
     }
 
-    // Set up new renderer
     const element = document.getElementById('plinko');
     if (!element) {
       console.error("Element with ID 'plinko' not found!");
@@ -98,13 +70,10 @@ export function Plinko() {
       },
     });
 
-    setRender(newRender); // Store the new render instance
+    setRender(newRender);
     Runner.run(Runner.create(), engine);
     Render.run(newRender);
 
-    console.log('Matter.js Renderer initialized');
-
-    // Cleanup function
     return () => {
       if (newRender) {
         Render.stop(newRender);
@@ -112,17 +81,15 @@ export function Plinko() {
         World.clear(engine.world, true);
       }
     };
-  }, [lines, worldWidth, worldHeight]); // Reinitialize when lines or world size changes
+  }, [lines, worldWidth, worldHeight]);
 
   // Create pins
   useEffect(() => {
-    // Clear existing pins
     const existingPins = Composite.allBodies(engine.world).filter((body) =>
       body.label.includes('pin')
     );
     Composite.remove(engine.world, existingPins);
 
-    // Create new pins
     const pins: Body[] = [];
     for (let l = 0; l < lines; l++) {
       const linePins = pinsConfig.startPins + l;
@@ -140,15 +107,14 @@ export function Plinko() {
       }
     }
 
-    // Add new pins to the world
     Composite.add(engine.world, pins);
-    console.log('Pins added to the world');
-  }, [lines, worldWidth]); // Recreate pins when lines or world size changes
+  }, [lines, worldWidth]);
 
   // Add a ball to the game
   const addBall = useCallback(
-    (ballValue: number) => {
-      if (inGameBallsCount >= 15) {
+    async (ballValue: number) => {
+      const canAdd = await canAddBall(inGameBallsCount);
+      if (!canAdd) {
         console.warn('Maximum number of balls reached (15)');
         return;
       }
@@ -158,7 +124,7 @@ export function Plinko() {
       const minBallX = worldWidth / 2 - pinsConfig.pinSize * 3 + pinsConfig.pinGap;
       const maxBallX = worldWidth / 2 - pinsConfig.pinSize * 3 - pinsConfig.pinGap + pinsConfig.pinGap / 2;
 
-      const ballX = random(minBallX, maxBallX);
+      const ballX = Math.random() * (maxBallX - minBallX) + minBallX;
       const ballColor = ballValue <= 0 ? colors.text : colors.purple;
 
       const ball = Bodies.circle(ballX, 20, ballConfig.ballSize, {
@@ -173,7 +139,6 @@ export function Plinko() {
       });
 
       Composite.add(engine.world, ball);
-      console.log(`Ball added at (${ballX}, 20)`);
     },
     [lines, inGameBallsCount, worldWidth]
   );
@@ -261,33 +226,38 @@ export function Plinko() {
   }
 
   // Handle collision with multiplier
-  async function onCollideWithMultiplier(ball: Body, multiplier: Body) {
-    ball.collisionFilter.group = 2;
-    World.remove(engine.world, ball);
-    decrementInGameBallsCount();
+  const onCollideWithMultiplier = useCallback(
+    async (ball: Body, multiplier: Body) => {
+      ball.collisionFilter.group = 2;
+      World.remove(engine.world, ball);
+      decrementInGameBallsCount();
 
-    const ballValue = ball.label.split('-')[1];
-    const multiplierValue = +multiplier.label.split('-')[1] as MultiplierValues;
+      const ballValue = ball.label.split('-')[1];
+      const multiplierValue = +multiplier.label.split('-')[1] as MultiplierValues;
 
-    setLastMultipliers((prev) => [multiplierValue, prev[0], prev[1], prev[2]]);
+      setLastMultipliers((prev) => [multiplierValue, prev[0], prev[1], prev[2]]);
 
-    if (+ballValue <= 0) return;
+      if (+ballValue <= 0) return;
 
-    const newBalance = +ballValue * multiplierValue;
-    await incrementCurrentBalance(newBalance);
-    console.log(`Ball collided with multiplier: ${multiplierValue}`);
-  }
+      const newBalance = await calculateMultiplier(lines, +ballValue);
+      await updateBalance(newBalance);
+    },
+    [lines]
+  );
 
   // Handle body collisions
-  async function onBodyCollision(event: IEventCollision<Engine>) {
-    const pairs = event.pairs;
-    for (const pair of pairs) {
-      const { bodyA, bodyB } = pair;
-      if (bodyB.label.includes('ball') && bodyA.label.includes('block')) {
-        await onCollideWithMultiplier(bodyB, bodyA);
+  const onBodyCollision = useCallback(
+    async (event: IEventCollision<Engine>) => {
+      const pairs = event.pairs;
+      for (const pair of pairs) {
+        const { bodyA, bodyB } = pair;
+        if (bodyB.label.includes('ball') && bodyA.label.includes('block')) {
+          await onCollideWithMultiplier(bodyB, bodyA);
+        }
       }
-    }
-  }
+    },
+    [onCollideWithMultiplier]
+  );
 
   // Add collision event listener
   useEffect(() => {
@@ -295,14 +265,14 @@ export function Plinko() {
     return () => {
       Events.off(engine, 'collisionActive', onBodyCollision);
     };
-  }, []);
+  }, [onBodyCollision]);
 
   return (
     <div className="flex h-fit flex-col-reverse items-center justify-center gap-4 md:flex-row">
       <BetActions
         inGameBallsCount={inGameBallsCount}
         onChangeLines={setLines}
-        onRunBet={bet}
+        onRunBet={addBall}
       />
       <MultiplierHistory multiplierHistory={lastMultipliers} />
       <div className="flex flex-1 items-center justify-center">
