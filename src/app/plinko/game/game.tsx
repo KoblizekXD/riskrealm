@@ -66,9 +66,9 @@ export function Plinko({ user }: { user: UserType }) {
   for (let i = 8; i <= maxLinesQnt; i++) {
     linesOptions.push(i);
   }
-  // #endregion
 
-  // Initialize the Matter.js engine and renderer
+
+  //Matter-js engine
   useEffect(() => {
     if (render) {
       Render.stop(render);
@@ -107,7 +107,7 @@ export function Plinko({ user }: { user: UserType }) {
     };
   }, [lines, worldWidth, worldHeight]);
 
-  // Create pins
+  //Create pins
   useEffect(() => {
     const existingPins = Composite.allBodies(engine.world).filter((body) =>
       body.label.includes('pin')
@@ -134,11 +134,10 @@ export function Plinko({ user }: { user: UserType }) {
     Composite.add(engine.world, pins);
   }, [lines, worldWidth]);
 
-  // Add a ball to the game
+  // Add a ball
   const addBall = useCallback(
     async (ballValue: number) => {
       if (inGameBallsCount >= 15) {
-        console.warn('Maximum number of balls reached (15)');
         return;
       }
       setPlayerBalance(playerBalance - ballValue);
@@ -214,7 +213,7 @@ export function Plinko({ user }: { user: UserType }) {
     let lastMultiplierX = worldWidth / 2 - (pinsConfig.pinGap / 2) * lines - pinsConfig.pinGap;
 
     multipliers.forEach((multiplier) => {
-      const blockSize = 20; // height and width
+      const blockSize = 20;
       const multiplierBody = Bodies.rectangle(
         lastMultiplierX + 20,
         worldWidth / lines + lines * pinsConfig.pinGap + pinsConfig.pinGap,
@@ -239,10 +238,9 @@ export function Plinko({ user }: { user: UserType }) {
 
     // Add new walls, floor, and multipliers to the world
     Composite.add(engine.world, [...multipliersBodies, leftWall, rightWall, floor]);
-    console.log('Walls, floor, and multipliers added to the world');
   }, [lines, worldWidth]);
 
-  // Handle bet action
+
   const handleRunBet = async () => {
     if (inGameBallsCount >= 15) return;
     if (betValue > playerBalance) {
@@ -259,7 +257,6 @@ export function Plinko({ user }: { user: UserType }) {
   };
 
   useEffect(() => {
-    //console.log("balance updated ->", playerBalance);
     updateBalance(playerBalance);
   }, [playerBalance]);
 
@@ -344,9 +341,8 @@ export function Plinko({ user }: { user: UserType }) {
   function Navbar({ isOpen }: { isOpen: boolean }) {
     return (
       <div
-        className={`fixed left-0 top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${
-          isOpen ? "w-64" : "hidden"
-        }`}>
+        className={`fixed left-0 top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${isOpen ? "w-64" : "hidden"
+          }`}>
         <div className="p-4">
           <div className="flex items-center space-x-2 md:space-x-4 justify-between">
             <h2 className="text-2xl font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
@@ -492,77 +488,77 @@ export function Plinko({ user }: { user: UserType }) {
           </div>
         </header>
         <main
-  className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto my-auto mx-auto max-w-[1550px] lg:min-w-[1000px] transition-all duration-300 `}
->
-  <div className="flex w-full h-fit flex-col items-center justify-center  md:flex-row p-8">
-    {/* Betting Panel */}
-    <div className="relative w-full flex flex-col py-8 px-6 rounded-lg border border-[#D4AF37] bg-[#1E1E1E]">
-  {/* Display Balls and Balance */}
-  <div className="flex flex-col gap-2 mb-6">
-    <span className="text-sm font-bold text-[#D4AF37] md:text-lg">
-      Balls: {inGameBallsCount.toFixed(0)}/15
-    </span>
-    <span className="text-sm font-bold text-[#D4AF37] md:text-lg">
-      Balance: {playerBalance}
-    </span>
-  </div>
-
-  {/* Bet Section */}
-  <div className="flex flex-col gap-6">
-    {/* Bet Input and Controls */}
-    <div className="flex flex-col gap-4">
-      <span className="text-lg font-bold text-[#D4AF37]">Place a Bet</span>
-      {/* Input Field */}
-      <input
-        type="number"
-        min={0}
-        max={playerBalance}
-        onChange={handleChangeBetValue}
-        value={betValue}
-        className="w-full rounded-md border-2 border-[#D4AF37] bg-transparent p-4 font-bold text-[#D4AF37] focus:outline-none"
-        placeholder="Enter bet amount"
-      />
-      {/* Buttons Row */}
-      <div className="flex items-stretch gap-2">
-        <button
-          onClick={handleHalfBet}
-          className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
+          className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto my-auto mx-auto max-w-[1550px] lg:min-w-[1000px] transition-all duration-300 `}
         >
-          ½
-        </button>
-        <button
-          onClick={handleDoubleBet}
-          className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
-        >
-          2x
-        </button>
-        <button
-          onClick={handleMaxBet}
-          className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
-        >
-          Max
-        </button>
-      </div>
-    </div>
+          <div className="flex w-full h-fit flex-col items-center justify-center  md:flex-row p-8">
 
-    {/* Bet Button */}
-    <button
-      onClick={handleRunBet}
-      className="w-full rounded-md bg-[#1E1E1E] px-6 py-4 font-bold text-[#D4AF37] hover:bg-[#C0A236] hover:text-[#1E1E1E] focus:outline-none border  border-[#D4AF37]"
-    >
-      Bet
-    </button>
-  </div>
-</div>
+            <div className="relative w-full flex flex-col py-8 px-6 rounded-lg border border-[#D4AF37] bg-[#1E1E1E]">
 
-    {/* Multiplier History */}
-    <MultiplierHistory multiplierHistory={lastMultipliers} />
+              <div className="flex flex-col gap-2 mb-6">
+                <span className="text-sm font-bold text-[#D4AF37] md:text-lg">
+                  Balls: {inGameBallsCount.toFixed(0)}/15
+                </span>
+                <span className="text-sm font-bold text-[#D4AF37] md:text-lg">
+                  Balance: {playerBalance}
+                </span>
+              </div>
 
-    {/* Plinko Game Body */}
-    <div className="flex flex-1 items-center justify-center">
-      <PlinkoGameBody />
-    </div>
-  </div>
+
+              <div className="flex flex-col gap-6">
+
+                <div className="flex flex-col gap-4">
+                  <span className="text-lg font-bold text-[#D4AF37]">Place a Bet</span>
+
+                  <input
+                    type="number"
+                    min={0}
+                    max={playerBalance}
+                    onChange={handleChangeBetValue}
+                    value={betValue}
+                    className="w-full rounded-md border-2 border-[#D4AF37] bg-transparent p-4 font-bold text-[#D4AF37] focus:outline-none"
+                    placeholder="Enter bet amount"
+                  />
+
+                  <div className="flex items-stretch gap-2">
+                    <button
+                      onClick={handleHalfBet}
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
+                    >
+                      ½
+                    </button>
+                    <button
+                      onClick={handleDoubleBet}
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
+                    >
+                      2x
+                    </button>
+                    <button
+                      onClick={handleMaxBet}
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
+                    >
+                      Max
+                    </button>
+                  </div>
+                </div>
+
+
+                <button
+                  onClick={handleRunBet}
+                  className="w-full rounded-md bg-[#1E1E1E] px-6 py-4 font-bold text-[#D4AF37] hover:bg-[#C0A236] hover:text-[#1E1E1E] focus:outline-none border  border-[#D4AF37]"
+                >
+                  Bet
+                </button>
+              </div>
+            </div>
+
+
+            <MultiplierHistory multiplierHistory={lastMultipliers} />
+
+
+            <div className="flex flex-1 items-center justify-center">
+              <PlinkoGameBody />
+            </div>
+          </div>
         </main>
       </div>
 
