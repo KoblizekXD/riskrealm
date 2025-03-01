@@ -16,22 +16,29 @@ import {
 import { useGameStore } from './store';
 import { PlinkoGameBody, MultiplierHistory } from './components';
 import { config, getMultiplierByLinesQnt } from './config';
-import { incrementBalance, decrementBalance, calcWin, canAddBall } from '../../../lib/games/plinko';
 import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
 import DailyRewards from "@/components/daily-rewards";
 import MyDialog from "@/components/dialog";
 import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
-import { hit, stand, startGame } from "@/lib/games/blackjack";
 import type { User as UserType } from "@/lib/schemas";
+import { Orbitron } from "next/font/google";
+import Link from "next/link";
+import { ExternalLink, Menu, Settings, User } from "lucide-react";
 
+export const orbitron = Orbitron({
+  variable: "--font-luckiest-guy",
+  subsets: ["latin"],
+  weight: "variable",
+});
 
 
 type LinesType = 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
 type MultiplierValues = 110 | 88 | 41 | 33 | 25 | 18 | 15 | 10 | 5 | 3 | 2 | 1.5 | 1 | 0.5 | 0.3;
 
 export function Plinko({ user }: { user: UserType }) {
-  // #region States
+  const [streakClaimable, setStreakClaimable] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [lines, setLines] = useState<LinesType>(16);
   const inGameBallsCount = useGameStore((state) => state.gamesRunning);
   const incrementInGameBallsCount = useGameStore((state) => state.incrementGamesRunning);
@@ -81,7 +88,7 @@ export function Plinko({ user }: { user: UserType }) {
       options: {
         width: worldWidth,
         height: worldHeight,
-        background: colors.background,
+        background: "bg-gradient-to-b from-[#1a1124] to-[#110b18]",
         wireframes: false,
         hasBounds: true,
       },
@@ -130,8 +137,7 @@ export function Plinko({ user }: { user: UserType }) {
   // Add a ball to the game
   const addBall = useCallback(
     async (ballValue: number) => {
-      const canAdd = await canAddBall(inGameBallsCount);
-      if (!canAdd) {
+      if (inGameBallsCount >= 15) {
         console.warn('Maximum number of balls reached (15)');
         return;
       }
@@ -253,7 +259,7 @@ export function Plinko({ user }: { user: UserType }) {
   };
 
   useEffect(() => {
-    console.log("balance updated ->", playerBalance);
+    //console.log("balance updated ->", playerBalance);
     updateBalance(playerBalance);
   }, [playerBalance]);
 
@@ -333,90 +339,238 @@ export function Plinko({ user }: { user: UserType }) {
     };
   }, [onBodyCollision]);
 
-  return (
-    <div className="flex h-fit flex-col-reverse items-center justify-center gap-4 md:flex-row">
 
-      
 
-      {/* Bet Actions UI */}
-      <div className="relative h-1/2 w-full flex-1 py-8 px-4 bg-cyan-500">
-        <span className="absolute left-4 top-0 mx-auto text-xs font-bold text-black md:text-base">
-          balls: {inGameBallsCount.toFixed(0)}/15
-        </span>
-        <br></br>
-        <span className="left-4 top-0 mx-auto text-xs font-bold text-black md:text-base">
-          Balance: {playerBalance}
-        </span>
-
-        <div className="flex h-full flex-col gap-4 rounded-md bg-primary p-4 text-text md:justify-between">
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-row items-stretch gap-1 md:flex-col">
-              <div className="w-full text-sm font-bold md:text-base">
-                <div className="flex flex-1 items-stretch justify-between">
-                  <span>Place a Bet</span>
-                  <div className="flex items-center gap-1">
-                    <div className="rounded-full bg-purpleDark p-0.5">
-
-                    </div>
-                    <span>{betValue.toFixed(2)}</span>
-                  </div>
-                </div>
-                <div className="flex items-stretch justify-center shadow-md">
-                  <input
-                    type="number"
-                    min={0}
-                    max={playerBalance}
-                    onChange={handleChangeBetValue}
-                    value={betValue}
-                    className="w-full rounded-bl-md rounded-tl-md border-2 border-secondary bg-background p-2.5 px-4 font-bold transition-colors placeholder:font-bold placeholder:text-text focus:border-purple focus:outline-none md:p-2"
-                  />
-                  <button
-                    onClick={handleHalfBet}
-                    className="relative border-2 border-transparent bg-secondary p-2.5 px-3 transition-colors after:absolute after:top-[calc(50%_-_8px)] after:right-0 after:h-4 after:w-0.5 after:rounded-lg after:bg-background after:content-[''] hover:bg-secondary/80 focus:border-purple focus:outline-none md:p-2"
-                  >
-                    ½
-                  </button>
-                  <button
-                    onClick={handleDoubleBet}
-                    className="relative border-2 border-transparent bg-secondary p-2.5 px-3 transition-colors after:absolute after:top-[calc(50%_-_8px)] after:right-0 after:h-4 after:w-0.5 after:rounded-lg after:bg-background after:content-[''] hover:bg-secondary/80 focus:border-purple focus:outline-none md:p-2"
-                  >
-                    2x
-                  </button>
-                  <button
-                    onClick={handleMaxBet}
-                    className="rounded-br-md rounded-tr-md border-2 border-transparent bg-secondary p-2 px-3 text-xs transition-colors hover:bg-secondary/80 focus:border-purple focus:outline-none"
-                  >
-                    max
-                  </button>
-                </div>
-              </div>
-            </div>
-            <select
-              disabled={inGameBallsCount > 0}
-              onChange={handleChangeLines}
-              defaultValue={16}
-              className="w-full rounded-md border-2 border-secondary bg-background py-2 px-4 font-bold transition-all placeholder:font-bold placeholder:text-text focus:border-purple focus:outline-none disabled:line-through disabled:opacity-80"
-              id="lines"
-            >
-              {linesOptions.map((line) => (
-                <option key={line} value={line}>
-                  {line} Lines
-                </option>
-              ))}
-            </select>
+  function Navbar({ isOpen }: { isOpen: boolean }) {
+    return (
+      <div
+        className={`fixed left-0 top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${
+          isOpen ? "w-64" : "hidden"
+        }`}>
+        <div className="p-4">
+          <div className="flex items-center space-x-2 md:space-x-4 justify-between">
+            <h2 className="text-2xl font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
+              Risk Realm
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsNavOpen(!isNavOpen)}
+              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
+              X
+            </button>
           </div>
-          <button
-            onClick={handleRunBet}
-            className="hidden rounded-md bg-purple px-6 py-5 font-bold leading-none text-background transition-colors hover:bg-purpleDark focus:outline-none focus:ring-1 focus:ring-purple focus:ring-offset-1 focus:ring-offset-primary disabled:bg-gray-500 md:visible md:block"
-          >
-            Bet
-          </button>
         </div>
+
+        <ul className="p-4">
+          <li className="mb-2">
+            <Link href="/" className="text-[#D4AF37] hover:text-[#FFD700]">
+              Home
+            </Link>
+          </li>
+          <li className="mb-2">
+            <Link href="/games" className="text-[#D4AF37] hover:text-[#FFD700]">
+              Games
+            </Link>
+          </li>
+          <li className="mb-2">
+            <Link
+              href="/profile"
+              className="text-[#D4AF37] hover:text-[#FFD700]">
+              Profile
+            </Link>
+          </li>
+          <li className="mb-2">
+            <Link
+              href="/settings"
+              className="text-[#D4AF37] hover:text-[#FFD700]">
+              Settings
+            </Link>
+          </li>
+        </ul>
       </div>
-      <MultiplierHistory multiplierHistory={lastMultipliers} />
-      <div className="flex flex-1 items-center justify-center">
-        <PlinkoGameBody />
+    );
+  }
+
+  useEffect(() => {
+    canClaimStreak().then(setStreakClaimable);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
+      <Navbar isOpen={isNavOpen} />
+      <div className="flex flex-col items-center">
+        <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
+          <div className={"flex items-center space-x-2 md:space-x-4"}>
+            <button
+              type="button"
+              onClick={() => setIsNavOpen(!isNavOpen)}
+              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
+              ☰
+            </button>
+            <div className="text-2xl md:text-2xl font-bold text-[#d4af37]">
+              Risk Realm
+            </div>
+          </div>
+
+          <div className="flex items-center">
+            <MyDialog
+              title="Menu"
+              className="w-[90vw]"
+              trigger={
+                <div className="cursor-pointer hover:scale-105 transition-transform p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
+                  <Menu size={32} className="stroke-white" />
+                </div>
+              }>
+              <div className="flex flex-col gap-y-2">
+                <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
+                  Balance:
+                  <span>{user.tickets} 🎫</span>
+                  <span>{user.gems} 💎</span>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Signed in as {user.email}
+                </p>
+                <Link
+                  className="font-semibold gap-x-2 flex items-center"
+                  href={"/settings"}>
+                  <Settings size={16} />
+                  Options
+                </Link>
+                <Link
+                  className="font-semibold gap-x-2 flex items-center"
+                  href={"/signout"}>
+                  <ExternalLink size={16} />
+                  Sign-out
+                </Link>
+              </div>
+            </MyDialog>
+
+            <div className="h-full gap-x-2 items-center hidden md:flex">
+              {streakClaimable && <DailyRewards user={user} />}
+              <Tooltip
+                content={
+                  <div className="flex flex-col gap-y-2">
+                    RiskRealm uses 2 types of currencies:
+                    <span> - Tickets 🎫</span>
+                    <span> - Gems 💎</span>
+                  </div>
+                }>
+                <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
+                  <span>{playerBalance} 🎫</span>
+                  <span>{user.gems} 💎</span>
+                </div>
+              </Tooltip>
+              <Popover
+                trigger={
+                  <button
+                    type="button"
+                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer">
+                    <User size={28} color="#ce9aff" />
+                    <span>{user.username}</span>
+                  </button>
+                }>
+                <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
+                  <h2 className="font-semibold">My profile</h2>
+                  <p className="text-sm text-gray-300">
+                    Signed in as {user.email}
+                  </p>
+                  <Link
+                    className="font-semibold gap-x-2 flex items-center"
+                    href={"/settings"}>
+                    <Settings size={16} />
+                    Options
+                  </Link>
+                  <Link
+                    className="font-semibold gap-x-2 flex items-center"
+                    href={"/signout"}>
+                    <ExternalLink size={16} />
+                    Sign-out
+                  </Link>
+                </div>
+              </Popover>
+            </div>
+          </div>
+        </header>
+        <main
+  className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto my-auto mx-auto max-w-[1550px] lg:min-w-[1000px] transition-all duration-300 `}
+>
+  <div className="flex w-full h-fit flex-col items-center justify-center  md:flex-row p-8">
+    {/* Betting Panel */}
+    <div className="relative w-full flex flex-col py-8 px-6 rounded-lg border border-[#D4AF37] bg-[#1E1E1E]">
+  {/* Display Balls and Balance */}
+  <div className="flex flex-col gap-2 mb-6">
+    <span className="text-sm font-bold text-[#D4AF37] md:text-lg">
+      Balls: {inGameBallsCount.toFixed(0)}/15
+    </span>
+    <span className="text-sm font-bold text-[#D4AF37] md:text-lg">
+      Balance: {playerBalance}
+    </span>
+  </div>
+
+  {/* Bet Section */}
+  <div className="flex flex-col gap-6">
+    {/* Bet Input and Controls */}
+    <div className="flex flex-col gap-4">
+      <span className="text-lg font-bold text-[#D4AF37]">Place a Bet</span>
+      {/* Input Field */}
+      <input
+        type="number"
+        min={0}
+        max={playerBalance}
+        onChange={handleChangeBetValue}
+        value={betValue}
+        className="w-full rounded-md border-2 border-[#D4AF37] bg-transparent p-4 font-bold text-[#D4AF37] focus:outline-none"
+        placeholder="Enter bet amount"
+      />
+      {/* Buttons Row */}
+      <div className="flex items-stretch gap-2">
+        <button
+          onClick={handleHalfBet}
+          className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
+        >
+          ½
+        </button>
+        <button
+          onClick={handleDoubleBet}
+          className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
+        >
+          2x
+        </button>
+        <button
+          onClick={handleMaxBet}
+          className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
+        >
+          Max
+        </button>
       </div>
+    </div>
+
+    {/* Bet Button */}
+    <button
+      onClick={handleRunBet}
+      className="w-full rounded-md bg-[#1E1E1E] px-6 py-4 font-bold text-[#D4AF37] hover:bg-[#C0A236] hover:text-[#1E1E1E] focus:outline-none border  border-[#D4AF37]"
+    >
+      Bet
+    </button>
+  </div>
+</div>
+
+    {/* Multiplier History */}
+    <MultiplierHistory multiplierHistory={lastMultipliers} />
+
+    {/* Plinko Game Body */}
+    <div className="flex flex-1 items-center justify-center">
+      <PlinkoGameBody />
+    </div>
+  </div>
+        </main>
+      </div>
+
+      <footer className="h-16 flex mt-auto items-center justify-center border-t border-gray-800 bg-[#181825]">
+        <p className="text-[#D4AF37] text-xs md:text-sm">
+          © 2025 Risk Realm. All Rights Reserved. Gamble until zero.
+        </p>
+      </footer>
     </div>
   );
 }

@@ -23,13 +23,13 @@ export function MultiplierHistory({
   multiplierHistory
 }: MultiplierHistoryProps) {
   return (
-    <div className="absolute right-4 top-40 flex w-16 flex-col gap-1 overflow-hidden rounded-md bg-cyan-500 md:top-60">
+    <div className="mt-8 md:mt-0 md:absolute right-4 flex md:w-16 md:flex-col gap-1 overflow-hidden">
       {multiplierHistory.map((multiplier, index) => {
         if (index > 3 || !multiplier) return null
         return (
           <span
             key={`${multiplier}${index}${Math.random()}`}
-            className="flex items-center justify-center bg-purpleDark p-1 font-bold text-text"
+            className="flex items-center justify-center bg-purpleDark p-1 rounded-md font-bold text-[#D4AF37] border border-[#D4AF37]"
           >
             {multiplier}x
           </span>
