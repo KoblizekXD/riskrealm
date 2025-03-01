@@ -1,10 +1,12 @@
-import { Coin, CurrencyDollarSimple, Smiley } from 'phosphor-react'
+
 import { ChangeEvent, useState } from 'react'
 
-import { useAuthStore } from '../../../../../store/auth'
+import { useAuthStore } from './store'
 
-import { LinesType } from '../../@types'
+type LinesType = 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16
 
+
+//Bet actions
 interface PlinkoBetActions {
   onRunBet: (betValue: number) => void
   onChangeLines: (lines: LinesType) => void
@@ -84,7 +86,7 @@ export function BetActions({
       </span>
       <br></br>
       <span className="left-4 top-0 mx-auto text-xs font-bold text-black md:text-base">
-       Balance: {currentBalance}
+       Balance: {currentBalance.toFixed(0)}
       </span>
 
       <div className="flex h-full flex-col gap-4 rounded-md bg-primary p-4 text-text md:justify-between">
@@ -95,9 +97,8 @@ export function BetActions({
                 <span>Place a Bet</span>
                 <div className="flex items-center gap-1">
                   <div className="rounded-full bg-purpleDark p-0.5">
-                    <CurrencyDollarSimple weight="bold" />
                   </div>
-                  <span>{betValue.toFixed(2)}</span>
+                  <span>{betValue.toFixed(0)}</span>
                 </div>
               </div>
               <div className="flex items-stretch justify-center shadow-md">
@@ -158,3 +159,35 @@ export function BetActions({
     </div>
   )
 }
+
+//Plinko game body
+export function PlinkoGameBody() {
+  return <div id="plinko" />
+}
+
+
+
+//Multiplier history
+interface MultiplierHistoryProps {
+  multiplierHistory: number[]
+}
+export function MultiplierHistory({
+  multiplierHistory
+}: MultiplierHistoryProps) {
+  return (
+    <div className="absolute right-4 top-40 flex w-16 flex-col gap-1 overflow-hidden rounded-md bg-cyan-500 md:top-60">
+      {multiplierHistory.map((multiplier, index) => {
+        if (index > 3 || !multiplier) return null
+        return (
+          <span
+            key={`${multiplier}${index}${Math.random()}`}
+            className="flex items-center justify-center bg-purpleDark p-1 font-bold text-text"
+          >
+            {multiplier}x
+          </span>
+        )
+      })}
+    </div>
+  )
+}
+

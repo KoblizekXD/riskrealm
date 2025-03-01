@@ -1,30 +1,102 @@
 
-// multiplierImages
-import multiplier0dot3Img from 'plinko/multiplier0.3.png'
-import multiplier0dot5Img from 'plinko/multiplier0.5.png'
-import multiplier1dot5Img from 'plinko/multiplier1.5.png'
-import multiplier1Img from 'plinko/multiplier1.png'
-import multiplier10Img from 'plinko/multiplier10.png'
-import multiplier110Img from 'plinko/multiplier110.png'
-import multiplier15Img from 'plinko/multiplier15.png'
-import multiplier18Img from 'plinko/multiplier18.png'
-import multiplier2Img from 'plinko/multiplier2.png'
-import multiplier25Img from 'plinko/multiplier25.png'
-import multiplier3Img from 'plinko/multiplier3.png'
-import multiplier33Img from 'plinko/multiplier33.png'
-import multiplier41Img from 'plinko/multiplier41.png'
-import multiplier5Img from 'plinko/multiplier5.png'
-import multiplier88Img from 'plinko/multiplier88.png'
+//config
+export const colors = {
+  background: '#0f212e',
+  primary: '#213743',
+  secondary: '#3d5564',
+  text: '#F2F7FF',
+  purple: '#C52BFF',
+  purpleDark: '#8D27B3'
+} as const
 
 
+const pins = {
+  startPins: 3,
+  pinSize: 2,
+  pinGap: 20
+}
 
-import { LinesType, MultiplierType, MultiplierValues } from '../@types'
+const ball = {
+  ballSize: 5
+}
+
+const engine = {
+  engineGravity: 1
+}
+
+const world = {
+  width: 390,
+  height: 390
+}
+
+export const config = {
+  pins,
+  ball,
+  engine,
+  world,
+  colors
+}
 
 
+//Multipliers
+export type LinesType = 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16
+
+export type MultiplierValuesType =
+  | 110
+  | 88
+  | 41
+  | 33
+  | 18
+  | 15
+  | 10
+  | 8
+  | 5
+  | 3
+  | 2
+  | 1.5
+  | 1
+  | 0.5
+  | 0.3
+
+export enum MultiplierColors {
+  RED_DARKER = '#ff003f',
+  RED_DARK = '#ff1837',
+  RED = '#ff302f',
+  ORANGE_DARK = '#ff4827',
+  ORANGE = '#ff6020',
+  ORANGE_LIGHT = '#ff7818',
+  YELLOW_DARK = '#ff9010',
+  YELLOW = '#ffa818',
+  YELLOW_LIGHT = '#ffc000'
+}
+
+export type MultiplierValues =
+  | 110
+  | 88
+  | 41
+  | 33
+  | 25
+  | 18
+  | 15
+  | 10
+  | 5
+  | 3
+  | 2
+  | 1.5
+  | 1
+  | 0.5
+  | 0.3
+
+type MultiplierLabelType = `block-${MultiplierValues}`
+
+export type MultiplierType = {
+  label: MultiplierLabelType
+  img: string
+}
 
 const multipliers = {
   110: {
-    img: 'plinko/multiplier1.png',
+    img: 'plinko/multiplier110.png',
     label: 'block-110'
   },
   88: {

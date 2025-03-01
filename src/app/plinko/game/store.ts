@@ -21,13 +21,6 @@ const walletInitialState: Wallet = {
   balance: 9999
 }
 
-function random(min: number, max: number) {
-  const random = Math.random()
-  min = Math.round(min)
-  max = Math.floor(max)
-
-  return random * (max - min) + min
-}
 
 export const useAuthStore = create<State>((setState, getState) => ({
   wallet: walletInitialState,
@@ -63,4 +56,33 @@ export const useAuthStore = create<State>((setState, getState) => ({
       console.error('decrementBalanceError', error)
     }
   },
+}))
+
+
+
+interface Game {
+  gamesRunning: number
+  setGamesRunning: (gamesRunning: number) => void
+  incrementGamesRunning: () => void
+  decrementGamesRunning: () => void
+}
+
+export const useGameStore = create<Game>((set, get) => ({
+  
+  gamesRunning: 0,
+  setGamesRunning: (gamesRunning: number) => {
+    set({ gamesRunning })
+  },
+  incrementGamesRunning: () => {
+    const gamesRunning = get().gamesRunning
+    const calc = gamesRunning + 1
+
+    set({ gamesRunning: calc < 0 ? 1 : calc })
+  },
+  decrementGamesRunning: () => {
+    const gamesRunning = get().gamesRunning
+    const calc = gamesRunning - 1
+
+    set({ gamesRunning: calc < 0 ? 0 : calc })
+  }
 }))

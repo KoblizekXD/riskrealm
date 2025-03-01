@@ -2,7 +2,7 @@
 import '../globals.css'
 
 
-import { Plinko } from './components/index'
+import { Plinko } from './game/game'
 
 export default async function Game() {
   //const user = await getUser();
