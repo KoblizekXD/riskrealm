@@ -4,7 +4,7 @@ import DailyRewards from "@/components/daily-rewards";
 import MyDialog from "@/components/dialog";
 import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
-import { fire, startRussianRoulette, cashout } from "@/lib/games/russianroulette";
+import { cashout, fire, startRussianRoulette } from "@/lib/games/russianroulette";
 import type { User as UserType } from "@/lib/schemas";
 import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
 import { ExternalLink, Menu, Settings, User } from "lucide-react";
@@ -19,18 +19,20 @@ export const orbitron = Orbitron({
 });
 
 export default function RussianRoulette({ user }: { user: UserType }) {
-  const [streakClaimable, setStreakClaimable] = useState<boolean>(false);
-  const [playerBalance, setPlayerBalance] = useState<number>(user.tickets);
-  const [bet, setBet] = useState<number | null>(0);
-  const [gameStarted, setGameStarted] = useState<boolean>(false);
-  const [bulletPosition, setBulletPosition] = useState<number>(0);
-  const [currentChamber, setCurrentChamber] = useState<number>(0);
+  const [streakClaimable, setStreakClaimable] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [result, setResult] = useState<string>("");
-  const [showResultPopup, setShowResultPopup] = useState<boolean>(false);
+  const [playerBalance, setPlayerBalance] = useState<number>(user.tickets);
   const [oldBalance, setOldBalance] = useState<number>(0);
+  const [bet, setBet] = useState<number | null>(0);
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
+  const [showBalanceError, setShowBalanceError] = useState<boolean>(false);
+  const [showResultPopup, setShowResultPopup] = useState<boolean>(false);
+  const [currentChamber, setCurrentChamber] = useState<number>(0);
+  const [bulletPosition, setBulletPosition] = useState<number>(0);
 
-  // Načtení streak claim statusu
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
   }, []);
@@ -38,7 +40,7 @@ export default function RussianRoulette({ user }: { user: UserType }) {
   const handleStart = async () => {
     if (bet !== null) {
       if (bet <= 0 || bet > playerBalance) {
-        alert("Invalid bet amount!");
+        setShowBalanceError(true);
         return;
       }
       const gameState = await startRussianRoulette(playerBalance, bet);
@@ -49,9 +51,6 @@ export default function RussianRoulette({ user }: { user: UserType }) {
       setPlayerBalance(gameState.playerBalance);
       setOldBalance(gameState.oldBalance);
       setGameStarted(true);
-
-      // Aktualizace zůstatku v databázi
-      await updateBalance(gameState.playerBalance);
     }
   };
 
@@ -61,12 +60,10 @@ export default function RussianRoulette({ user }: { user: UserType }) {
       setCurrentChamber(gameState.currentChamber);
       setGameOver(gameState.gameOver);
       setPlayerBalance(gameState.playerBalance);
+      setResult(gameState.result);
 
       if (gameState.gameOver) {
-        setResult(gameState.result);
         setShowResultPopup(true);
-
-        // Aktualizace zůstatku v databázi
         await updateBalance(gameState.playerBalance);
       }
     }
@@ -80,31 +77,87 @@ export default function RussianRoulette({ user }: { user: UserType }) {
       setGameOver(true);
       setShowResultPopup(true);
 
-      // Aktualizace zůstatku v databázi
       await updateBalance(cashoutResult.playerBalance);
     }
   };
 
-  const handleReset = async () => {
-    setPlayerBalance(oldBalance);
+  const handleReset = () => {
+    //setPlayerBalance(oldBalance);
     setGameStarted(false);
     setGameOver(false);
     setResult("");
     setShowResultPopup(false);
-
-    // Obnovení původního zůstatku v databázi
-    await updateBalance(oldBalance);
+    setCurrentChamber(0);
+    setBet(0);
   };
+
+  function Navbar({ isOpen }: { isOpen: boolean }) {
+    return (
+      <div
+        className={`fixed left-0 top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${
+          isOpen ? "w-64" : "hidden"
+        }`}>
+        <div className="p-4">
+          <div className="flex items-center space-x-2 md:space-x-4 justify-between">
+            <h2 className="text-2xl font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
+              Risk Realm
+            </h2>
+            <button
+              type="button"
+              onClick={() => setIsNavOpen(!isNavOpen)}
+              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
+              X
+            </button>
+          </div>
+        </div>
+
+        <ul className="p-4">
+          <li className="mb-2">
+            <Link href="/" className="text-[#D4AF37] hover:text-[#FFD700]">
+              Home
+            </Link>
+          </li>
+          <li className="mb-2">
+            <Link href="/games" className="text-[#D4AF37] hover:text-[#FFD700]">
+              Games
+            </Link>
+          </li>
+          <li className="mb-2">
+            <Link
+              href="/profile"
+              className="text-[#D4AF37] hover:text-[#FFD700]">
+              Profile
+            </Link>
+          </li>
+          <li className="mb-2">
+            <Link
+              href="/settings"
+              className="text-[#D4AF37] hover:text-[#FFD700]">
+              Settings
+            </Link>
+          </li>
+        </ul>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
+      <Navbar isOpen={isNavOpen} />
       <div className="flex flex-col items-center">
         <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
           <div className={"flex items-center space-x-2 md:space-x-4"}>
+            <button
+              type="button"
+              onClick={() => setIsNavOpen(!isNavOpen)}
+              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
+              ☰
+            </button>
             <div className="text-2xl md:text-2xl font-bold text-[#d4af37]">
               Risk Realm
             </div>
           </div>
+
           <div className="flex items-center">
             {streakClaimable && <DailyRewards user={user} />}
             <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
@@ -112,7 +165,10 @@ export default function RussianRoulette({ user }: { user: UserType }) {
             </div>
           </div>
         </header>
-        <main className="relative text-center flex-grow p-4 lg:p-4 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px]">
+        <main
+          className={`relative text-center flex-grow p-4 lg:p-4 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
+            isNavOpen ? "ml-64" : "ml-0"
+          }`}>
           <div className="w-full max-w-6xl p-8">
             <h1 className="text-4xl font-bold mb-4 text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A]">
               Russian Roulette

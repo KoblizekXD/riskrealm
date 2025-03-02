@@ -1,22 +1,19 @@
 "use server";
 
-import { updateBalance } from "@/lib/supabase/actions";
-
 export async function startRussianRoulette(balance: number, bet: number) {
   if (bet > balance) {
     throw new Error("Insufficient balance");
   }
   const oldBalance = balance;
   const playerBalance = balance - bet;
-  const bulletPosition = Math.floor(Math.random() * 6); // 6 chambers in a revolver
-
-  // Aktualizace zůstatku v databázi
-  await updateBalance(playerBalance);
+  const bulletPosition = Math.floor(Math.random() * 6);
 
   return {
     playerBalance,
     bulletPosition,
     oldBalance,
+    gameOver: false,
+    bet,
   };
 }
 
@@ -43,9 +40,6 @@ export async function fire(
     }
   }
 
-  // Aktualizace zůstatku v databázi
-  await updateBalance(playerBalance);
-
   return {
     currentChamber: currentChamber + 1,
     playerBalance,
@@ -55,45 +49,42 @@ export async function fire(
 }
 
 export async function cashout(
-    currentChamber: number,
-    balance: number,
-    bet: number,
-  ) {
-    let playerBalance = balance;
-    let result = "";
-  
-    // Calculate cashout reward based on the current chamber
-    let rewardMultiplier = 1; // Default multiplier
-    switch (currentChamber) {
-      case 0: // Po 1. shotu
-        rewardMultiplier = 0.8;
-        break;
-      case 1: // Po 2. shotu
-        rewardMultiplier = 1.0;
-        break;
-      case 2: // Po 3. shotu
-        rewardMultiplier = 1.2;
-        break;
-      case 3: // Po 4. shotu
-        rewardMultiplier = 1.5;
-        break;
-      case 4: // Po 5. shotu
-        rewardMultiplier = 2.0;
-        break;
-      default:
-        rewardMultiplier = 1.0; // Fallback
-    }
-  
-    const cashoutAmount = Math.floor(bet * rewardMultiplier);
-    playerBalance += cashoutAmount;
-  
-    result = `You cashed out after ${currentChamber + 1} shots and received ${cashoutAmount} tickets!`;
-  
-    // Aktualizace zůstatku v databázi
-    await updateBalance(playerBalance);
-  
-    return {
-      playerBalance,
-      result,
-    };
+  currentChamber: number,
+  balance: number,
+  bet: number,
+) {
+  let playerBalance = balance;
+  let result = "";
+
+  let rewardMultiplier = 1;
+  switch (currentChamber) {
+    case 0:
+      rewardMultiplier = 0.8;
+      break;
+    case 1:
+      rewardMultiplier = 1.0;
+      break;
+    case 2:
+      rewardMultiplier = 1.2;
+      break;
+    case 3:
+      rewardMultiplier = 1.5;
+      break;
+    case 4:
+      rewardMultiplier = 2.0;
+      break;
+    default:
+      rewardMultiplier = 1.0;
   }
+
+  const cashoutAmount = Math.floor(bet * rewardMultiplier);
+  playerBalance += cashoutAmount;
+
+  result = `You cashed out after ${currentChamber + 1} shots and received ${cashoutAmount} tickets!`;
+
+  return {
+    playerBalance,
+    result,
+    gameOver: true,
+  };
+}
