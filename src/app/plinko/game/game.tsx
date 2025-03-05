@@ -25,6 +25,7 @@ import type { User as UserType } from "@/lib/schemas";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { ExternalLink, Menu, Settings, User } from "lucide-react";
+import { set } from 'zod';
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -139,7 +140,6 @@ export function Plinko({ user }: { user: UserType }) {
       if (inGameBallsCount >= 15) {
         return;
       }
-      setPlayerBalance(playerBalance - ballValue);
       incrementInGameBallsCount();
 
       const minBallX = worldWidth / 2 - pinsConfig.pinSize * 3 + pinsConfig.pinGap;
@@ -246,13 +246,15 @@ export function Plinko({ user }: { user: UserType }) {
       setBetValue(playerBalance);
       return;
     }
+    
     addBall(betValue);
     if (betValue <= 0) return;
+    console.log("x");
     setPlayerBalance((prevBalance) => {
       prevBalance = prevBalance - betValue
       return prevBalance;
+      
     })
-
   };
 
   useEffect(() => {
@@ -306,7 +308,7 @@ export function Plinko({ user }: { user: UserType }) {
 
       const newWin = multiplierValue * +ballValue;
       setPlayerBalance((prevBalance) => {
-        prevBalance = prevBalance + newWin
+        prevBalance = prevBalance + Math.round(newWin);
         return prevBalance;
       })
     },
