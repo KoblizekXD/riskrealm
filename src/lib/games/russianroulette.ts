@@ -14,6 +14,7 @@ export async function startRussianRoulette(balance: number, bet: number) {
     oldBalance,
     gameOver: false,
     bet,
+    currentChamber: 0, // Initial chamber set to 0
   };
 }
 
@@ -62,25 +63,25 @@ export async function cashout(
       rewardMultiplier = 0.8;
       break;
     case 1:
-      rewardMultiplier = 1.0;
+      rewardMultiplier = 1.25;
       break;
     case 2:
-      rewardMultiplier = 1.2;
-      break;
-    case 3:
       rewardMultiplier = 1.5;
       break;
+    case 3:
+      rewardMultiplier = 2;
+      break;
     case 4:
-      rewardMultiplier = 2.0;
+      rewardMultiplier = 3;
       break;
     default:
-      rewardMultiplier = 1.0;
+      rewardMultiplier = 5;
   }
 
   const cashoutAmount = Math.floor(bet * rewardMultiplier);
   playerBalance += cashoutAmount;
 
-  result = `You cashed out after ${currentChamber + 1} shots and received ${cashoutAmount} tickets!`;
+  result = `You cashed out after ${currentChamber} shots and received ${cashoutAmount} tickets!`;
 
   return {
     playerBalance,

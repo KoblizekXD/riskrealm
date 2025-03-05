@@ -11,6 +11,8 @@ import { ExternalLink, Menu, Settings, User } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import CylinderImage from "../revolvercylinder.png"
+import { motion } from "framer-motion";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -18,10 +20,11 @@ export const orbitron = Orbitron({
   weight: "variable",
 });
 
+
 export default function RussianRoulette({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
-
+  const [rotationAngle, setRotationAngle] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [result, setResult] = useState<string>("");
   const [playerBalance, setPlayerBalance] = useState<number>(user.tickets);
@@ -32,10 +35,18 @@ export default function RussianRoulette({ user }: { user: UserType }) {
   const [showResultPopup, setShowResultPopup] = useState<boolean>(false);
   const [currentChamber, setCurrentChamber] = useState<number>(0);
   const [bulletPosition, setBulletPosition] = useState<number>(0);
+  const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
   }, []);
+
+
+  
+    const handleClick = () => {
+      setRotation(rotation + 60);
+    };
+
 
   const handleStart = async () => {
     if (bet !== null) {
@@ -61,6 +72,7 @@ export default function RussianRoulette({ user }: { user: UserType }) {
       setGameOver(gameState.gameOver);
       setPlayerBalance(gameState.playerBalance);
       setResult(gameState.result);
+      setRotation(rotation + 60);
 
       if (gameState.gameOver) {
         setShowResultPopup(true);
@@ -82,7 +94,6 @@ export default function RussianRoulette({ user }: { user: UserType }) {
   };
 
   const handleReset = () => {
-    //setPlayerBalance(oldBalance);
     setGameStarted(false);
     setGameOver(false);
     setResult("");
@@ -166,7 +177,7 @@ export default function RussianRoulette({ user }: { user: UserType }) {
           </div>
         </header>
         <main
-          className={`relative text-center flex-grow p-4 lg:p-4 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
+          className={`overflow-hidden relative text-center flex-grow p-4 lg:p-4 flex flex-col items-center mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
             isNavOpen ? "ml-64" : "ml-0"
           }`}>
           <div className="w-full max-w-6xl p-8">
@@ -224,14 +235,11 @@ export default function RussianRoulette({ user }: { user: UserType }) {
             <div className="flex flex-col items-center justify-center gap-8 mb-4">
               <div className="mb-4">
                 <h2 className="text-2xl font-bold text-[#FFD700]">
-                  Revolver Chamber: {currentChamber + 1}
+                  Revolver Chamber: {currentChamber}
                 </h2>
                 <div className="mt-4">
-                  <img
-                    src="/revolver.png"
-                    alt="Revolver"
-                    className="w-32 h-32"
-                  />
+                  
+                  <motion.img src={CylinderImage.src} alt="Revolver" className="overflow-hidden w-110 h-auto" animate={{ rotate: rotation }} transition={{ duration: 0.3 }} />
                 </div>
               </div>
             </div>
