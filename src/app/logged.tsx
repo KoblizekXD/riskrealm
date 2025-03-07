@@ -55,6 +55,7 @@ function SimpleCard({
 export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [tickets, setTickets] = useState(user.tickets);
 
   function Navbar({ isOpen }: { isOpen: boolean }) {
     return (
@@ -175,7 +176,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             </MyDialog>
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
-              {streakClaimable && <DailyRewards user={user} />}
+              {streakClaimable && <DailyRewards setTickets={setTickets} user={user} />}
               <Tooltip
                 content={
                   <div className="flex flex-col gap-y-2">
@@ -185,7 +186,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   </div>
                 }>
                 <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
-                  <span>{user.tickets} 🎫</span>
+                  <span>{tickets} 🎫</span>
                   <span>{user.gems} 💎</span>
                 </div>
               </Tooltip>

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import MyDialog from "./dialog";
 
-export default function DailyRewards({ user }: { user: User }) {
+export default function DailyRewards({ user, setTickets }: { user: User; setTickets: (a :(prev: number) => number) => void }) {
   const [open, setOpen] = useState(true);
   const streak = user.streak + 1;
 
@@ -26,7 +26,7 @@ export default function DailyRewards({ user }: { user: User }) {
       <h2 className="text-center font-semibold">
         You currently have {user.streak} days of streak.
       </h2>
-      <div className="flex gap-x-2 mt-2">
+      <div className="flex w-full justify-center gap-x-2 mt-2">
         <div className="basis-48 flex flex-col gap-y-3 justify-center items-center bg-[#030712] shadow-xl rounded-lg h-36">
           <TicketsIcon size={36} />
           <span className="font-semibold">Day {streak}</span>
@@ -53,6 +53,7 @@ export default function DailyRewards({ user }: { user: User }) {
         onClick={() => {
           claimStreak().then(() => {
             toast("Successfully claimed your daily rewards!");
+            setTickets(prev => prev + streakCalculator(streak));
             setOpen(false);
           });
         }}
