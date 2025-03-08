@@ -60,25 +60,25 @@ export async function cashout(
   let rewardMultiplier = 1;
   switch (currentChamber) {
     case 0:
-      rewardMultiplier = 0.8;
+      rewardMultiplier = 0.5;
       break;
     case 1:
-      rewardMultiplier = 1.25;
+      rewardMultiplier = 1;
       break;
     case 2:
-      rewardMultiplier = 1.5;
-      break;
-    case 3:
       rewardMultiplier = 2;
       break;
-    case 4:
+    case 3:
       rewardMultiplier = 3;
+      break;
+    case 4:
+      rewardMultiplier = 4;
       break;
     default:
       rewardMultiplier = 5;
   }
 
-  const cashoutAmount = Math.floor(bet * rewardMultiplier);
+  const cashoutAmount = (bet * rewardMultiplier);
   playerBalance += cashoutAmount;
 
   result = `You cashed out after ${currentChamber} shots and received ${cashoutAmount} tickets!`;
