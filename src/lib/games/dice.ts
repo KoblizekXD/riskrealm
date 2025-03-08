@@ -8,17 +8,19 @@ export class DiceGame {
       this.target = target;
     }
   
-    private rollDice(): number {
+    public rollDice(): number {
       return Math.floor(Math.random() * 6) + 1;
     }
   
-    rollDices(): number {
-      let sum = 0;
-      for (let i = 0; i < 2; i++) {
-        sum += this.rollDice();
-      }
-      return sum;
+    rollDices(): { dice1: number, dice2: number, sum: number } {
+      let dice1 = this.rollDice();
+      let dice2 = this.rollDice();
+      let sum = dice1 + dice2;
+      
+      return { dice1, dice2, sum };
     }
+
+
   
     checkWin(total: number): boolean {
       if (this.target === 'over') {

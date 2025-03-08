@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DiceGame }  from "@/lib/games/dice";
 import type { User as UserType } from "@/lib/schemas";
 import Link from "next/link";
@@ -10,26 +10,103 @@ import Tooltip from "@/components/tooltip";
 import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
 import DailyRewards from "@/components/daily-rewards";
 import Popover from "@/components/popover";
+import Image from "next/image";
 
 export default function Dice({ user }: { user: UserType }) {
-  const [dicePrediction, setDicePrediction] = useState<number>(3);
   const [target, setTarget] = useState<'over' | 'under'>('over');
   const [result, setResult] = useState<number | null>(null);
   const [isWin, setIsWin] = useState<boolean | null>(null);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [streakClaimable, setStreakClaimable] = useState(false);
-  const [playerBalance, setPlayerBalance] = useState<number>(user.tickets);
+  const [playerBalance, setPlayerBalance] = useState<number>(10000);
   const [showBalanceError, setShowBalanceError] = useState<boolean>(false);
   const [showResultPopup, setShowResultPopup] = useState<boolean>(false);
+  const [dicePrediction, setDicePrediction] = useState(3);
+  const [betValue, setBetValue] = useState(1);
+  const [multiplier, setMultiplier] = useState(0);
+  const [rolling, setRolling] = useState(false);
+  const [diceFaces, setDiceFaces] = useState([1, 1]);
+
+  class DiceGameLogic {
+    private static probabilityMap: { [key: number]: number } = {
+      2: 1 / 36,
+      3: 2 / 36,
+      4: 3 / 36,
+      5: 4 / 36,
+      6: 5 / 36,
+      7: 6 / 36,
+      8: 5 / 36,
+      9: 4 / 36,
+      10: 3 / 36,
+      11: 2 / 36,
+      12: 1 / 36,
+    };
+  
+    static getMultiplier(dicePrediction: number, target: "over" | "under"): number {
+      let probability = 0;
+  
+      if (target === "over") {
+        for (let i = dicePrediction; i <= 12; i++) {
+          probability += DiceGameLogic.probabilityMap[i] || 0;
+        }
+      } else {
+        for (let i = 2; i <= dicePrediction; i++) {
+          probability += DiceGameLogic.probabilityMap[i] || 0;
+        }
+      }
+  
+      return probability > 0 ? Number((1 / probability).toFixed(2)) : 0;
+    }
+  }
+  
+
 
   const handleRoll = () => {
-    const game = new DiceGame(dicePrediction, target);
-    const total = game.rollDices();
-    const win = game.checkWin(total);
-
-    setResult(total);
-    setIsWin(win);
+    if (betValue > playerBalance) {
+      setShowBalanceError(true);
+      setBetValue(playerBalance);
+      return;
+    }
+    setPlayerBalance((prevBalance) => {
+        prevBalance = prevBalance - betValue
+        return prevBalance;        
+      })
+      setRolling(true);
+      setResult(null);
+      const game = new DiceGame(dicePrediction, target);
+      const total = game.rollDices();
+      let rollInterval = setInterval(() => {
+        setDiceFaces([
+          total.dice1,
+          total.dice2,
+        ]);
+      }, 100);
+      let sum = total.sum;
+  
+      setTimeout(() => {
+        clearInterval(rollInterval);
+        const game = new DiceGame(dicePrediction, target);
+        const win = game.checkWin(sum);
+        if (win) {
+          setPlayerBalance((prevBalance) => {
+            prevBalance = prevBalance + betValue * multiplier;
+            return prevBalance;
+          });
+        }
+  
+        setResult(sum);
+        setIsWin(win);
+        setRolling(false);
+      }, 1000);
   };
+
+  useEffect(() => {
+    setMultiplier(DiceGameLogic.getMultiplier(dicePrediction, target));
+  }, [dicePrediction, target]);
+
+  useEffect(() => {
+    canClaimStreak().then(setStreakClaimable);
+  }, []);
 
   function Navbar({ isOpen }: { isOpen: boolean }) {
     return (
@@ -182,45 +259,94 @@ export default function Dice({ user }: { user: UserType }) {
             isNavOpen ? "ml-64" : "ml-0"
           }`}>
 
-          <h1 className="text-3xl font-bold mb-6">Dice Game</h1>
 
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">Number of Dice (3-11):</label>
+<div className="bg-gray-900 text-white p-6 rounded-lg min-w-3xl mx-auto shadow-lg">
+      <div className="text-4xl font-bold mb-4 text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] text-center">
+        Roll the Dice
+      </div>
+
+
+
+
+      <div className="flex justify-between mt-6">
+        {/* LEVÁ STRANA */}
+        <div className="bg-gray-800 p-4 rounded-lg">
+          <button
+            className={`block w-full py-2 text-center text-lg font-bold cursor-pointer ${
+              target === "over" ? "bg-green-500" : "bg-gray-700"
+            }`}
+            onClick={() => setTarget("over")}
+          >
+            OVER
+          </button>
+          <button
+            className={`block w-full py-2 text-center text-lg font-bold mt-2 cursor-pointer ${
+              target === "under" ? "bg-green-500" : "bg-gray-700"
+            }`}
+            onClick={() => setTarget("under")}
+          >
+            UNDER
+          </button>
+
+          <div className="mt-4 text-center">
+          <label className="block text-sm font-medium mb-2 text-[#FFD700]">Prediction (3-11):</label>
         <input
           type="number"
           min="3"
           max="11"
           value={dicePrediction}
           onChange={(e) => setDicePrediction(parseInt(e.target.value))}
-          className="p-2 border rounded"
+          className="p-2 rounded text-white bg-[#11111B] border border-[#D4AF37] focus:outline-none focus:ring focus:ring-[#D4AF37] focus:ring-opacity-50 transition-colors"
         />
+            <div className="text-[#FFD700] mt-2 text-lg">PAYS: {multiplier}x</div>
+          </div>
+        </div>
+</div>
+
+<div className="flex justify-center items-center mb-6 relative">
+        <div className={`relative w-32 h-32 flex justify-center items-center`}>
+          {diceFaces.map((face, index) => (
+            <Image
+              key={index}
+              src={`/dice/dice-${face}.png`}
+              alt={`Dice ${face}`}
+              width={64}
+              height={64}
+              className={`transition-transform duration-500 ${
+                rolling ? "animate-spin" : "scale-105"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    
+
+      {/* SÁZKA A BALANCE */}
+      <div className="mt-6 bg-gray-800 p-4 rounded">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-sm">Bet Amount, DEM:</span>
+          <input
+            type="number"
+            min="1"
+            max="30000"
+            value={betValue}
+            onChange={(e) => setBetValue(parseFloat(e.target.value))}
+            className="p-2 rounded text-white bg-[#11111B] border border-[#D4AF37] focus:outline-none focus:ring focus:ring-[#D4AF37] focus:ring-opacity-50 transition-colors"
+          />
+        </div>
+        <div className="text-sm">Balance: <span className="text-blue-400">{playerBalance.toFixed(1)}</span></div>
       </div>
 
-      <div className="mb-4">
-        <button
-          onClick={() => setTarget('over')}
-          className={`px-4 py-2 mr-2 cursor-pointer ${
-            target === 'over' ? 'bg-green-500 text-white' : 'bg-red-500'
-          } rounded`}
-        >
-          Over
-        </button>
-        <button
-          onClick={() => setTarget('under')}
-          className={`px-4 py-2 cursor-pointer ${
-            target === 'under' ? 'bg-green-500 text-white' : 'bg-red-500'
-          } rounded`}
-        >
-          Under
-        </button>
-      </div>
+     
 
+      {/* ROLL BUTTON */}
       <button
         onClick={handleRoll}
-        className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 cursor-pointer"
+        className="mt-4 w-full py-3 bg-green-500 text-lg font-bold rounded hover:bg-green-600 cursor-pointer"
       >
         Roll Dice
       </button>
+    </div>
 
       {result !== null && (
         <div className="mt-6">
@@ -237,8 +363,8 @@ export default function Dice({ user }: { user: UserType }) {
           
 
           {showBalanceError && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-              <div className="bg-[#11111B] p-6 rounded-lg shadow-lg">
+            <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center">
+              <div className="bg-[#11111B]/90 backdrop-blur-[2px] p-6 rounded-lg shadow-lg">
                 <h2 className="text-2xl font-bold text-[#FFD700] mb-4">
                   Insufficient Balance
                 </h2>
@@ -248,7 +374,7 @@ export default function Dice({ user }: { user: UserType }) {
                 <button
                   type="button"
                   onClick={() => setShowBalanceError(false)}
-                  className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+                  className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors cursor-pointer">
                   Close
                 </button>
               </div>
