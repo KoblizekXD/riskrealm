@@ -176,7 +176,9 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             </MyDialog>
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
-              {streakClaimable && <DailyRewards setTickets={setTickets} user={user} />}
+              {streakClaimable && (
+                <DailyRewards setTickets={setTickets} user={user} />
+              )}
               <Tooltip
                 content={
                   <div className="flex flex-col gap-y-2">

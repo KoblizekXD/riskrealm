@@ -7,5 +7,5 @@ export default async function Game() {
 
   if (!user) redirect("/signin");
 
-  return <Slots user = {user} />;
+  return <Slots user={user} />;
 }

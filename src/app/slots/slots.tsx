@@ -40,7 +40,9 @@ export default function Slots({ user }: { user: UserType }) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col items-center justify-center">
       <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-6">
-        <div className="text-2xl font-bold text-[#d4af37]">Risk Realm - Slots</div>
+        <div className="text-2xl font-bold text-[#d4af37]">
+          Risk Realm - Slots
+        </div>
         <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
           Balance: {balance} 🎫
         </div>
@@ -56,8 +58,7 @@ export default function Slots({ user }: { user: UserType }) {
             {reels.map((reel, index) => (
               <div
                 key={index}
-                className="text-6xl bg-[#1E1E2E] p-4 rounded-lg border border-[#D4AF37]"
-              >
+                className="text-6xl bg-[#1E1E2E] p-4 rounded-lg border border-[#D4AF37]">
                 {reel}
               </div>
             ))}
@@ -78,8 +79,7 @@ export default function Slots({ user }: { user: UserType }) {
             <button
               onClick={handleSpin}
               disabled={isSpinning}
-              className="p-2 bg-[#D4AF37] text-white rounded hover:bg-[#FFD700] hover:text-black transition-colors cursor-pointer"
-            >
+              className="p-2 bg-[#D4AF37] text-white rounded hover:bg-[#FFD700] hover:text-black transition-colors cursor-pointer">
               {isSpinning ? "Spinning..." : "Spin"}
             </button>
           </div>
@@ -97,8 +97,7 @@ export default function Slots({ user }: { user: UserType }) {
             {isWin && <p>You won: {winAmount} 🎫</p>}
             <button
               onClick={handleReset}
-              className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors cursor-pointer"
-            >
+              className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors cursor-pointer">
               Close
             </button>
           </div>

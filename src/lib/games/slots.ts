@@ -14,12 +14,11 @@ function spinReels(): string[] {
 function calculateWin(reels: string[], bet: number): number {
   const [a, b, c] = reels;
 
-
   if (a === b && b === c) {
     if (a === "7️⃣") return bet * 10;
     if (a === "⭐") return bet * 5;
     if (a === "🔔") return bet * 3;
-    return bet * 2; 
+    return bet * 2;
   }
 
   if (a === b || b === c || a === c) {
@@ -37,9 +36,9 @@ export async function spinSlots(balance: number, bet: number) {
   const oldBalance = balance;
   balance -= bet;
 
-  const reels = spinReels(); 
-  const winAmount = calculateWin(reels, bet); 
-  balance += winAmount; 
+  const reels = spinReels();
+  const winAmount = calculateWin(reels, bet);
+  balance += winAmount;
 
   return {
     reels,

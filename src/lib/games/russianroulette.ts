@@ -78,7 +78,7 @@ export async function cashout(
       rewardMultiplier = 5;
   }
 
-  const cashoutAmount = (bet * rewardMultiplier);
+  const cashoutAmount = bet * rewardMultiplier;
   playerBalance += cashoutAmount;
 
   result = `You cashed out after ${currentChamber} shots and received ${cashoutAmount} tickets!`;

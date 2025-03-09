@@ -1,25 +1,24 @@
 "use client";
 
 import DailyRewards from "@/components/daily-rewards";
-import MyDialog from "@/components/dialog";
-import Popover from "@/components/popover";
-import Tooltip from "@/components/tooltip";
-import { cashout, fire, startRussianRoulette } from "@/lib/games/russianroulette";
+import {
+  cashout,
+  fire,
+  startRussianRoulette,
+} from "@/lib/games/russianroulette";
 import type { User as UserType } from "@/lib/schemas";
 import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
-import { ExternalLink, Menu, Settings, User } from "lucide-react";
+import { motion } from "framer-motion";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import CylinderImage from "../revolvercylinder.png"
-import { motion } from "framer-motion";
+import CylinderImage from "../revolvercylinder.png";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
   subsets: ["latin"],
   weight: "variable",
 });
-
 
 export default function RussianRoulette({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
@@ -41,12 +40,9 @@ export default function RussianRoulette({ user }: { user: UserType }) {
     canClaimStreak().then(setStreakClaimable);
   }, []);
 
-
-  
-    const handleClick = () => {
-      setRotation(rotation + 60);
-    };
-
+  const handleClick = () => {
+    setRotation(rotation + 60);
+  };
 
   const handleStart = async () => {
     if (bet !== null) {
@@ -67,7 +63,12 @@ export default function RussianRoulette({ user }: { user: UserType }) {
 
   const handleFire = async () => {
     if (bet !== null) {
-      const gameState = await fire(currentChamber, bulletPosition, playerBalance, bet);
+      const gameState = await fire(
+        currentChamber,
+        bulletPosition,
+        playerBalance,
+        bet,
+      );
       setCurrentChamber(gameState.currentChamber);
       setGameOver(gameState.gameOver);
       setPlayerBalance(gameState.playerBalance);
@@ -238,8 +239,13 @@ export default function RussianRoulette({ user }: { user: UserType }) {
                   Revolver Chamber: {currentChamber}
                 </h2>
                 <div className="mt-4">
-                  
-                  <motion.img src={CylinderImage.src} alt="Revolver" className="overflow-hidden w-110 h-auto" animate={{ rotate: rotation }} transition={{ duration: 0.3 }} />
+                  <motion.img
+                    src={CylinderImage.src}
+                    alt="Revolver"
+                    className="overflow-hidden w-110 h-auto"
+                    animate={{ rotate: rotation }}
+                    transition={{ duration: 0.3 }}
+                  />
                 </div>
               </div>
             </div>
