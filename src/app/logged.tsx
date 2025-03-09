@@ -70,9 +70,9 @@ export default function LoggedInPage({ user }: { user: UserType }) {
           }`}>
           <div className="p-4">
             <div className="flex items-center space-x-2 md:space-x-4 justify-between">
-              <h2 className="text-2xl -translate-y-[1px] font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
+              <Link href={"/"} className="text-2xl cursor-pointer -translate-y-[1px] font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
                 Risk Realm
-              </h2>
+              </Link>
               <button
                 type="button"
                 onClick={() => setIsNavOpen(!isNavOpen)}
@@ -131,9 +131,9 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
               <Menu />
             </button>
-            <div className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
+            <Link href={"/"} className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
               Risk Realm
-            </div>
+            </Link>
           </div>
 
           <div className="flex items-center">
@@ -161,7 +161,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   Options
                 </Link>
                 <Link
-                  className="font-semibold gap-x-2 flex items-center"
+                  className="font-semibold brightness-50 gap-x-2 flex items-center"
                   href={"/trade"}>
                   <ChartCandlestick size={16} />
                   Trade gems
@@ -293,7 +293,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   </p>
                 </Link>
 
-                <div className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <Link href={"/roulette"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
                     src={RoulettePic.src}
                     alt="Roulette Madness"
@@ -303,9 +303,9 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                     🎡 Roulette Madness 🎡
                   </h3>
                   <p className="text-[#D4AF37] text-sm md:text-base">
-                    Bet big, win bigger – spin the wheel now!
+                    Bet big, win bigger - spin the wheel now!
                   </p>
-                </div>
+                </Link>
               </div>
             </div>
           </div>
