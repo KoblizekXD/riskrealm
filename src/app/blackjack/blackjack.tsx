@@ -49,6 +49,22 @@ export default function BlackJack({ user }: { user: UserType }) {
 
   const formatNumber = (num: number) => num.toLocaleString("en-US");
 
+  useEffect(() => {
+    const handleKeyPress = () => {
+      if (showResultPopup) {
+        handleReset();
+      }
+    };
+  
+    if (showResultPopup) {
+      window.addEventListener("keydown", handleKeyPress);
+    }
+  
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [showResultPopup]);
+
   const handleStart = async () => {
     if (bet !== null) {
       if (bet <= 0 || bet > playerBalance) {
