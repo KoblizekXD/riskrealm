@@ -23,7 +23,7 @@ import { ExternalLink, Menu, Settings, User } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { MultiplierHistory, PlinkoGameBody } from "./components";
-import { config, getMultiplierByLinesQnt } from "./config";
+import { config, getMultiplierByLinesQnt, getMultiplierSound } from "./config";
 import { useGameStore } from "./store";
 
 export const orbitron = Orbitron({
@@ -31,6 +31,8 @@ export const orbitron = Orbitron({
   subsets: ["latin"],
   weight: "variable",
 });
+
+
 
 type LinesType = 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
 type MultiplierValues =
@@ -64,6 +66,7 @@ export function Plinko({ user }: { user: UserType }) {
   const [lastMultipliers, setLastMultipliers] = useState<number[]>([]);
   const [playerBalance, setPlayerBalance] = useState<number>(user.tickets);
   const [betValue, setBetValue] = useState<number>(0);
+  const ballEffect = "plinko/ball.wav";
 
   const {
     pins: pinsConfig,
@@ -162,6 +165,10 @@ export function Plinko({ user }: { user: UserType }) {
         return;
       }
       incrementInGameBallsCount();
+      const ballSound = new Audio(ballEffect)
+      ballSound.volume = 0.2
+      ballSound.currentTime = 0
+      ballSound.play()
 
       const minBallX =
         worldWidth / 2 - pinsConfig.pinSize * 3 + pinsConfig.pinGap;
@@ -338,6 +345,11 @@ export function Plinko({ user }: { user: UserType }) {
       const multiplierValue = +multiplier.label.split(
         "-",
       )[1] as MultiplierValues;
+
+      const multiplierSong = new Audio(getMultiplierSound(multiplierValue))
+    multiplierSong.currentTime = 0
+    multiplierSong.volume = 0.2
+    multiplierSong.play()
 
       setLastMultipliers((prev) => [
         multiplierValue,

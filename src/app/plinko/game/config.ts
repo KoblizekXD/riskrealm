@@ -6,6 +6,8 @@ const pins = {
   pinGap: 20,
 };
 
+
+
 const ball = {
   ballSize: 5,
 };
@@ -65,71 +67,112 @@ export type MultiplierValues =
 
 type MultiplierLabelType = `block-${MultiplierValues}`;
 
+const multBest = "plinko/multiplier-best.wav";
+const multGood = "plinko/multiplier-good.wav";
+const multRegular = "plinko/multiplier-regular.wav";
+const multLow = "plinko/multiplier-low.wav";
+
+const multiplierSounds = {
+  110: multBest,
+  88: multBest,
+  41: multBest,
+  33: multBest,
+  25: multBest,
+  18: multGood,
+  15: multGood,
+  10: multGood,
+  5: multGood,
+  3: multRegular,
+  2: multRegular,
+  1.5: multRegular,
+  1: multRegular,
+  0.5: multLow,
+  0.3: multLow
+} as const
+
 export type MultiplierType = {
   label: MultiplierLabelType;
   img: string;
+  sound: string;
 };
+
+
 
 const multipliers = {
   110: {
     img: "plinko/multiplier110.png",
     label: "block-110",
+    sound: multBest,
   },
   88: {
     img: "plinko/multiplier88.png",
     label: "block-88",
+    sound: multBest,
   },
   41: {
     img: "plinko/multiplier41.png",
     label: "block-41",
+    sound: multBest,
   },
   33: {
     img: "plinko/multiplier33.png",
     label: "block-33",
+    sound: multBest,
   },
   25: {
     img: "plinko/multiplier25.png",
     label: "block-25",
+    sound: multBest,
   },
   18: {
     img: "plinko/multiplier18.png",
     label: "block-18",
+    sound: multGood,
   },
   15: {
     img: "plinko/multiplier15.png",
     label: "block-15",
+    sound: multGood,
   },
   10: {
     img: "plinko/multiplier10.png",
     label: "block-10",
+    sound: multGood,
   },
   5: {
     img: "plinko/multiplier5.png",
     label: "block-5",
+    sound: multGood,
   },
   3: {
     img: "plinko/multiplier3.png",
     label: "block-3",
+    sound: multRegular,
   },
   2: {
     img: "plinko/multiplier2.png",
     label: "block-2",
+    sound: multRegular,
   },
   1.5: {
     img: "plinko/multiplier1.5.png",
     label: "block-1.5",
+    sound: multRegular,
   },
   1: {
     img: "plinko/multiplier1.png",
     label: "block-1",
+    sound: multRegular,
   },
   0.5: {
     img: "plinko/multiplier0.5.png",
     label: "block-0.5",
+    sound: multLow,
   },
   0.3: {
     img: "plinko/multiplier0.3.png",
     label: "block-0.3",
+    sound: multLow,
   },
 } as const;
 
@@ -290,4 +333,8 @@ export const multiplyBlocksByLinesQnt = {
 
 export function getMultiplierByLinesQnt(value: LinesType): MultiplierType[] {
   return multiplyBlocksByLinesQnt[value];
+}
+
+export function getMultiplierSound(value: MultiplierValues): string {
+  return multiplierSounds[value]
 }
