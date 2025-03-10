@@ -48,6 +48,7 @@ export function Plinko({ user }: { user: UserType }) {
   const [playerBalance, setPlayerBalance] = useState<number>(user.tickets);
   const [betValue, setBetValue] = useState<number>(0);
 
+  const formatNumber = (num: number) => num.toLocaleString("en-US");
   const {
     pins: pinsConfig,
     ball: ballConfig,
@@ -421,7 +422,7 @@ export function Plinko({ user }: { user: UserType }) {
               <div className="flex flex-col gap-y-2">
                 <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
                   Balance:
-                  <span>{user.tickets} 🎫</span>
+                  <span>{formatNumber(user.tickets)} 🎫</span>
                   <span>{user.gems} 💎</span>
                 </div>
                 <p className="text-sm text-gray-300">
@@ -453,7 +454,7 @@ export function Plinko({ user }: { user: UserType }) {
                   </div>
                 }>
                 <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
-                  <span>{playerBalance} 🎫</span>
+                  <span>{formatNumber(playerBalance)} 🎫</span>
                   <span>{user.gems} 💎</span>
                 </div>
               </Tooltip>
@@ -501,7 +502,7 @@ export function Plinko({ user }: { user: UserType }) {
                   Balls: {inGameBallsCount.toFixed(0)}/15
                 </span>
                 <span className="text-sm font-bold text-[#D4AF37] md:text-lg">
-                  Balance: {playerBalance}
+                  Balance: {formatNumber(playerBalance)}
                 </span>
               </div>
 

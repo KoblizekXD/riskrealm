@@ -312,7 +312,7 @@ export default function Dice({ user }: { user: UserType }) {
                   You rolled: <span className="font-bold">{result}</span>
                 </p>
                 <p className="text-xl">
-                  Result: <span className={isWin ? 'text-green-600' : 'text-red-600'}>
+                  <span className={isWin ? 'text-green-600' : 'text-red-600'}>
                     {isWin ? 'You Win +' + formatNumber(newWin) + '🎫' : 'You Lose!'}
                   </span>                  
                 </p>
