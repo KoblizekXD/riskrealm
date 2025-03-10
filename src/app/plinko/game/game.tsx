@@ -274,9 +274,7 @@ export function Plinko({ user }: { user: UserType }) {
   };
 
   const handleHalfBet = () => {
-    const value = betValue / 2;
-    const newBetvalue = value <= 0 ? 0 : Math.floor(value);
-    setBetValue(newBetvalue);
+    setBetValue(Math.round(playerBalance / 2));
   };
 
   const handleDoubleBet = () => {
