@@ -13,6 +13,12 @@ import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import CylinderImage from "../revolvercylinder.png";
+import MyDialog from "@/components/dialog";
+import { ExternalLink, Menu, Settings, User, CandlestickChart, ChartCandlestick,  } from "lucide-react";
+import Tooltip from "@/components/tooltip";
+import Popover from "@/components/popover";
+import Navbar from "@/components/navbar";
+
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -35,6 +41,7 @@ export default function RussianRoulette({ user }: { user: UserType }) {
   const [currentChamber, setCurrentChamber] = useState<number>(0);
   const [bulletPosition, setBulletPosition] = useState<number>(0);
   const [rotation, setRotation] = useState(0);
+  const formatNumber = (num: number) => num.toLocaleString("en-US");
 
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
@@ -103,77 +110,114 @@ export default function RussianRoulette({ user }: { user: UserType }) {
     setBet(0);
   };
 
-  function Navbar({ isOpen }: { isOpen: boolean }) {
-    return (
-      <div
-        className={`fixed left-0 top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${
-          isOpen ? "w-64" : "hidden"
-        }`}>
-        <div className="p-4">
-          <div className="flex items-center space-x-2 md:space-x-4 justify-between">
-            <h2 className="text-2xl font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
-              Risk Realm
-            </h2>
-            <button
-              type="button"
-              onClick={() => setIsNavOpen(!isNavOpen)}
-              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
-              X
-            </button>
-          </div>
-        </div>
-
-        <ul className="p-4">
-          <li className="mb-2">
-            <Link href="/" className="text-[#D4AF37] hover:text-[#FFD700]">
-              Home
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link href="/games" className="text-[#D4AF37] hover:text-[#FFD700]">
-              Games
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link
-              href="/profile"
-              className="text-[#D4AF37] hover:text-[#FFD700]">
-              Profile
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link
-              href="/settings"
-              className="text-[#D4AF37] hover:text-[#FFD700]">
-              Settings
-            </Link>
-          </li>
-        </ul>
-      </div>
-    );
-  }
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
-      <Navbar isOpen={isNavOpen} />
+      <Navbar isOpen={isNavOpen} toggleNav={() => setIsNavOpen(!isNavOpen)} />
       <div className="flex flex-col items-center">
-        <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
+      <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
           <div className={"flex items-center space-x-2 md:space-x-4"}>
             <button
               type="button"
               onClick={() => setIsNavOpen(!isNavOpen)}
               className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
-              ☰
+              <Menu />
             </button>
-            <div className="text-2xl md:text-2xl font-bold text-[#d4af37]">
+            <Link href={"/"} className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
               Risk Realm
-            </div>
+            </Link>
           </div>
 
           <div className="flex items-center">
-            {streakClaimable && <DailyRewards user={user} />}
-            <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
-              <span>{playerBalance} 🎫</span>
+            <MyDialog
+              title="Menu"
+              className="w-[90vw]"
+              trigger={
+                <div className="cursor-pointer hover:scale-105 transition-transform p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
+                  <Menu size={32} className="stroke-white" />
+                </div>
+              }>
+              <div className="flex flex-col gap-y-2">
+                <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
+                  Balance:
+                  <span>{formatNumber(user.tickets)} 🎫</span>
+                  <span>{user.gems} 💎</span>
+                </div>
+                <p className="text-sm text-gray-300">
+                  Signed in as {user.email}
+                </p>
+                <Link
+                  className="font-semibold gap-x-2 flex items-center"
+                  href={"/settings"}>
+                  <Settings size={16} />
+                  Options
+                </Link>
+                <Link
+                  className="font-semibold brightness-50 gap-x-2 flex items-center"
+                  href={"/trade"}>
+                  <ChartCandlestick size={16} />
+                  Trade gems
+                </Link>
+                <Link
+                  className="font-semibold gap-x-2 flex items-center"
+                  href={"/signout"}>
+                  <ExternalLink size={16} />
+                  Sign-out
+                </Link>
+              </div>
+            </MyDialog>
+
+            <div className="h-full gap-x-2 items-center hidden md:flex">
+              {streakClaimable && (
+                <DailyRewards setTickets={setPlayerBalance} user={user} />
+              )}
+              <Tooltip
+                content={
+                  <div className="flex flex-col gap-y-2">
+                    RiskRealm uses 2 types of currencies:
+                    <span> - Tickets 🎫</span>
+                    <span> - Gems 💎</span>
+                  </div>
+                }>
+                <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
+                  <span>{formatNumber(playerBalance)} 🎫</span>
+                  <span>{user.gems} 💎</span>
+                </div>
+              </Tooltip>
+              <Popover
+                trigger={
+                  <button
+                    type="button"
+                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer">
+                    <User size={28} color="#ce9aff" />
+                    <span>{user.username}</span>
+                  </button>
+                }>
+                <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
+                  <h2 className="font-semibold">My profile</h2>
+                  <p className="text-sm text-gray-300">
+                    Signed in as {user.email}
+                  </p>
+                  <Link
+                    className="font-semibold gap-x-2 flex items-center"
+                    href={"/settings"}>
+                    <Settings size={16} />
+                    Options
+                  </Link>
+                  <Link
+                    className="font-semibold gap-x-2 flex items-center"
+                    href={"/settings"}>
+                    <CandlestickChart size={16} />
+                    Trade gems
+                  </Link>
+                  <Link
+                    className="font-semibold gap-x-2 flex items-center"
+                    href={"/signout"}>
+                    <ExternalLink size={16} />
+                    Sign-out
+                  </Link>
+                </div>
+              </Popover>
             </div>
           </div>
         </header>
@@ -188,7 +232,7 @@ export default function RussianRoulette({ user }: { user: UserType }) {
             <div className="mb-4 flex flex-col items-center justify-center gap-4">
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
                 <p className="text-xl text-[#FFD700]">
-                  Balance: ${playerBalance}
+                  Balance: ${formatNumber(playerBalance)}
                 </p>
                 <input
                   type="number"
