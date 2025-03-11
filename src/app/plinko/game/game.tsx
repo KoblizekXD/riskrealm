@@ -25,6 +25,7 @@ import Link from "next/link";
 import { MultiplierHistory, PlinkoGameBody } from "./components";
 import { config, getMultiplierSound, multiplyBlocks16Lines } from "./config";
 import { useGameStore } from "./store";
+import Navbar from "@/components/navbar";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -369,55 +370,7 @@ export function Plinko({ user }: { user: UserType }) {
     };
   }, [onBodyCollision]);
 
-  function Navbar({ isOpen }: { isOpen: boolean }) {
-    return (
-      <div
-        className={`fixed left-0 top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${
-          isOpen ? "w-64" : "hidden"
-        }`}>
-        <div className="p-4">
-          <div className="flex items-center space-x-2 md:space-x-4 justify-between">
-            <h2 className="text-2xl font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
-              Risk Realm
-            </h2>
-            <button
-              type="button"
-              onClick={() => setIsNavOpen(!isNavOpen)}
-              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
-              X
-            </button>
-          </div>
-        </div>
-
-        <ul className="p-4">
-          <li className="mb-2">
-            <Link href="/" className="text-[#D4AF37] hover:text-[#FFD700]">
-              Home
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link href="/games" className="text-[#D4AF37] hover:text-[#FFD700]">
-              Games
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link
-              href="/profile"
-              className="text-[#D4AF37] hover:text-[#FFD700]">
-              Profile
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link
-              href="/settings"
-              className="text-[#D4AF37] hover:text-[#FFD700]">
-              Settings
-            </Link>
-          </li>
-        </ul>
-      </div>
-    );
-  }
+  
 
 
 
@@ -427,7 +380,7 @@ export function Plinko({ user }: { user: UserType }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
-      <Navbar isOpen={isNavOpen} />
+      <Navbar isOpen={isNavOpen} toggleNav={() => setIsNavOpen(!isNavOpen)} />
       <div className="flex flex-col items-center">
         <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
           <div className={"flex items-center space-x-2 md:space-x-4"}>

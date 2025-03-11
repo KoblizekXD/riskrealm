@@ -23,6 +23,7 @@ import CardsPic from "./assets/cardspic.jpg";
 import CasePic from "./assets/casepic.jpg";
 import RoulettePic from "./assets/roulettepic.jpg";
 import SlotPic from "./assets/slotpic.jpg";
+import Navbar from "@/components/navbar";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -57,63 +58,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [tickets, setTickets] = useState(user.tickets);
   const formatNumber = (num: number) => num.toLocaleString("en-US");
-  function Navbar({ isOpen }: { isOpen: boolean }) {
-    return (
-      <>
-        <div
-          onClick={() => setIsNavOpen(false)}
-          className={`w-screen fixed h-screen bg-black/50 z-40 ${isOpen ? "block" : "hidden"}`}
-        />
-        <div
-          className={`fixed left-0 w-64 -translate-x-[100%] overflow-hidden overflow-x-hidden top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-transform duration-700 z-50 ${
-            isOpen && "translate-x-[0%]"
-          }`}>
-          <div className="p-4">
-            <div className="flex items-center space-x-2 md:space-x-4 justify-between">
-              <Link href={"/"} className="text-2xl cursor-pointer -translate-y-[1px] font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
-                Risk Realm
-              </Link>
-              <button
-                type="button"
-                onClick={() => setIsNavOpen(!isNavOpen)}
-                className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform ">
-                <X />
-              </button>
-            </div>
-          </div>
-
-          <ul className="p-4">
-            <li className="mb-2">
-              <Link href="/" className="text-[#D4AF37] hover:text-[#FFD700]">
-                Home
-              </Link>
-            </li>
-            <li className="mb-2">
-              <Link
-                href="/games"
-                className="text-[#D4AF37] hover:text-[#FFD700]">
-                Games
-              </Link>
-            </li>
-            <li className="mb-2">
-              <Link
-                href="/profile"
-                className="text-[#D4AF37] hover:text-[#FFD700]">
-                Profile
-              </Link>
-            </li>
-            <li className="mb-2">
-              <Link
-                href="/settings"
-                className="text-[#D4AF37] hover:text-[#FFD700]">
-                Settings
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </>
-    );
-  }
+ 
 
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
@@ -121,7 +66,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
-      <Navbar isOpen={isNavOpen} />
+      <Navbar isOpen={isNavOpen} toggleNav={() => setIsNavOpen(!isNavOpen)} />
       <div className="flex flex-col items-center">
         <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
           <div className={"flex items-center space-x-2 md:space-x-4"}>
