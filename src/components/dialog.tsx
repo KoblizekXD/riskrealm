@@ -47,9 +47,11 @@ export default function MyDialog({
             {description}
           </Dialog.Description>
           {children}
-          <Dialog.Close onClick={() => {
-            setIsOpen(false);
-          }} className="absolute hover:scale-125 cursor-pointer transition-transform focus:outline-0 right-2 text-gray-500 top-2">
+          <Dialog.Close
+            onClick={() => {
+              setIsOpen(false);
+            }}
+            className="absolute hover:scale-125 cursor-pointer transition-transform focus:outline-0 right-2 text-gray-500 top-2">
             <X />
           </Dialog.Close>
         </Dialog.Content>

@@ -9,7 +9,12 @@ const Card: React.FC<CardProps> = ({ card, isHidden = false }) => {
   if (isHidden) {
     return (
       <div className="w-24 h-36 bg-gray-300 border border-gray-400 rounded-lg flex items-center justify-center">
-        <span className="text-gray-600 text-sm">Hidden</span>
+
+        <img
+        src={"/Cards/back.png"}
+        alt={"hidden"}
+        className="w-full h-full object-cover rounded-lg"
+      />
       </div>
     );
   }

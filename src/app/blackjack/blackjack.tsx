@@ -22,7 +22,7 @@ export const orbitron = Orbitron({
 export default function BlackJack({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
-
+  const cardSound = "cards/card.wav";
   const [playerHand, setPlayerHand] = useState<string[]>([]);
   const [dealerHand, setDealerHand] = useState<string[]>([]);
   const [playerScore, setPlayerScore] = useState<number>(0);
@@ -71,17 +71,23 @@ export default function BlackJack({ user }: { user: UserType }) {
         setShowBalanceError(true);
         return;
       }
-      const gameState = await startGame(playerBalance, bet);
-      setPlayerHand(gameState.playerHand);
-      setDealerHand(gameState.dealerHand);
-      setPlayerScore(gameState.playerScore);
-      setDealerScore(gameState.dealerScore);
-      setGameOver(gameState.gameOver);
-      setResult("");
-      setResultMsg("");
-      setPlayerBalance(gameState.playerBalance);
-      setOldBalance(gameState.oldBalance);
-      setGameStarted(true);
+    const blackjackSound = new Audio(cardSound)
+    blackjackSound.currentTime = 0
+    blackjackSound.volume = 1
+    blackjackSound.play()
+      setTimeout(async () => {
+        const gameState = await startGame(playerBalance, bet);
+        setPlayerHand(gameState.playerHand);
+        setDealerHand(gameState.dealerHand);
+        setPlayerScore(gameState.playerScore);
+        setDealerScore(gameState.dealerScore);
+        setGameOver(gameState.gameOver);
+        setResult("");
+        setResultMsg("");
+        setPlayerBalance(gameState.playerBalance);
+        setOldBalance(gameState.oldBalance);
+        setGameStarted(true);
+    }, 3000);
     }
   };
 

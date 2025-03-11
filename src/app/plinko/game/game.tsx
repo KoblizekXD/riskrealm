@@ -1,31 +1,30 @@
 "use client";
 
-import { useCallback, useEffect, useState, ChangeEvent } from 'react';
 import {
   Bodies,
-  Body,
+  type Body,
   Composite,
   Engine,
   Events,
-  IEventCollision,
+  type IEventCollision,
   Render,
   Runner,
   World,
-} from 'matter-js';
+} from "matter-js";
+import { type ChangeEvent, useCallback, useEffect, useState } from "react";
 
-import { useGameStore } from './store';
-import { PlinkoGameBody, MultiplierHistory } from './components';
-import { config, getMultiplierByLinesQnt } from './config';
-import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
 import DailyRewards from "@/components/daily-rewards";
 import MyDialog from "@/components/dialog";
 import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
+import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
+import { ExternalLink, Menu, Settings, User } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
-import { ExternalLink, Menu, Settings, User } from "lucide-react";
-import { set } from 'zod';
+import { MultiplierHistory, PlinkoGameBody } from "./components";
+import { config, getMultiplierSound, multiplyBlocks16Lines } from "./config";
+import { useGameStore } from "./store";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -34,19 +33,40 @@ export const orbitron = Orbitron({
 });
 
 
+
 type LinesType = 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
-type MultiplierValues = 110 | 88 | 41 | 33 | 25 | 18 | 15 | 10 | 5 | 3 | 2 | 1.5 | 1 | 0.5 | 0.3;
+type MultiplierValues =
+  | 110
+  | 88
+  | 41
+  | 33
+  | 25
+  | 18
+  | 15
+  | 10
+  | 5
+  | 3
+  | 2
+  | 1.5
+  | 1
+  | 0.5
+  | 0.3;
 
 export function Plinko({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [lines, setLines] = useState<LinesType>(16);
   const inGameBallsCount = useGameStore((state) => state.gamesRunning);
-  const incrementInGameBallsCount = useGameStore((state) => state.incrementGamesRunning);
-  const decrementInGameBallsCount = useGameStore((state) => state.decrementGamesRunning);
+  const incrementInGameBallsCount = useGameStore(
+    (state) => state.incrementGamesRunning,
+  );
+  const decrementInGameBallsCount = useGameStore(
+    (state) => state.decrementGamesRunning,
+  );
   const [lastMultipliers, setLastMultipliers] = useState<number[]>([]);
   const [playerBalance, setPlayerBalance] = useState<number>(user.tickets);
   const [betValue, setBetValue] = useState<number>(0);
+  const ballEffect = "plinko/ball.wav";
 
   const formatNumber = (num: number) => num.toLocaleString("en-US");
   const {
@@ -68,7 +88,6 @@ export function Plinko({ user }: { user: UserType }) {
     linesOptions.push(i);
   }
 
-
   //Matter-js engine
   useEffect(() => {
     if (render) {
@@ -77,7 +96,7 @@ export function Plinko({ user }: { user: UserType }) {
       World.clear(engine.world, true);
     }
 
-    const element = document.getElementById('plinko');
+    const element = document.getElementById("plinko");
     if (!element) {
       console.error("Element with ID 'plinko' not found!");
       return;
@@ -111,7 +130,7 @@ export function Plinko({ user }: { user: UserType }) {
   //Create pins
   useEffect(() => {
     const existingPins = Composite.allBodies(engine.world).filter((body) =>
-      body.label.includes('pin')
+      body.label.includes("pin"),
     );
     Composite.remove(engine.world, existingPins);
 
@@ -120,12 +139,17 @@ export function Plinko({ user }: { user: UserType }) {
       const linePins = pinsConfig.startPins + l;
       const lineWidth = linePins * pinsConfig.pinGap;
       for (let i = 0; i < linePins; i++) {
-        const pinX = worldWidth / 2 - lineWidth / 2 + i * pinsConfig.pinGap + pinsConfig.pinGap / 2;
-        const pinY = worldWidth / lines + l * pinsConfig.pinGap + pinsConfig.pinGap;
+        const pinX =
+          worldWidth / 2 -
+          lineWidth / 2 +
+          i * pinsConfig.pinGap +
+          pinsConfig.pinGap / 2;
+        const pinY =
+          worldWidth / lines + l * pinsConfig.pinGap + pinsConfig.pinGap;
 
         const pin = Bodies.circle(pinX, pinY, pinsConfig.pinSize, {
           label: `pin-${i}`,
-          render: { fillStyle: '#F5DCFF' },
+          render: { fillStyle: "#F5DCFF" },
           isStatic: true,
         });
         pins.push(pin);
@@ -142,9 +166,18 @@ export function Plinko({ user }: { user: UserType }) {
         return;
       }
       incrementInGameBallsCount();
+      const ballSound = new Audio(ballEffect)
+      ballSound.volume = 1
+      ballSound.currentTime = 0
+      ballSound.play()
 
-      const minBallX = worldWidth / 2 - pinsConfig.pinSize * 3 + pinsConfig.pinGap;
-      const maxBallX = worldWidth / 2 - pinsConfig.pinSize * 3 - pinsConfig.pinGap + pinsConfig.pinGap / 2;
+      const minBallX =
+        worldWidth / 2 - pinsConfig.pinSize * 3 + pinsConfig.pinGap;
+      const maxBallX =
+        worldWidth / 2 -
+        pinsConfig.pinSize * 3 -
+        pinsConfig.pinGap +
+        pinsConfig.pinGap / 2;
 
       const ballX = Math.random() * (maxBallX - minBallX) + minBallX;
       const ballColor = ballValue <= 0 ? "white" : "[#D4AF37]";
@@ -162,20 +195,22 @@ export function Plinko({ user }: { user: UserType }) {
 
       Composite.add(engine.world, ball);
     },
-    [lines, inGameBallsCount, worldWidth]
+    [lines, inGameBallsCount, worldWidth],
   );
 
   // Create walls, floor, and multipliers
   useEffect(() => {
     // Clear existing walls, floor, and multipliers
-    const existingWalls = Composite.allBodies(engine.world).filter((body) =>
-      body.label.includes('wall') || body.label.includes('block')
+    const existingWalls = Composite.allBodies(engine.world).filter(
+      (body) => body.label.includes("wall") || body.label.includes("block"),
     );
     Composite.remove(engine.world, existingWalls);
 
     // Create new walls and floor
     const leftWall = Bodies.rectangle(
-      worldWidth / 3 - pinsConfig.pinSize * pinsConfig.pinGap - pinsConfig.pinGap,
+      worldWidth / 3 -
+        pinsConfig.pinSize * pinsConfig.pinGap -
+        pinsConfig.pinGap,
       worldWidth / 2 - pinsConfig.pinSize,
       worldWidth * 2,
       40,
@@ -183,12 +218,15 @@ export function Plinko({ user }: { user: UserType }) {
         angle: 90,
         render: { visible: false },
         isStatic: true,
-        label: 'wall-left',
-      }
+        label: "wall-left",
+      },
     );
 
     const rightWall = Bodies.rectangle(
-      worldWidth - pinsConfig.pinSize * pinsConfig.pinGap - pinsConfig.pinGap - pinsConfig.pinGap / 2,
+      worldWidth -
+        pinsConfig.pinSize * pinsConfig.pinGap -
+        pinsConfig.pinGap -
+        pinsConfig.pinGap / 2,
       worldWidth / 2 - pinsConfig.pinSize,
       worldWidth * 2,
       40,
@@ -196,23 +234,24 @@ export function Plinko({ user }: { user: UserType }) {
         angle: -90,
         render: { visible: false },
         isStatic: true,
-        label: 'wall-right',
-      }
+        label: "wall-right",
+      },
     );
 
     const floor = Bodies.rectangle(0, worldWidth + 10, worldWidth * 10, 40, {
-      label: 'block-1',
+      label: "block-1",
       render: { visible: false },
       isStatic: true,
     });
 
     // Create new multipliers
-    const multipliers = getMultiplierByLinesQnt(lines);
+    const multipliers = multiplyBlocks16Lines;
     const multipliersBodies: Body[] = [];
 
-    let lastMultiplierX = worldWidth / 2 - (pinsConfig.pinGap / 2) * lines - pinsConfig.pinGap;
+    let lastMultiplierX =
+      worldWidth / 2 - (pinsConfig.pinGap / 2) * lines - pinsConfig.pinGap;
 
-    multipliers.forEach((multiplier) => {
+    multipliers.forEach((multiplier: { label: any; img: any; }) => {
       const blockSize = 20;
       const multiplierBody = Bodies.rectangle(
         lastMultiplierX + 20,
@@ -229,7 +268,7 @@ export function Plinko({ user }: { user: UserType }) {
               texture: multiplier.img,
             },
           },
-        }
+        },
       );
 
       lastMultiplierX = multiplierBody.position.x;
@@ -237,9 +276,13 @@ export function Plinko({ user }: { user: UserType }) {
     });
 
     // Add new walls, floor, and multipliers to the world
-    Composite.add(engine.world, [...multipliersBodies, leftWall, rightWall, floor]);
+    Composite.add(engine.world, [
+      ...multipliersBodies,
+      leftWall,
+      rightWall,
+      floor,
+    ]);
   }, [lines, worldWidth]);
-
 
   const handleRunBet = async () => {
     if (inGameBallsCount >= 15) return;
@@ -247,15 +290,14 @@ export function Plinko({ user }: { user: UserType }) {
       setBetValue(playerBalance);
       return;
     }
-    
+
     addBall(betValue);
     if (betValue <= 0) return;
     console.log("x");
     setPlayerBalance((prevBalance) => {
-      prevBalance = prevBalance - betValue
+      prevBalance = prevBalance - betValue;
       return prevBalance;
-      
-    })
+    });
   };
 
   useEffect(() => {
@@ -269,27 +311,6 @@ export function Plinko({ user }: { user: UserType }) {
     setBetValue(newBetValue);
   };
 
-  const handleChangeLines = (e: ChangeEvent<HTMLSelectElement>) => {
-    setLines(Number(e.target.value) as LinesType);
-  };
-
-  const handleHalfBet = () => {
-    setBetValue(Math.round(playerBalance / 2));
-  };
-
-  const handleDoubleBet = () => {
-    const value = betValue * 2;
-    if (value >= playerBalance) {
-      setBetValue(playerBalance);
-      return;
-    }
-    const newBetvalue = value <= 0 ? 0 : Math.floor(value);
-    setBetValue(newBetvalue);
-  };
-
-  const handleMaxBet = () => {
-    setBetValue(playerBalance);
-  };
 
   // Handle collision with multiplier
   const onCollideWithMultiplier = useCallback(
@@ -298,10 +319,22 @@ export function Plinko({ user }: { user: UserType }) {
       World.remove(engine.world, ball);
       decrementInGameBallsCount();
 
-      const ballValue = ball.label.split('-')[1];
-      const multiplierValue = +multiplier.label.split('-')[1] as MultiplierValues;
+      const ballValue = ball.label.split("-")[1];
+      const multiplierValue = +multiplier.label.split(
+        "-",
+      )[1] as MultiplierValues;
 
-      setLastMultipliers((prev) => [multiplierValue, prev[0], prev[1], prev[2]]);
+      const multiplierSound = new Audio(getMultiplierSound(multiplierValue))
+    multiplierSound.currentTime = 0
+    multiplierSound.volume = 1
+    multiplierSound.play()
+
+      setLastMultipliers((prev) => [
+        multiplierValue,
+        prev[0],
+        prev[1],
+        prev[2],
+      ]);
 
       if (+ballValue <= 0) return;
 
@@ -309,9 +342,9 @@ export function Plinko({ user }: { user: UserType }) {
       setPlayerBalance((prevBalance) => {
         prevBalance = prevBalance + Math.round(newWin);
         return prevBalance;
-      })
+      });
     },
-    [lines]
+    [lines],
   );
 
   // Handle body collisions
@@ -320,29 +353,28 @@ export function Plinko({ user }: { user: UserType }) {
       const pairs = event.pairs;
       for (const pair of pairs) {
         const { bodyA, bodyB } = pair;
-        if (bodyB.label.includes('ball') && bodyA.label.includes('block')) {
+        if (bodyB.label.includes("ball") && bodyA.label.includes("block")) {
           await onCollideWithMultiplier(bodyB, bodyA);
         }
       }
     },
-    [onCollideWithMultiplier]
+    [onCollideWithMultiplier],
   );
 
   // Add collision event listener
   useEffect(() => {
-    Events.on(engine, 'collisionActive', onBodyCollision);
+    Events.on(engine, "collisionActive", onBodyCollision);
     return () => {
-      Events.off(engine, 'collisionActive', onBodyCollision);
+      Events.off(engine, "collisionActive", onBodyCollision);
     };
   }, [onBodyCollision]);
-
-
 
   function Navbar({ isOpen }: { isOpen: boolean }) {
     return (
       <div
-        className={`fixed left-0 top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${isOpen ? "w-64" : "hidden"
-          }`}>
+        className={`fixed left-0 top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${
+          isOpen ? "w-64" : "hidden"
+        }`}>
         <div className="p-4">
           <div className="flex items-center space-x-2 md:space-x-4 justify-between">
             <h2 className="text-2xl font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
@@ -488,13 +520,10 @@ export function Plinko({ user }: { user: UserType }) {
           </div>
         </header>
         <main
-          className={`relative text-center flex-grow p-0 md:p-0 lg:p-8 flex flex-col items-center overflow-y-auto my-auto mx-auto max-w-[1550px] lg:min-w-[1000px] transition-all duration-300 `}
-        >
+          className={`relative text-center flex-grow p-0 md:p-0 lg:p-8 flex flex-col items-center overflow-y-auto my-auto mx-auto max-w-[1550px] lg:min-w-[1000px] transition-all duration-300 `}>
           <div className="flex w-full h-fit flex-col items-center justify-between md:flex-row p-8">
 
-                {/*Bet oanel  */}
             <div className="relative w-sm flex flex-col py-8 px-6 rounded-lg border border-[#D4AF37] bg-[#1E1E1E] shadow-lg">
-
               <div className="flex flex-col gap-2 mb-6">
                 <span className="text-sm font-bold text-[#D4AF37] md:text-lg">
                   Balls: {inGameBallsCount.toFixed(0)}/15
@@ -504,11 +533,11 @@ export function Plinko({ user }: { user: UserType }) {
                 </span>
               </div>
 
-
               <div className="flex flex-col gap-6">
-
                 <div className="flex flex-col gap-4">
-                  <span className="text-lg font-bold text-[#D4AF37]">Place a Bet</span>
+                  <span className="text-lg font-bold text-[#D4AF37]">
+                    Place a Bet
+                  </span>
 
                   <input
                     type="number"
@@ -521,40 +550,44 @@ export function Plinko({ user }: { user: UserType }) {
                   />
 
                   <div className="flex items-stretch gap-2">
+                  <button
+                      onClick={() => setBetValue((prevBetValue) => prevBetValue + 100)}
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
+                      100
+                    </button>
                     <button
-                      onClick={handleHalfBet}
-                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
-                    >
+                      onClick={() => setBetValue((prevBetValue) => prevBetValue + 1000)}
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
+                      1000
+                    </button>
+                    <button
+                      onClick={() => setBetValue(playerBalance/2)}
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
                       ½
                     </button>
                     <button
-                      onClick={handleDoubleBet}
-                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
-                    >
+                      onClick={() => setBetValue((prevBetValue) => prevBetValue *2)}
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
                       2x
                     </button>
                     <button
-                      onClick={handleMaxBet}
-                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
-                    >
+                      onClick={() => setBetValue(playerBalance)}
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
                       Max
                     </button>
+                  
                   </div>
                 </div>
 
-
                 <button
                   onClick={handleRunBet}
-                  className="w-full rounded-md bg-[#1E1E1E] px-6 py-4 font-bold text-[#D4AF37] hover:bg-[#C0A236] hover:text-[#1E1E1E] focus:outline-none border  border-[#D4AF37]"
-                >
+                  className="w-full rounded-md bg-[#1E1E1E] px-6 py-4 font-bold text-[#D4AF37] hover:bg-[#C0A236] hover:text-[#1E1E1E] focus:outline-none border  border-[#D4AF37]">
                   Bet
                 </button>
               </div>
             </div>
 
-
             <MultiplierHistory multiplierHistory={lastMultipliers} />
-
 
             <div className="flex flex-1 items-center justify-center">
               <PlinkoGameBody />

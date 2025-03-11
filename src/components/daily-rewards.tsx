@@ -8,7 +8,10 @@ import { useState } from "react";
 import { toast } from "sonner";
 import MyDialog from "./dialog";
 
-export default function DailyRewards({ user, setTickets }: { user: User; setTickets: (a :(prev: number) => number) => void }) {
+export default function DailyRewards({
+  user,
+  setTickets,
+}: { user: User; setTickets: (a: (prev: number) => number) => void }) {
   const [open, setOpen] = useState(true);
   const streak = user.streak + 1;
 
@@ -53,7 +56,7 @@ export default function DailyRewards({ user, setTickets }: { user: User; setTick
         onClick={() => {
           claimStreak().then(() => {
             toast("Successfully claimed your daily rewards!");
-            setTickets(prev => prev + streakCalculator(streak));
+            setTickets((prev) => prev + streakCalculator(streak));
             setOpen(false);
           });
         }}
