@@ -35,6 +35,7 @@ export default function RussianRoulette({ user }: { user: UserType }) {
   const [currentChamber, setCurrentChamber] = useState<number>(0);
   const [bulletPosition, setBulletPosition] = useState<number>(0);
   const [rotation, setRotation] = useState(0);
+  const formatNumber = (num: number) => num.toLocaleString("en-US");
 
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
@@ -188,7 +189,7 @@ export default function RussianRoulette({ user }: { user: UserType }) {
             <div className="mb-4 flex flex-col items-center justify-center gap-4">
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
                 <p className="text-xl text-[#FFD700]">
-                  Balance: ${playerBalance}
+                  Balance: ${formatNumber(playerBalance)}
                 </p>
                 <input
                   type="number"

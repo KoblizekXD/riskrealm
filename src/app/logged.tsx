@@ -56,6 +56,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [tickets, setTickets] = useState(user.tickets);
+  const formatNumber = (num: number) => num.toLocaleString("en-US");
   function Navbar({ isOpen }: { isOpen: boolean }) {
     return (
       <>
@@ -147,7 +148,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               <div className="flex flex-col gap-y-2">
                 <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
                   Balance:
-                  <span>{user.tickets} 🎫</span>
+                  <span>{formatNumber(user.tickets)} 🎫</span>
                   <span>{user.gems} 💎</span>
                 </div>
                 <p className="text-sm text-gray-300">
@@ -187,7 +188,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   </div>
                 }>
                 <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
-                  <span>{tickets} 🎫</span>
+                  <span>{formatNumber(tickets)} 🎫</span>
                   <span>{user.gems} 💎</span>
                 </div>
               </Tooltip>

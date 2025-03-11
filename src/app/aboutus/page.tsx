@@ -24,6 +24,7 @@ function SimpleCard({
 
 export default function AboutUs() {
   const router = useRouter();
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#d0bfff] flex flex-col overflow-hidden">
