@@ -47,6 +47,24 @@ export default function BlackJack({ user }: { user: UserType }) {
     }
   }, [winner]);
 
+  const formatNumber = (num: number) => num.toLocaleString("en-US");
+
+  useEffect(() => {
+    const handleKeyPress = () => {
+      if (showResultPopup) {
+        handleReset();
+      }
+    };
+  
+    if (showResultPopup) {
+      window.addEventListener("keydown", handleKeyPress);
+    }
+  
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [showResultPopup]);
+
   const handleStart = async () => {
     if (bet !== null) {
       if (bet <= 0 || bet > playerBalance) {
@@ -202,7 +220,7 @@ export default function BlackJack({ user }: { user: UserType }) {
               <div className="flex flex-col gap-y-2">
                 <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
                   Balance:
-                  <span>{user.tickets} 🎫</span>
+                  <span>{formatNumber(user.tickets)} 🎫</span>
                   <span>{user.gems} 💎</span>
                 </div>
                 <p className="text-sm text-gray-300">
@@ -234,7 +252,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                   </div>
                 }>
                 <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
-                  <span>{playerBalance} 🎫</span>
+                  <span>{formatNumber(playerBalance)} 🎫</span>
                   <span>{user.gems} 💎</span>
                 </div>
               </Tooltip>
@@ -280,7 +298,7 @@ export default function BlackJack({ user }: { user: UserType }) {
             <div className="mb-4 flex flex-col items-center justify-center gap-4">
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
                 <p className="text-xl text-[#FFD700]">
-                  Balance: ${playerBalance}
+                  Balance: ${formatNumber(playerBalance)}
                 </p>
                 <input
                   type="number"
@@ -440,7 +458,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                 <p>{resultMsg}</p>
                 {winner === "player" ? (
                   <p>
-                    Your balance: ${oldBalance} ➜ ${playerBalance}
+                    Your balance: ${formatNumber(oldBalance)} ➜ ${formatNumber(playerBalance)}
                   </p>
                 ) : (
                   ""

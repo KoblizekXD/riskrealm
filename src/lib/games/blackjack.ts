@@ -57,6 +57,7 @@ function dealCard(): string {
   // biome-ignore lint/style/noNonNullAssertion: <explanation>
   return deck.pop()!;
 }
+const formatNumber = (num: number) => num.toLocaleString("en-US");
 
 function calculateScore(hand: string[]): number {
   let score = 0;
@@ -135,7 +136,7 @@ export async function stand(
     result = "Player wins!";
     winner = "player";
     playerBalance += bet * 2;
-    resultMsg = `You win: ${bet}`;
+    resultMsg = `You win: ${formatNumber(bet*2)}`;
   } else if (currentDealerScore > playerScore) {
     result = "Dealer wins!";
     winner = "dealer";
@@ -143,7 +144,7 @@ export async function stand(
   } else if (currentDealerScore < playerScore) {
     result = "Player wins!";
     playerBalance += bet * 2;
-    resultMsg = `You win: ${bet}`;
+    resultMsg = `You win: ${formatNumber(bet*2)}`;
     winner = "player";
   } else {
     playerBalance += bet;

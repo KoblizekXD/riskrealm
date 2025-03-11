@@ -5,7 +5,7 @@ import MyDialog from "@/components/dialog";
 import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
-import { canClaimStreak } from "@/lib/supabase/actions";
+import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
 import {
   CandlestickChart,
   ChartCandlestick,
@@ -56,7 +56,6 @@ export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [tickets, setTickets] = useState(user.tickets);
-
   function Navbar({ isOpen }: { isOpen: boolean }) {
     return (
       <>
