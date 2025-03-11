@@ -27,6 +27,7 @@ export default function Dice({ user }: { user: UserType }) {
   const [rolling, setRolling] = useState(false);
   const [diceFaces, setDiceFaces] = useState([1, 1]);
   const [newWin, setNewWin] = useState(0);
+  const diceSound = "Dice/dice.wav";
 
   class DiceGameLogic {
     private static probabilityMap: { [key: number]: number } = {
@@ -80,6 +81,10 @@ export default function Dice({ user }: { user: UserType }) {
     const game = new DiceGame(dicePrediction, target);
     const total = game.rollDices();
     const finalFaces = [total.dice1, total.dice2];
+    const diceRollSound = new Audio(diceSound)
+    diceRollSound.currentTime = 0
+    diceRollSound.volume = 1 
+    diceRollSound.play()
 
     let elapsed = 0;
     const rollInterval = setInterval(() => {
@@ -105,7 +110,7 @@ export default function Dice({ user }: { user: UserType }) {
         setResult(total.sum);
         setIsWin(win);
       }
-    }, 300);
+    }, 500);
   };
 
 
