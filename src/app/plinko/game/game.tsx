@@ -23,7 +23,7 @@ import { ExternalLink, Menu, Settings, User } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { MultiplierHistory, PlinkoGameBody } from "./components";
-import { config, getMultiplierByLinesQnt, getMultiplierSound } from "./config";
+import { config, getMultiplierSound, multiplyBlocks16Lines } from "./config";
 import { useGameStore } from "./store";
 
 export const orbitron = Orbitron({
@@ -244,13 +244,13 @@ export function Plinko({ user }: { user: UserType }) {
     });
 
     // Create new multipliers
-    const multipliers = getMultiplierByLinesQnt(lines);
+    const multipliers = multiplyBlocks16Lines;
     const multipliersBodies: Body[] = [];
 
     let lastMultiplierX =
       worldWidth / 2 - (pinsConfig.pinGap / 2) * lines - pinsConfig.pinGap;
 
-    multipliers.forEach((multiplier) => {
+    multipliers.forEach((multiplier: { label: any; img: any; }) => {
       const blockSize = 20;
       const multiplierBody = Bodies.rectangle(
         lastMultiplierX + 20,
@@ -310,29 +310,7 @@ export function Plinko({ user }: { user: UserType }) {
     setBetValue(newBetValue);
   };
 
-  const handleChangeLines = (e: ChangeEvent<HTMLSelectElement>) => {
-    setLines(Number(e.target.value) as LinesType);
-  };
-
-  const handleHalfBet = () => {
-    const value = betValue / 2;
-    const newBetvalue = value <= 0 ? 0 : Math.floor(value);
-    setBetValue(newBetvalue);
-  };
-
-  const handleDoubleBet = () => {
-    const value = betValue * 2;
-    if (value >= playerBalance) {
-      setBetValue(playerBalance);
-      return;
-    }
-    const newBetvalue = value <= 0 ? 0 : Math.floor(value);
-    setBetValue(newBetvalue);
-  };
-
-  const handleMaxBet = () => {
-    setBetValue(playerBalance);
-  };
+  
 
   // Handle collision with multiplier
   const onCollideWithMultiplier = useCallback(
@@ -544,7 +522,7 @@ export function Plinko({ user }: { user: UserType }) {
         <main
           className={`relative text-center flex-grow p-0 md:p-0 lg:p-8 flex flex-col items-center overflow-y-auto my-auto mx-auto max-w-[1550px] lg:min-w-[1000px] transition-all duration-300 `}>
           <div className="flex w-full h-fit flex-col items-center justify-between md:flex-row p-8">
-            {/*Bet oanel  */}
+
             <div className="relative w-sm flex flex-col py-8 px-6 rounded-lg border border-[#D4AF37] bg-[#1E1E1E] shadow-lg">
               <div className="flex flex-col gap-2 mb-6">
                 <span className="text-sm font-bold text-[#D4AF37] md:text-lg">
@@ -572,21 +550,32 @@ export function Plinko({ user }: { user: UserType }) {
                   />
 
                   <div className="flex items-stretch gap-2">
+                  <button
+                      onClick={() => setBetValue((prevBetValue) => prevBetValue + 100)}
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
+                      100
+                    </button>
                     <button
-                      onClick={handleHalfBet}
+                      onClick={() => setBetValue((prevBetValue) => prevBetValue + 1000)}
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
+                      1000
+                    </button>
+                    <button
+                      onClick={() => setBetValue(playerBalance/2)}
                       className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
                       ½
                     </button>
                     <button
-                      onClick={handleDoubleBet}
+                      onClick={() => setBetValue((prevBetValue) => prevBetValue *2)}
                       className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
                       2x
                     </button>
                     <button
-                      onClick={handleMaxBet}
+                      onClick={() => setBetValue(playerBalance)}
                       className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
                       Max
                     </button>
+                  
                   </div>
                 </div>
 
