@@ -346,10 +346,10 @@ export function Plinko({ user }: { user: UserType }) {
         "-",
       )[1] as MultiplierValues;
 
-      const multiplierSong = new Audio(getMultiplierSound(multiplierValue))
-    multiplierSong.currentTime = 0
-    multiplierSong.volume = 0.2
-    multiplierSong.play()
+      const multiplierSound = new Audio(getMultiplierSound(multiplierValue))
+    multiplierSound.currentTime = 0
+    multiplierSound.volume = 0.4
+    multiplierSound.play()
 
       setLastMultipliers((prev) => [
         multiplierValue,
