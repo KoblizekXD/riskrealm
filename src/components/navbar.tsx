@@ -34,6 +34,11 @@ export default function Navbar({ isOpen, toggleNav }: NavbarProps) {
           </Link>
         </li>
         <li className="mb-2">
+          <Link href="/event" className="text-[#D4AF37] hover:text-[#FFD700]">
+            Event
+          </Link>
+        </li>
+        <li className="mb-2">
           <Link href="/games" className="text-[#D4AF37] hover:text-[#FFD700]">
             Games
           </Link>
