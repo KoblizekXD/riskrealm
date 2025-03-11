@@ -166,7 +166,7 @@ export function Plinko({ user }: { user: UserType }) {
       }
       incrementInGameBallsCount();
       const ballSound = new Audio(ballEffect)
-      ballSound.volume = 0.2
+      ballSound.volume = 1
       ballSound.currentTime = 0
       ballSound.play()
 
@@ -348,7 +348,7 @@ export function Plinko({ user }: { user: UserType }) {
 
       const multiplierSound = new Audio(getMultiplierSound(multiplierValue))
     multiplierSound.currentTime = 0
-    multiplierSound.volume = 0.4
+    multiplierSound.volume = 1
     multiplierSound.play()
 
       setLastMultipliers((prev) => [
