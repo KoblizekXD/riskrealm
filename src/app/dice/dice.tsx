@@ -5,7 +5,7 @@ import { DiceGame } from "@/lib/games/dice";
 import type { User as UserType } from "@/lib/schemas";
 import Link from "next/link";
 import MyDialog from "@/components/dialog";
-import { ExternalLink, Menu, Settings, User } from "lucide-react";
+import { ExternalLink, Menu, Settings, User, CandlestickChart, ChartCandlestick,  } from "lucide-react";
 import Tooltip from "@/components/tooltip";
 import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
 import DailyRewards from "@/components/daily-rewards";
@@ -133,17 +133,17 @@ export default function Dice({ user }: { user: UserType }) {
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
       <Navbar isOpen={isNavOpen} toggleNav={() => setIsNavOpen(!isNavOpen)} />
       <div className="flex flex-col items-center">
-        <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
+      <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
           <div className={"flex items-center space-x-2 md:space-x-4"}>
             <button
               type="button"
               onClick={() => setIsNavOpen(!isNavOpen)}
               className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
-              ☰
+              <Menu />
             </button>
-            <div className="text-2xl md:text-2xl font-bold text-[#d4af37]">
+            <Link href={"/"} className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
               Risk Realm
-            </div>
+            </Link>
           </div>
 
           <div className="flex items-center">
@@ -171,6 +171,12 @@ export default function Dice({ user }: { user: UserType }) {
                   Options
                 </Link>
                 <Link
+                  className="font-semibold brightness-50 gap-x-2 flex items-center"
+                  href={"/trade"}>
+                  <ChartCandlestick size={16} />
+                  Trade gems
+                </Link>
+                <Link
                   className="font-semibold gap-x-2 flex items-center"
                   href={"/signout"}>
                   <ExternalLink size={16} />
@@ -180,7 +186,9 @@ export default function Dice({ user }: { user: UserType }) {
             </MyDialog>
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
-              {streakClaimable && <DailyRewards user={user} setTickets={setPlayerBalance}/>}
+              {streakClaimable && (
+                <DailyRewards setTickets={setPlayerBalance} user={user} />
+              )}
               <Tooltip
                 content={
                   <div className="flex flex-col gap-y-2">
@@ -190,7 +198,7 @@ export default function Dice({ user }: { user: UserType }) {
                   </div>
                 }>
                 <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
-                  <span>{formatNumber(user.tickets)} 🎫</span>
+                  <span>{formatNumber(playerBalance)} 🎫</span>
                   <span>{user.gems} 💎</span>
                 </div>
               </Tooltip>
@@ -213,6 +221,12 @@ export default function Dice({ user }: { user: UserType }) {
                     href={"/settings"}>
                     <Settings size={16} />
                     Options
+                  </Link>
+                  <Link
+                    className="font-semibold gap-x-2 flex items-center"
+                    href={"/settings"}>
+                    <CandlestickChart size={16} />
+                    Trade gems
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
