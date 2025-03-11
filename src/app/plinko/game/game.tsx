@@ -419,6 +419,8 @@ export function Plinko({ user }: { user: UserType }) {
     );
   }
 
+
+
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
   }, []);
@@ -474,7 +476,7 @@ export function Plinko({ user }: { user: UserType }) {
             </MyDialog>
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
-              {streakClaimable && <DailyRewards user={user} />}
+              {streakClaimable && <DailyRewards user={user} setTickets={setPlayerBalance}/>}
               <Tooltip
                 content={
                   <div className="flex flex-col gap-y-2">

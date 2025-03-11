@@ -171,6 +171,10 @@ export default function Dice({ user }: { user: UserType }) {
     );
   }
 
+  useEffect(() => {
+    canClaimStreak().then(setStreakClaimable);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
       <Navbar isOpen={isNavOpen} />
@@ -222,7 +226,7 @@ export default function Dice({ user }: { user: UserType }) {
             </MyDialog>
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
-              {streakClaimable && <DailyRewards user={user} />}
+              {streakClaimable && <DailyRewards user={user} setTickets={setPlayerBalance}/>}
               <Tooltip
                 content={
                   <div className="flex flex-col gap-y-2">

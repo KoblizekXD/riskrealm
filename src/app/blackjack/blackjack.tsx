@@ -22,7 +22,6 @@ export const orbitron = Orbitron({
 export default function BlackJack({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const cardSound = "cards/card.wav";
   const [playerHand, setPlayerHand] = useState<string[]>([]);
   const [dealerHand, setDealerHand] = useState<string[]>([]);
   const [playerScore, setPlayerScore] = useState<number>(0);
@@ -37,6 +36,8 @@ export default function BlackJack({ user }: { user: UserType }) {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [showBalanceError, setShowBalanceError] = useState<boolean>(false);
   const [showResultPopup, setShowResultPopup] = useState<boolean>(false);
+  const cardSound = "cards/card.wav";
+
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -136,6 +137,10 @@ export default function BlackJack({ user }: { user: UserType }) {
     setGameStarted(false);
     setShowResultPopup(false);
   };
+
+  useEffect(() => {
+    canClaimStreak().then(setStreakClaimable);
+  }, []);
 
   function Navbar({ isOpen }: { isOpen: boolean }) {
     return (
@@ -242,7 +247,7 @@ export default function BlackJack({ user }: { user: UserType }) {
             </MyDialog>
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
-              {streakClaimable && <DailyRewards user={user} />}
+              {streakClaimable && <DailyRewards user={user} setTickets={setPlayerBalance}/>}
               <Tooltip
                 content={
                   <div className="flex flex-col gap-y-2">

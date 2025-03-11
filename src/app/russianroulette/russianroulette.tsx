@@ -171,7 +171,7 @@ export default function RussianRoulette({ user }: { user: UserType }) {
           </div>
 
           <div className="flex items-center">
-            {streakClaimable && <DailyRewards user={user} />}
+            {streakClaimable && <DailyRewards user={user} setTickets={setPlayerBalance}/>}
             <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
               <span>{playerBalance} 🎫</span>
             </div>
