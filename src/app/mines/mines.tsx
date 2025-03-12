@@ -70,6 +70,15 @@ export default function MinesGame({ user }: { user: UserType }) {
               setShowBalanceError(true);
               return;
             }
+
+            const playPlantedBombSound = () => {
+              const audio = new Audio("Sounds/bombPlanted.mp3");
+              audio.play();
+            };
+        
+            playPlantedBombSound();
+
+
         }
         setPlayerBalance((prevBalance) => {
             prevBalance = prevBalance - betValue;
@@ -88,17 +97,38 @@ export default function MinesGame({ user }: { user: UserType }) {
         setCashout(betValue);
         setGameOver(false);
         setResultMsg("");
+
+       
+
+        
     };
 
 
     const handleRevealTile = (index: number) => {
         if (gameOver || board[index]) return;
+        
+        
+        if (!(mines.includes(index))) { const playMineSound = () => {
+          const audio = new Audio("Sounds/mineSound.mp3");
+          audio.play();
+        };
+    
+        playMineSound();
+      }
 
         let newBoard = [...board];
         if (mines.includes(index)) {
             newBoard[index] = true;
             setBoard(newBoard);
             setGameOver(true);
+
+            const playExplosionSound = () => {
+              const audio = new Audio("Sounds/bombExplosion.mp3");
+              audio.play();
+            };
+        
+            playExplosionSound();
+
             setResultMsg("Boom! You hit a mine.");
             setWin(false);
             setShowResultPopup(true);

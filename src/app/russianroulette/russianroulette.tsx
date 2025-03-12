@@ -66,6 +66,7 @@ export default function RussianRoulette({ user }: { user: UserType }) {
       setPlayerBalance(gameState.playerBalance);
       setOldBalance(gameState.oldBalance);
       setGameStarted(true);
+      setRotation(rotation + 360);
     }
 
     const playSpinSound = () => {

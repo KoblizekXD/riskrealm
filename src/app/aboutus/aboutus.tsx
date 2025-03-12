@@ -23,6 +23,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/navbar";
 
+
+
 export function Content() {
   return (
     <><div className="flex flex-col items-center px-6 py-10 md:px-12">
