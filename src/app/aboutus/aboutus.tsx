@@ -42,10 +42,7 @@ export function Content() {
           Jan Prokůpek
         </h3>
         <p className="text-[#D4AF37] text-sm md:text-base">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a
-          urna eget ligula laoreet volutpat sit amet nec justo. Integer
-          feugiat sapien nec feugiat pretium. Sed vestibulum cursus orci
-          sit amet suscipit.
+          Only member of the team who knows what he's doing. He's the one who made the whole backend. Hatsune Miku enjoyer. Laravel hater.
         </p>
       </div>
     </div>
@@ -65,10 +62,7 @@ export function Content() {
           Jakub Málek
         </h3>
         <p className="text-[#D4AF37] text-sm md:text-base">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a
-          urna eget ligula laoreet volutpat sit amet nec justo. Integer
-          feugiat sapien nec feugiat pretium. Sed vestibulum cursus orci
-          sit amet suscipit.
+          Gym enthusiast, gambler at heart and a proud member of the Risk Realm team.
         </p>
       </div>
     </div>
@@ -88,10 +82,8 @@ export function Content() {
           Jaroslav Rašovský
         </h3>
         <p className="text-[#D4AF37] text-sm md:text-base">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a
-          urna eget ligula laoreet volutpat sit amet nec justo. Integer
-          feugiat sapien nec feugiat pretium. Sed vestibulum cursus orci
-          sit amet suscipit.
+        Stock investor (portfolio is -20 % at the moment). Rich experience in gambling makes him a valuable member of the Risk Realm team. He likes web development too, i guess.
+
         </p>
       </div>
     </div>

@@ -49,7 +49,7 @@ function SimpleCard({
   return (
     <Link href={link} className="bg-[#18181b] border border-[#28282b] px-2 py-12 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
       {image && (
-      <img src={image} alt={title} className="w-full h-42 mb-2 rounded-md" />
+      <img src={image} alt={title} className="w-full h-60 mb-2 rounded-md" />
       )}
       <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
       {title}
@@ -214,7 +214,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                     🔥 Blackjack 🔥
                   </h3>
                   <p className="text-[#D4AF37] text-sm md:text-base">
-                    Take your chances with high-risk, high-reward bets!
+                    Can you beat the dealer and win big? Let's find out!
                   </p>
                 </Link>
 
@@ -241,20 +241,20 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <SimpleCard
                 title="🔴 Plinko 🔴"
-                description="Spin the reels on our wide selection of classic and modern slot games!"
+                description="Drop the ball and watch it bounce to your fortune!"
                 image={PlinkoPic.src}
                 link="/plinko"
               />
 
               <SimpleCard
                 title="⛏️ Mines ⛏️"
-                description="Test your skills and strategies in thrilling card games with competitive odds!"
+                description="Cash or bomb? Choose wisely in this high-stakes game!"
                 image={MinesPic.src}
                 link="/mines"
               />
               <SimpleCard
-                title="🎲 Dices 🎲"
-                description="Open cases, win big, and feel the adrenaline rush of every drop!"
+                title="🎲 Dice 🎲"
+                description="Will the dice bring you luck? Roll and find out!"
                 image={DicesPic.src}
                 link="/dice"
               />
