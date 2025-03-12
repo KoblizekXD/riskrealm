@@ -216,7 +216,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   </p>
                 </Link>
 
-                <Link href={"/roulette"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <Link href={"/russianroulette"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
                     src={RusRoulettePic.src}
                     alt="Roulette Madness"

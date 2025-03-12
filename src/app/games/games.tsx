@@ -18,12 +18,17 @@ import {
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-/*import BlackjackPic from "./assets/blackjack.jpg";
-import CardsPic from "./assets/cardspic.jpg";
-import CasePic from "./assets/casepic.jpg";
-import RoulettePic from "./assets/roulettepic.jpg";
-import SlotPic from "./assets/slotpic.jpg";*/
+import BlackjackPic from "../assets/blackjack.jpg";
+import CardsPic from "../assets/cardspic.jpg";
+import CasePic from "../assets/casepic.jpg";
+import RoulettePic from "../assets/roulettepic.jpg";
+import SlotPic from "../assets/slotpic.jpg";
+import MinesPic from "../assets/mines.jpg";
+import PlinkoPic from "../assets/plinko.jpg";
+import DicesPic from "../assets/dice.jpg";
+import RusRoulettePic from "../assets/rr.jpg";
 import Navbar from "@/components/navbar";
+import { s } from "framer-motion/client";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -187,89 +192,89 @@ export default function Games({ user }: { user: UserType }) {
                   href={"/blackjack"}
                   className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
-                    src={""}
+                    src={BlackjackPic.src}
                     alt="High Stakes"
                     className="w-full h-60 object-cover rounded-md mb-2"
                   />
                   <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                    🔥 Blackjack 🔥
+                     Blackjack 
                   </h3>
-                  <p className="text-[#D4AF37] text-sm md:text-base">
-                    Take your chances with high-risk, high-reward bets!
-                  </p>
                 </Link>
 
-                <Link href={"/roulette"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <Link href={"/russianroulette"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
-                    src={""}
+                    src={RusRoulettePic.src}
                     alt="Roulette Madness"
                     className="w-full h-60 object-cover rounded-md mb-2"
                   />
                   <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                    🎡 Russian Roulette 🎡
+                     Russian Roulette 
                   </h3>
-                  <p className="text-[#D4AF37] text-sm md:text-base">
-                    Bet big, win bigger - spin the wheel now!
-                  </p>
                 </Link>
                 <Link
-                  href={"/blackjack"}
+                  href={"/plinko"}
                   className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
-                    src={""}
+                    src={PlinkoPic.src}
+                    alt="High Stakes"
+                    className="w-full h-60 object-fill rounded-md mb-2"
+                  />
+                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                     Plinko 
+                  </h3>
+                </Link>
+                <Link
+                  href={"/dice"}
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  <img
+                    src={DicesPic.src}
+                    alt="High Stakes"
+                    className="w-full h-60 object-fill rounded-md mb-2"
+                  />
+                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                     Dices 
+                  </h3>
+                </Link>
+                <Link
+                  href={"/mines"}
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  <img
+                    src={MinesPic.src}
+                    alt="High Stakes"
+                    className="w-full h-60 object-fill bg-center bg-cover rounded-md mb-2"
+                  />
+                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                     Mines 
+                  </h3>
+                </Link>
+                <Link
+                  href={""}
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  <img
+                    src={SlotPic.src}
                     alt="High Stakes"
                     className="w-full h-60 object-cover rounded-md mb-2"
                   />
                   <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                    🔥 Plinko 🔥
+                     Slots 
                   </h3>
                   <p className="text-[#D4AF37] text-sm md:text-base">
-                    Take your chances with high-risk, high-reward bets!
+                  Coming soon...
                   </p>
                 </Link>
                 <Link
-                  href={"/blackjack"}
+                  href={""}
                   className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
-                    src={""}
+                    src={RoulettePic.src} 
                     alt="High Stakes"
                     className="w-full h-60 object-cover rounded-md mb-2"
                   />
                   <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                    🔥 Dices 🔥
+                     Roulette Madness 
                   </h3>
                   <p className="text-[#D4AF37] text-sm md:text-base">
-                    Take your chances with high-risk, high-reward bets!
-                  </p>
-                </Link>
-                <Link
-                  href={"/blackjack"}
-                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
-                  <img
-                    src={""}
-                    alt="High Stakes"
-                    className="w-full h-60 object-cover rounded-md mb-2"
-                  />
-                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                    🔥 Mines 🔥
-                  </h3>
-                  <p className="text-[#D4AF37] text-sm md:text-base">
-                    Take your chances with high-risk, high-reward bets!
-                  </p>
-                </Link>
-                <Link
-                  href={"/blackjack"}
-                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
-                  <img
-                    src={""}
-                    alt="High Stakes"
-                    className="w-full h-60 object-cover rounded-md mb-2"
-                  />
-                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                    🔥 Coming soon... 🔥
-                  </h3>
-                  <p className="text-[#D4AF37] text-sm md:text-base">
-                    Take your chances with high-risk, high-reward bets!
+                  Coming soon...
                   </p>
                 </Link>
               </div>
