@@ -62,9 +62,11 @@ function SimpleCard({
 export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
+
   const [tickets, setTickets] = useState(user.tickets);
   const formatNumber = (num: number) => num.toLocaleString("en-US");
  
+
 
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
@@ -263,6 +265,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
               Coming soon:
             </h2>
+
             <div className="mt-6 md:mt-10 w-full px-4" id="comingsoon">           
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Link
