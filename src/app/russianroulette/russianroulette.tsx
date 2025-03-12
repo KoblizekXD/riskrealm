@@ -20,6 +20,7 @@ import Popover from "@/components/popover";
 import Navbar from "@/components/navbar";
 
 
+
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
   subsets: ["latin"],
@@ -66,6 +67,13 @@ export default function RussianRoulette({ user }: { user: UserType }) {
       setOldBalance(gameState.oldBalance);
       setGameStarted(true);
     }
+
+    const playSpinSound = () => {
+      const audio = new Audio("Sounds/chamberSpin.mp3");
+      audio.play();
+    };
+
+    playSpinSound();
   };
 
   const handleFire = async () => {
@@ -85,8 +93,33 @@ export default function RussianRoulette({ user }: { user: UserType }) {
       if (gameState.gameOver) {
         setShowResultPopup(true);
         await updateBalance(gameState.playerBalance);
+
+        const playFireSound = () => {
+          const audio = new Audio("Sounds/fireSound.wav");
+          audio.play();
+        };
+    
+        playFireSound();
+
       }
+
+else {
+  const playClickSound = () => {
+    const audio = new Audio("Sounds/gunClick.mp3");
+    audio.play();
+  };
+
+  playClickSound();
+
+}
+
+      
     }
+
+
+
+
+
   };
 
   const handleCashout = async () => {
@@ -99,6 +132,14 @@ export default function RussianRoulette({ user }: { user: UserType }) {
 
       await updateBalance(cashoutResult.playerBalance);
     }
+
+    const playWinSound = () => {
+      const audio = new Audio("Sounds/winCash.wav");
+      audio.play();
+    };
+
+    playWinSound();
+
   };
 
   const handleReset = () => {
