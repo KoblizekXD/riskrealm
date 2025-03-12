@@ -104,7 +104,19 @@ export default function BlackJack({ user }: { user: UserType }) {
         setResult("Player busts! Dealer wins!");
         setWinner("player");
         setShowResultPopup(true);
+
+        const playJewSound = () => {
+          const audio = new Audio("Sounds/laughingJew.mp3");
+          audio.play();
+        };
+    
+        playJewSound();
+
       }
+
+
+
+
     }
   };
 
@@ -124,6 +136,18 @@ export default function BlackJack({ user }: { user: UserType }) {
       setResultMsg(gameState.resultMsg);
       setPlayerBalance(gameState.playerBalance);
       setShowResultPopup(true);
+
+      if (gameState.winner === "player") {
+
+        const playWinSound = () => {
+          const audio = new Audio("Sounds/winCash.wav");
+          audio.play();
+        };
+        
+        playWinSound();
+
+      }
+
     }
   };
 

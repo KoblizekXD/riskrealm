@@ -106,7 +106,27 @@ export default function Dice({ user }: { user: UserType }) {
           setNewWin((prevWin) => prevWin + newWin);
           setPlayerBalance((prevBalance) => prevBalance + newWin);
           updateBalance(playerBalance + newWin);
+
+
+          const playWinSound = () => {
+            const audio = new Audio("Sounds/winCash.wav");
+            audio.play();
+          };
+      
+          playWinSound();
         }
+
+        else {
+          const playJewSound = () => {
+            const audio = new Audio("Sounds/laughingJew.mp3");
+            audio.play();
+          };
+      
+          playJewSound();
+
+          
+        }
+
 
         setResult(total.sum);
         setIsWin(win);

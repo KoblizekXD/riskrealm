@@ -155,6 +155,14 @@ export default function MinesGame({ user }: { user: UserType }) {
         setResultMsg(`You successfully cashed out ${formatNumber(cashout)}🎫!`);
         setWin(true);
         setShowResultPopup(true);
+
+
+        const playWinSound = () => {
+          const audio = new Audio("Sounds/winCash.wav");
+          audio.play();
+        };
+    
+        playWinSound();
     };
 
     useEffect(() => {
