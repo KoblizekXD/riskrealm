@@ -100,9 +100,7 @@ export async function canClaimStreak(): Promise<boolean> {
   const lastClaimedDate = new Date(lastClaimed);
   const today = new Date();
 
-  if (
-    today.getTime() - lastClaimedDate.getTime() >= 86400000
-  ) {
+  if (today.getTime() - lastClaimedDate.getTime() >= 86400000) {
     return true;
   }
   return false;
@@ -131,4 +129,15 @@ export async function claimStreak() {
     })
     .eq("id", user.data.user.id);
   return true;
+}
+
+export async function updateBalance(balance: number) {
+  const supabase = await createClient();
+  const user = await supabase.auth.getUser();
+  if (!user.data.user) return false;
+
+  await supabase
+    .from("users")
+    .update({ tickets: balance })
+    .eq("id", user.data.user.id);
 }

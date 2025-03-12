@@ -4,14 +4,20 @@ import type { User } from "@/lib/schemas";
 import { claimStreak } from "@/lib/supabase/actions";
 import { streakCalculator } from "@/lib/util";
 import { Gift, TicketsIcon } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 import MyDialog from "./dialog";
 
-export default function DailyRewards({ user }: { user: User }) {
+export default function DailyRewards({
+  user,
+  setTickets,
+}: { user: User; setTickets: (a: (prev: number) => number) => void }) {
+  const [open, setOpen] = useState(true);
   const streak = user.streak + 1;
 
   return (
     <MyDialog
+      open={open}
       trigger={
         <div className="rounded-lg bg-red-500 font-semibold text-white flex gap-x-2 duration-500 transition-colors p-2 hover:bg-white/30 cursor-pointer select-none">
           Daily rewards
@@ -23,7 +29,7 @@ export default function DailyRewards({ user }: { user: User }) {
       <h2 className="text-center font-semibold">
         You currently have {user.streak} days of streak.
       </h2>
-      <div className="flex gap-x-2 mt-2">
+      <div className="flex w-full justify-center gap-x-2 mt-2">
         <div className="basis-48 flex flex-col gap-y-3 justify-center items-center bg-[#030712] shadow-xl rounded-lg h-36">
           <TicketsIcon size={36} />
           <span className="font-semibold">Day {streak}</span>
@@ -50,6 +56,8 @@ export default function DailyRewards({ user }: { user: User }) {
         onClick={() => {
           claimStreak().then(() => {
             toast("Successfully claimed your daily rewards!");
+            setTickets((prev) => prev + streakCalculator(streak));
+            setOpen(false);
           });
         }}
         type="button"

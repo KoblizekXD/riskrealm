@@ -123,43 +123,42 @@ body {
 }
 
 .PopoverContent[data-state="open"][data-side="top"] {
-	animation-name: slideDownAndFade;
+  animation-name: slideDownAndFade;
 }
 .PopoverContent[data-state="open"][data-side="right"] {
-	animation-name: slideLeftAndFade;
+  animation-name: slideLeftAndFade;
 }
 .PopoverContent[data-state="open"][data-side="bottom"] {
-	animation-name: slideUpAndFade;
+  animation-name: slideUpAndFade;
 }
 .PopoverContent[data-state="open"][data-side="left"] {
-	animation-name: slideRightAndFade;
+  animation-name: slideRightAndFade;
 }
 
 .PopoverContent {
-	animation-duration: 400ms;
-	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-	will-change: transform, opacity;
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
 }
 
-
 @keyframes overlayShow {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes contentShow {
-	from {
-		opacity: 0;
-		transform: scale(0.90);
-	}
-	to {
-		opacity: 1;
-		transform: scale(1);
-	}
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .DialogContent {
@@ -168,4 +167,13 @@ body {
 
 .DialogOverlay {
   animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dice-roll {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-dice-roll {
+  animation: dice-roll 1.5s linear;
 }

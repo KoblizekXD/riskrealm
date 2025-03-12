@@ -5,7 +5,7 @@ import MyDialog from "@/components/dialog";
 import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
-import { canClaimStreak } from "@/lib/supabase/actions";
+import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
 import {
   CandlestickChart,
   ChartCandlestick,
@@ -23,6 +23,11 @@ import CardsPic from "./assets/cardspic.jpg";
 import CasePic from "./assets/casepic.jpg";
 import RoulettePic from "./assets/roulettepic.jpg";
 import SlotPic from "./assets/slotpic.jpg";
+import MinesPic from "./assets/mines.jpg";
+import PlinkoPic from "./assets/plinko.jpg";
+import DicesPic from "./assets/dice.jpg";
+import RusRoulettePic from "./assets/rr.jpg";
+import Navbar from "@/components/navbar";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -34,21 +39,23 @@ function SimpleCard({
   description,
   title,
   image,
+  link
 }: {
   description: string;
   title: string;
   image?: string;
+  link: string;
 }) {
   return (
-    <div className="bg-[#18181b] border border-[#28282b] px-2 py-12 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+    <Link href={link} className="bg-[#18181b] border border-[#28282b] px-2 py-12 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
       {image && (
-        <img src={image} alt={title} className="w-auto h-42 mb-2 rounded-md" />
+      <img src={image} alt={title} className="w-full h-42 mb-2 rounded-md" />
       )}
       <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-        {title}
+      {title}
       </h3>
       <p className="text-[#D4AF37] text-sm md:text-base">{description}</p>
-    </div>
+    </Link>
   );
 }
 
@@ -56,63 +63,10 @@ export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  function Navbar({ isOpen }: { isOpen: boolean }) {
-    return (
-      <>
-        <div
-          onClick={() => setIsNavOpen(false)}
-          className={`w-screen fixed h-screen bg-black/50 z-40 ${isOpen ? "block" : "hidden"}`}
-        />
-        <div
-          className={`fixed left-0 w-64 -translate-x-[100%] overflow-hidden overflow-x-hidden top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-transform duration-700 z-50 ${
-            isOpen && "translate-x-[0%]"
-          }`}>
-          <div className="p-4">
-            <div className="flex items-center space-x-2 md:space-x-4 justify-between">
-              <h2 className="text-2xl -translate-y-[1px] font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
-                Risk Realm
-              </h2>
-              <button
-                type="button"
-                onClick={() => setIsNavOpen(!isNavOpen)}
-                className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform ">
-                <X />
-              </button>
-            </div>
-          </div>
+  const [tickets, setTickets] = useState(user.tickets);
+  const formatNumber = (num: number) => num.toLocaleString("en-US");
+ 
 
-          <ul className="p-4">
-            <li className="mb-2">
-              <Link href="/" className="text-[#D4AF37] hover:text-[#FFD700]">
-                Home
-              </Link>
-            </li>
-            <li className="mb-2">
-              <Link
-                href="/games"
-                className="text-[#D4AF37] hover:text-[#FFD700]">
-                Games
-              </Link>
-            </li>
-            <li className="mb-2">
-              <Link
-                href="/profile"
-                className="text-[#D4AF37] hover:text-[#FFD700]">
-                Profile
-              </Link>
-            </li>
-            <li className="mb-2">
-              <Link
-                href="/settings"
-                className="text-[#D4AF37] hover:text-[#FFD700]">
-                Settings
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </>
-    );
-  }
 
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
@@ -120,7 +74,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
-      <Navbar isOpen={isNavOpen} />
+      <Navbar isOpen={isNavOpen} toggleNav={() => setIsNavOpen(!isNavOpen)} />
       <div className="flex flex-col items-center">
         <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
           <div className={"flex items-center space-x-2 md:space-x-4"}>
@@ -130,9 +84,9 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
               <Menu />
             </button>
-            <div className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
+            <Link href={"/"} className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
               Risk Realm
-            </div>
+            </Link>
           </div>
 
           <div className="flex items-center">
@@ -147,7 +101,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               <div className="flex flex-col gap-y-2">
                 <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
                   Balance:
-                  <span>{user.tickets} 🎫</span>
+                  <span>{formatNumber(user.tickets)} 🎫</span>
                   <span>{user.gems} 💎</span>
                 </div>
                 <p className="text-sm text-gray-300">
@@ -160,7 +114,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   Options
                 </Link>
                 <Link
-                  className="font-semibold gap-x-2 flex items-center"
+                  className="font-semibold brightness-50 gap-x-2 flex items-center"
                   href={"/trade"}>
                   <ChartCandlestick size={16} />
                   Trade gems
@@ -175,7 +129,9 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             </MyDialog>
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
-              {streakClaimable && <DailyRewards user={user} />}
+              {streakClaimable && (
+                <DailyRewards setTickets={setTickets} user={user} />
+              )}
               <Tooltip
                 content={
                   <div className="flex flex-col gap-y-2">
@@ -185,7 +141,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   </div>
                 }>
                 <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
-                  <span>{user.tickets} 🎫</span>
+                  <span>{formatNumber(tickets)} 🎫</span>
                   <span>{user.gems} 💎</span>
                 </div>
               </Tooltip>
@@ -241,39 +197,11 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             Ready to make some money?
           </p>
           <div className="mt-6 md:mt-10 w-full px-4">
-            <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
-              Just for you:
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <SimpleCard
-                title="🎰 Slots 🎰"
-                description="Spin the reels on our wide selection of classic and modern slot games!"
-                image={SlotPic.src}
-              />
-
-              <SimpleCard
-                title="🃏 Cards 🃏"
-                description="Test your skills and strategies in thrilling card games with competitive odds!"
-                image={CardsPic.src}
-              />
-              <SimpleCard
-                title="💰🧰 Cases 🧰💰"
-                description="Open cases, win big, and feel the adrenaline rush of every drop!"
-                image={CasePic.src}
-              />
-              <SimpleCard
-                title="⚪️ Roulette 🔴"
-                description="Spin the roulette and pray for the best!"
-                image={RoulettePic.src}
-              />
-            </div>
-          </div>
-          <div className="mt-6 md:mt-10 w-full px-4">
-            <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
+            <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
               Trending right now:
             </h2>
-            <div className="mt-6 md:mt-10 w-full px-4">
-              <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
+            <div className="mt-6 md:mt-10 w-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Link
                   href={"/blackjack"}
                   className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
@@ -290,45 +218,90 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   </p>
                 </Link>
 
-                <div className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <Link href={"/russianroulette"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  <img
+                    src={RusRoulettePic.src}
+                    alt="Roulette Madness"
+                    className="w-full h-60 object-cover bg-center rounded-md mb-2"
+                  />
+                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                  💥 Russian Roulette 💥
+                  </h3>
+                  <p className="text-[#D4AF37] text-sm md:text-base">
+                  One bullet, six chambers – feeling lucky?
+                  </p>
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className="mt-6 md:mt-10 w-full px-4">
+            <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
+              Just for you:
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <SimpleCard
+                title="🔴 Plinko 🔴"
+                description="Spin the reels on our wide selection of classic and modern slot games!"
+                image={PlinkoPic.src}
+                link="/plinko"
+              />
+
+              <SimpleCard
+                title="⛏️ Mines ⛏️"
+                description="Test your skills and strategies in thrilling card games with competitive odds!"
+                image={MinesPic.src}
+                link="/mines"
+              />
+              <SimpleCard
+                title="🎲 Dices 🎲"
+                description="Open cases, win big, and feel the adrenaline rush of every drop!"
+                image={DicesPic.src}
+                link="/dice"
+              />
+              
+            </div>
+          </div>
+          <div className="mt-6 md:mt-10 w-full px-4">
+            <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
+              Coming soon:
+            </h2>
+
+            <div className="mt-6 md:mt-10 w-full px-4" id="comingsoon">           
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Link
+                  href={"#comingsoon"}
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  <img
+                    src={BlackjackPic.src}
+                    alt="High Stakes"
+                    className="w-full h-60 object-cover rounded-md mb-2"
+                  />
+                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                    🔥 Slots 🔥
+                  </h3>
+                  <p className="text-[#D4AF37] text-sm md:text-base">
+                    Spin the reels on our wide selection of classic and modern slot games!
+                  </p>
+                </Link>
+
+                <Link href={"#comingsoon"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
                     src={RoulettePic.src}
                     alt="Roulette Madness"
                     className="w-full h-60 object-cover rounded-md mb-2"
                   />
                   <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                    🎡 Roulette Madness 🎡
+                  💥 Roulette Madness 💥
                   </h3>
                   <p className="text-[#D4AF37] text-sm md:text-base">
-                    Bet big, win bigger – spin the wheel now!
+                    Bet big, win bigger - spin the wheel now!
                   </p>
-                </div>
+                </Link>
               </div>
             </div>
           </div>
-          <div className="mt-6 md:mt-10 w-full px-4">
-            <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
-              Most played:
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <SimpleCard
-                title="🎰 Slots 🎰"
-                description="Spin the reels on our wide selection of classic and modern slot games!"
-              />
-              <SimpleCard
-                title="🃏 Cards 🃏"
-                description="Test your skills and strategies in thrilling card games with competitive odds!"
-              />
-              <SimpleCard
-                title="💰🧰 Cases 🧰💰"
-                description="Open cases, win big, and feel the adrenaline rush of every drop!"
-              />
-              <SimpleCard
-                title="💰🎁 Daily rewards 🎁💰"
-                description="Gamble and login every day to gain maximum bonus!"
-              />
-            </div>
-          </div>
+          
+          
         </main>
       </div>
 
