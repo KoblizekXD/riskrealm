@@ -498,7 +498,7 @@ export function Plinko({ user }: { user: UserType }) {
                   Balls: {inGameBallsCount.toFixed(0)}/15
                 </span>
                 <span className="text-sm font-bold text-[#D4AF37] md:text-lg">
-                  Balance: {formatNumber(playerBalance)}
+                  Balance: {formatNumber(playerBalance)}🎫
                 </span>
               </div>
 
@@ -530,7 +530,7 @@ export function Plinko({ user }: { user: UserType }) {
                       1000
                     </button>
                     <button
-                      onClick={() => setBetValue(playerBalance/2)}
+                      onClick={() => setBetValue(playerBalance % 2 === 0 ? playerBalance / 2 : (playerBalance - 1) / 2)}
                       className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
                       ½
                     </button>

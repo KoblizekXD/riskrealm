@@ -341,14 +341,14 @@ export default function Dice({ user }: { user: UserType }) {
                   onClick={() => setBetValue(playerBalance % 2 === 0 ? playerBalance / 2 : (playerBalance - 1) / 2)}
                   disabled={rolling}
                   className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
-                  Half
+                  ½
                 </button>
                 <button
                   type="button"
                   onClick={() => setBetValue((prevBetValue) => (prevBetValue ?? 0) + 100)}
                   disabled={rolling}
                   className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
-                  +100
+                  100
                 </button>
                 
                 <button
@@ -356,7 +356,7 @@ export default function Dice({ user }: { user: UserType }) {
                   onClick={() => setBetValue((prevBetValue) => (prevBetValue ?? 0) + 1000)}
                   disabled={rolling}
                   className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
-                  +1000
+                  1000
                 </button>
                
                 

@@ -271,7 +271,7 @@ export default function BlackJack({ user }: { user: UserType }) {
             <div className="mb-4 flex flex-col items-center justify-center gap-4">
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
                 <p className="text-xl text-[#FFD700]">
-                  Balance: ${formatNumber(playerBalance)}
+                  Balance: {formatNumber(playerBalance)}🎫
                 </p>
                 <input
                   type="number"
@@ -303,7 +303,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setBet(Math.floor(playerBalance / 2))}
+                  onClick={() => setBet(playerBalance % 2 === 0 ? playerBalance / 2 : (playerBalance - 1) / 2)}
                   disabled={gameStarted}
                   className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
                   Half
@@ -317,7 +317,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                   }
                   disabled={gameStarted}
                   className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
-                  +100
+                  100
                 </button>
                 <button
                   type="button"
@@ -328,7 +328,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                   }
                   disabled={gameStarted}
                   className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
-                  +500
+                  500
                 </button>
                 <button
                   type="button"
@@ -339,7 +339,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                   }
                   disabled={gameStarted}
                   className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
-                  +1000
+                  1000
                 </button>
               </div>
 
@@ -431,7 +431,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                 <p>{resultMsg}</p>
                 {winner === "player" ? (
                   <p>
-                    Your balance: ${formatNumber(oldBalance)} ➜ ${formatNumber(playerBalance)}
+                    Your balance: {formatNumber(oldBalance)}🎫 ➜ {formatNumber(playerBalance)}🎫
                   </p>
                 ) : (
                   ""
