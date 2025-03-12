@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { JSX } from "react";
-import { FaHome, FaCalendarAlt, FaGamepad, FaUser, FaCog, FaTimes } from "react-icons/fa";
+import { FaHome, FaCalendarAlt, FaGamepad, FaUser, FaCog, FaTimes, FaInfoCircle } from "react-icons/fa";
 
 interface NavbarProps {
   isOpen: boolean;
@@ -35,6 +35,7 @@ export default function Navbar({ isOpen, toggleNav }: NavbarProps) {
         <NavItem href="/games" icon={<FaGamepad />} text="Games" />
         <NavItem href="/profile" icon={<FaUser />} text="Profile" />
         <NavItem href="/settings" icon={<FaCog />} text="Settings" />
+        <NavItem href="/aboutus" icon={<FaInfoCircle />} text="About Us" />
       </ul>
     </div>
   );

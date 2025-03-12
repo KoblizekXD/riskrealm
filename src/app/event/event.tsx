@@ -181,7 +181,7 @@ export default function Event({ user }: { user: UserType }) {
           className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
             isNavOpen ? "ml-64" : "ml-0"
           }`}>
-          <h1 className="text-3xl font-bold text-[#FFD700] mb-8">Diamond Hunt Event</h1>
+          <h1 className="text-3xl font-bold text-[#FFD700] mb-8">💎💎Diamond Hunt Event💎💎</h1>
 
 <section className="text-[#D4AF37] mb-8">
   <p className="text-lg">
