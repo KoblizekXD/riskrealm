@@ -28,7 +28,7 @@ export const orbitron = Orbitron({
 
 export default function RussianRoulette({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
-  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(true);
   const [rotationAngle, setRotationAngle] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [result, setResult] = useState<string>("");
@@ -232,7 +232,7 @@ export default function RussianRoulette({ user }: { user: UserType }) {
             <div className="mb-4 flex flex-col items-center justify-center gap-4">
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
                 <p className="text-xl text-[#FFD700]">
-                  Balance: ${formatNumber(playerBalance)}
+                  Balance: {formatNumber(playerBalance)}🎫
                 </p>
                 <input
                   type="number"

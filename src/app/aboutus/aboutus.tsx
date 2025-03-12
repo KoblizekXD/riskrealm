@@ -43,85 +43,93 @@ export function AboutUsNotLogged() {
               Sign In
             </button>
         </header>
-            <main
-              className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300`}>
-              <h1
-              className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4 pt-6 md:pt-10`}>
-              Meet our team!
-            </h1>
-    
-            <div className="flex flex-col items-center px-6 py-10 md:px-12">
-              <div className="flex flex-col md:flex-row items-center md:space-x-8 mb-12">
-                <div className="w-full md:w-1/2">
-                  <Image
-                    src="/path.jpg"
-                    alt="Honza"
-                    width={600}
-                    height={400}
-                    className="rounded-lg shadow-lg"
-                  />
-                </div>
-    
-                <div className="w-full md:w-1/2 text-center md:text-left mt-4 md:mt-0">
-                  <h3 className="text-3xl font-bold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4">
-                    Jan Prokůpek
-                  </h3>
-                  <p className="text-[#D4AF37] text-sm md:text-base">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a
-                    urna eget ligula laoreet volutpat sit amet nec justo. Integer
-                    feugiat sapien nec feugiat pretium. Sed vestibulum cursus orci
-                    sit amet suscipit.
-                  </p>
-                </div>
-              </div>
-    
-              <div className="flex flex-col md:flex-row-reverse items-center md:space-x-8 mb-12">
-                <div className="w-full md:w-1/2">
-                  <Image
-                    src="/path.jpg"
-                    alt="Jakub"
-                    width={600}
-                    height={400}
-                    className="rounded-lg shadow-lg"
-                  />
-                </div>
-                <div className="w-full md:w-1/2 text-center md:text-left mt-4 md:mt-0">
-                  <h3 className="text-3xl font-bold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4">
-                    Jakub Málek
-                  </h3>
-                  <p className="text-[#D4AF37] text-sm md:text-base">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a
-                    urna eget ligula laoreet volutpat sit amet nec justo. Integer
-                    feugiat sapien nec feugiat pretium. Sed vestibulum cursus orci
-                    sit amet suscipit.
-                  </p>
-                </div>
-              </div>
-    
-              <div className="flex flex-col md:flex-row items-center md:space-x-8 mb-12">
-                <div className="w-full md:w-1/2">
-                  <Image
-                    src="/path.jpg"
-                    alt="Jarin"
-                    width={600}
-                    height={400}
-                    className="rounded-lg shadow-lg"
-                  />
-                </div>
-                <div className="w-full md:w-1/2 text-center md:text-left mt-4 md:mt-0">
-                  <h3 className="text-3xl font-bold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4">
-                    Jaroslav Rašovský
-                  </h3>
-                  <p className="text-[#D4AF37] text-sm md:text-base">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a
-                    urna eget ligula laoreet volutpat sit amet nec justo. Integer
-                    feugiat sapien nec feugiat pretium. Sed vestibulum cursus orci
-                    sit amet suscipit.
-                  </p>
-                </div>
-              </div>
-            </div>
-            </main>
+        <main
+  className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300`}>
+  
+  <h1
+    className={`${luckiestGuy.className} text-4xl md:text-8xl font-extrabold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4 pt-6 md:pt-10`}>
+    Meet our team!
+  </h1>
+
+  <Link
+    href="/"
+    className="mb-6 bg-[#D4AF37] text-black font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:bg-[#FFD700]">
+    Back to Homepage
+  </Link>
+
+  <div className="flex flex-col items-center px-6 py-10 md:px-12">
+    <div className="flex flex-col md:flex-row items-center md:space-x-8 mb-12">
+      <div className="w-full md:w-1/2">
+        <Image
+          src="/path.jpg"
+          alt="Honza"
+          width={600}
+          height={400}
+          className="rounded-lg shadow-lg"
+        />
+      </div>
+
+      <div className="w-full md:w-1/2 text-center md:text-left mt-4 md:mt-0">
+        <h3 className="text-3xl font-bold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4">
+          Jan Prokůpek
+        </h3>
+        <p className="text-[#D4AF37] text-sm md:text-base">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a
+          urna eget ligula laoreet volutpat sit amet nec justo. Integer
+          feugiat sapien nec feugiat pretium. Sed vestibulum cursus orci
+          sit amet suscipit.
+        </p>
+      </div>
+    </div>
+
+    <div className="flex flex-col md:flex-row-reverse items-center md:space-x-8 mb-12">
+      <div className="w-full md:w-1/2">
+        <Image
+          src="/path.jpg"
+          alt="Jakub"
+          width={600}
+          height={400}
+          className="rounded-lg shadow-lg"
+        />
+      </div>
+      <div className="w-full md:w-1/2 text-center md:text-left mt-4 md:mt-0">
+        <h3 className="text-3xl font-bold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4">
+          Jakub Málek
+        </h3>
+        <p className="text-[#D4AF37] text-sm md:text-base">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a
+          urna eget ligula laoreet volutpat sit amet nec justo. Integer
+          feugiat sapien nec feugiat pretium. Sed vestibulum cursus orci
+          sit amet suscipit.
+        </p>
+      </div>
+    </div>
+
+    <div className="flex flex-col md:flex-row items-center md:space-x-8 mb-12">
+      <div className="w-full md:w-1/2">
+        <Image
+          src="/path.jpg"
+          alt="Jarin"
+          width={600}
+          height={400}
+          className="rounded-lg shadow-lg"
+        />
+      </div>
+      <div className="w-full md:w-1/2 text-center md:text-left mt-4 md:mt-0">
+        <h3 className="text-3xl font-bold text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] mb-4">
+          Jaroslav Rašovský
+        </h3>
+        <p className="text-[#D4AF37] text-sm md:text-base">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a
+          urna eget ligula laoreet volutpat sit amet nec justo. Integer
+          feugiat sapien nec feugiat pretium. Sed vestibulum cursus orci
+          sit amet suscipit.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
           </div>
     
           <footer className="h-16 flex mt-auto items-center justify-center border-t border-gray-800 bg-[#181825]">
@@ -136,7 +144,7 @@ export function AboutUsNotLogged() {
 export function AboutUsLogged({ user }: { user: UserType }) {
   
   const [streakClaimable, setStreakClaimable] = useState(false);
-  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(true);
   const [tickets, setTickets] = useState(user.tickets);
 
   const formatNumber = (num: number) => num.toLocaleString("en-US");

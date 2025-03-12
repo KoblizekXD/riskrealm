@@ -18,7 +18,7 @@ export default function Dice({ user }: { user: UserType }) {
   const [target, setTarget] = useState<'over' | 'under'>('over');
   const [result, setResult] = useState<number | null>(null);
   const [isWin, setIsWin] = useState<boolean | null>(null);
-  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(true);
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [playerBalance, setPlayerBalance] = useState<number>(user.tickets);
   const [showBalanceError, setShowBalanceError] = useState<boolean>(false);

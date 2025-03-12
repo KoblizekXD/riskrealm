@@ -30,7 +30,7 @@ export default function MinesGame({ user }: { user: UserType }) {
     const [cashout, setCashout] = useState<number>(1.0);
     const [gameOver, setGameOver] = useState<boolean>(false);
     const [resultMsg, setResultMsg] = useState<string>("");
-    const [isNavOpen, setIsNavOpen] = useState(false);
+    const [isNavOpen, setIsNavOpen] = useState(true);
     const [streakClaimable, setStreakClaimable] = useState(false);
     const [playerBalance, setPlayerBalance] = useState<number>(user.tickets);
     const [betValue, setBetValue] = useState<number>(0);

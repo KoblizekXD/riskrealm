@@ -61,7 +61,7 @@ function SimpleCard({
 
 export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
-  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(true);
 
   const [tickets, setTickets] = useState(user.tickets);
   const formatNumber = (num: number) => num.toLocaleString("en-US");
