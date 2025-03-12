@@ -61,7 +61,7 @@ function SimpleCard({
 
 export default function LoggedInPage({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
-  const [isNavOpen, setIsNavOpen] = useState(true);
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
   const [tickets, setTickets] = useState(user.tickets);
   const formatNumber = (num: number) => num.toLocaleString("en-US");
@@ -272,7 +272,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   href={"#comingsoon"}
                   className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
-                    src={BlackjackPic.src}
+                    src={SlotPic.src}
                     alt="High Stakes"
                     className="w-full h-60 object-cover rounded-md mb-2"
                   />

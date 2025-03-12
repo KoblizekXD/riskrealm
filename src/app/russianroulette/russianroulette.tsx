@@ -28,7 +28,7 @@ export const orbitron = Orbitron({
 
 export default function RussianRoulette({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
-  const [isNavOpen, setIsNavOpen] = useState(true);
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [rotationAngle, setRotationAngle] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [result, setResult] = useState<string>("");

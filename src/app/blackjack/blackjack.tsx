@@ -22,7 +22,7 @@ export const orbitron = Orbitron({
 
 export default function BlackJack({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
-  const [isNavOpen, setIsNavOpen] = useState(true);
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [playerHand, setPlayerHand] = useState<string[]>([]);
   const [dealerHand, setDealerHand] = useState<string[]>([]);
   const [playerScore, setPlayerScore] = useState<number>(0);
