@@ -23,6 +23,10 @@ import CardsPic from "./assets/cardspic.jpg";
 import CasePic from "./assets/casepic.jpg";
 import RoulettePic from "./assets/roulettepic.jpg";
 import SlotPic from "./assets/slotpic.jpg";
+import MinesPic from "./assets/mines.jpg";
+import PlinkoPic from "./assets/plinko.jpg";
+import DicesPic from "./assets/dice.jpg";
+import RusRoulettePic from "./assets/rr.jpg";
 import Navbar from "@/components/navbar";
 
 export const orbitron = Orbitron({
@@ -35,21 +39,23 @@ function SimpleCard({
   description,
   title,
   image,
+  link
 }: {
   description: string;
   title: string;
   image?: string;
+  link: string;
 }) {
   return (
-    <div className="bg-[#18181b] border border-[#28282b] px-2 py-12 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+    <Link href={link} className="bg-[#18181b] border border-[#28282b] px-2 py-12 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
       {image && (
-        <img src={image} alt={title} className="w-auto h-42 mb-2 rounded-md" />
+      <img src={image} alt={title} className="w-full h-42 mb-2 rounded-md" />
       )}
       <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-        {title}
+      {title}
       </h3>
       <p className="text-[#D4AF37] text-sm md:text-base">{description}</p>
-    </div>
+    </Link>
   );
 }
 
@@ -189,39 +195,11 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             Ready to make some money?
           </p>
           <div className="mt-6 md:mt-10 w-full px-4">
-            <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
-              Just for you:
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <SimpleCard
-                title="🎰 Slots 🎰"
-                description="Spin the reels on our wide selection of classic and modern slot games!"
-                image={SlotPic.src}
-              />
-
-              <SimpleCard
-                title="🃏 Cards 🃏"
-                description="Test your skills and strategies in thrilling card games with competitive odds!"
-                image={CardsPic.src}
-              />
-              <SimpleCard
-                title="💰🧰 Cases 🧰💰"
-                description="Open cases, win big, and feel the adrenaline rush of every drop!"
-                image={CasePic.src}
-              />
-              <SimpleCard
-                title="⚪️ Roulette 🔴"
-                description="Spin the roulette and pray for the best!"
-                image={RoulettePic.src}
-              />
-            </div>
-          </div>
-          <div className="mt-6 md:mt-10 w-full px-4">
-            <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
+            <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
               Trending right now:
             </h2>
-            <div className="mt-6 md:mt-10 w-full px-4">
-              <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
+            <div className="mt-6 md:mt-10 w-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Link
                   href={"/blackjack"}
                   className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
@@ -240,12 +218,77 @@ export default function LoggedInPage({ user }: { user: UserType }) {
 
                 <Link href={"/roulette"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
+                    src={RusRoulettePic.src}
+                    alt="Roulette Madness"
+                    className="w-full h-60 object-cover bg-center rounded-md mb-2"
+                  />
+                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                  💥 Russian Roulette 💥
+                  </h3>
+                  <p className="text-[#D4AF37] text-sm md:text-base">
+                  One bullet, six chambers – feeling lucky?
+                  </p>
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className="mt-6 md:mt-10 w-full px-4">
+            <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
+              Just for you:
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <SimpleCard
+                title="🔴 Plinko 🔴"
+                description="Spin the reels on our wide selection of classic and modern slot games!"
+                image={PlinkoPic.src}
+                link="/plinko"
+              />
+
+              <SimpleCard
+                title="⛏️ Mines ⛏️"
+                description="Test your skills and strategies in thrilling card games with competitive odds!"
+                image={MinesPic.src}
+                link="/mines"
+              />
+              <SimpleCard
+                title="🎲 Dices 🎲"
+                description="Open cases, win big, and feel the adrenaline rush of every drop!"
+                image={DicesPic.src}
+                link="/dice"
+              />
+              
+            </div>
+          </div>
+          <div className="mt-6 md:mt-10 w-full px-4">
+            <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
+              Coming soon:
+            </h2>
+            <div className="mt-6 md:mt-10 w-full px-4" id="comingsoon">           
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Link
+                  href={"#comingsoon"}
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  <img
+                    src={BlackjackPic.src}
+                    alt="High Stakes"
+                    className="w-full h-60 object-cover rounded-md mb-2"
+                  />
+                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                    🔥 Slots 🔥
+                  </h3>
+                  <p className="text-[#D4AF37] text-sm md:text-base">
+                    Spin the reels on our wide selection of classic and modern slot games!
+                  </p>
+                </Link>
+
+                <Link href={"#comingsoon"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  <img
                     src={RoulettePic.src}
                     alt="Roulette Madness"
                     className="w-full h-60 object-cover rounded-md mb-2"
                   />
                   <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                    🎡 Roulette Madness 🎡
+                  💥 Roulette Madness 💥
                   </h3>
                   <p className="text-[#D4AF37] text-sm md:text-base">
                     Bet big, win bigger - spin the wheel now!
@@ -254,29 +297,8 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               </div>
             </div>
           </div>
-          <div className="mt-6 md:mt-10 w-full px-4">
-            <h2 className="text-left text-2xl md:text-3xl font-bold text-gray-300 mb-4">
-              Most played:
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <SimpleCard
-                title="🎰 Slots 🎰"
-                description="Spin the reels on our wide selection of classic and modern slot games!"
-              />
-              <SimpleCard
-                title="🃏 Cards 🃏"
-                description="Test your skills and strategies in thrilling card games with competitive odds!"
-              />
-              <SimpleCard
-                title="💰🧰 Cases 🧰💰"
-                description="Open cases, win big, and feel the adrenaline rush of every drop!"
-              />
-              <SimpleCard
-                title="💰🎁 Daily rewards 🎁💰"
-                description="Gamble and login every day to gain maximum bonus!"
-              />
-            </div>
-          </div>
+          
+          
         </main>
       </div>
 
