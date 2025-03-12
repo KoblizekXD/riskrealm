@@ -18,13 +18,6 @@ import {
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-/*
-import BlackjackPic from "./assets/blackjack.jpg";
-import CardsPic from "./assets/cardspic.jpg";
-import CasePic from "./assets/casepic.jpg";
-import RoulettePic from "./assets/roulettepic.jpg";
-import SlotPic from "./assets/slotpic.jpg";
-*/
 import Navbar from "@/components/navbar";
 
 export const orbitron = Orbitron({
