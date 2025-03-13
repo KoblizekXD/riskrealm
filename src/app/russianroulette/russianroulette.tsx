@@ -7,7 +7,7 @@ import {
   startRussianRoulette,
 } from "@/lib/games/russianroulette";
 import type { User as UserType } from "@/lib/schemas";
-import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
+import { canClaimStreak, updateBalance, updateGems } from "@/lib/supabase/actions";
 import { motion } from "framer-motion";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
@@ -133,7 +133,9 @@ else {
 
       await updateBalance(cashoutResult.playerBalance);
     }
-
+    if(Math.random() < 0.05) {
+      updateGems(user.gems + 1)
+    }
     const playWinSound = () => {
       const audio = new Audio("Sounds/winCash.wav");
       audio.play();
@@ -294,6 +296,35 @@ else {
                   className="p-2 rounded text-white bg-[#11111B] border border-[#D4AF37] focus:outline-none focus:ring focus:ring-[#D4AF37] focus:ring-opacity-50 transition-colors"
                   disabled={gameStarted}
                 />
+                <button
+                  type="button"
+                  onClick={() => setBet(playerBalance)}
+                  disabled={gameStarted}
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
+                  All In
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBet(playerBalance % 2 === 0 ? playerBalance / 2 : (playerBalance - 1) / 2)}
+                  disabled={gameStarted}
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
+                  ½
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setBet((prevBetValue) => (prevBetValue ?? 0) + 100)}
+                  disabled={gameStarted}
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
+                  100
+                </button>
+                
+                <button
+                  type="button"
+                  onClick={() => setBet((prevBetValue) => (prevBetValue ?? 0) + 1000)}
+                  disabled={gameStarted}
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
+                  1000
+                </button>
               </div>
               <div className="flex items-center justify-center gap-4">
                 <button

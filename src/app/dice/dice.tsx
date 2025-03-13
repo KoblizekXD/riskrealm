@@ -7,7 +7,7 @@ import Link from "next/link";
 import MyDialog from "@/components/dialog";
 import { ExternalLink, Menu, Settings, User, CandlestickChart, ChartCandlestick,  } from "lucide-react";
 import Tooltip from "@/components/tooltip";
-import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
+import { canClaimStreak, updateBalance, updateGems } from "@/lib/supabase/actions";
 import DailyRewards from "@/components/daily-rewards";
 import Popover from "@/components/popover";
 import Image from "next/image";
@@ -114,6 +114,9 @@ export default function Dice({ user }: { user: UserType }) {
           };
       
           playWinSound();
+          if(Math.random() < 0.05) {
+            updateGems(user.gems + 1)
+          }
         }
 
         else {

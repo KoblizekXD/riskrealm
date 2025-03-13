@@ -180,7 +180,7 @@ export default function Event({ user }: { user: UserType }) {
   <p className="text-lg">
   In ancient times, there was a legendary pirate captain known as Captain Jack Sparrow, who stole a chest full of shiny diamonds with incredible powers. This diamonds had the ability to control fate, and those who possessed it became invincible. However, after a bloody battle with pirate captain Barbossa, diamonds were scattered across various islands. Only the bravest adventurers dared to venture out to find these diamonds and reclaim the powers.  </p>
   <p className="text-lg mt-4">
-    And now, brave adventurer, you have the chance to embark on this treasure hunt! In every game you play, you can earn diamonds. The more diamonds you collect, the more rewards you can claim in our shop!
+    And now, brave adventurer, you have the chance to embark on this treasure hunt! In every game you play (except plinko), you can earn diamonds. The more diamonds you collect, the better rewards you can claim in our shop!
   </p>
 </section>
 

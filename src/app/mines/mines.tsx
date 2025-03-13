@@ -7,7 +7,7 @@ import MyDialog from "@/components/dialog";
 import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
-import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
+import { canClaimStreak, updateBalance, updateGems } from "@/lib/supabase/actions";
 import { ExternalLink, Menu, Settings, User, CandlestickChart, ChartCandlestick,  } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
@@ -155,7 +155,9 @@ export default function MinesGame({ user }: { user: UserType }) {
         setResultMsg(`You successfully cashed out ${formatNumber(cashout)}🎫!`);
         setWin(true);
         setShowResultPopup(true);
-
+        if(Math.random() < 0.05) {
+          updateGems(user.gems + 1)
+        }
 
         const playWinSound = () => {
           const audio = new Audio("Sounds/winCash.wav");

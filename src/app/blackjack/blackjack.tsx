@@ -6,7 +6,7 @@ import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import { hit, stand, startGame } from "@/lib/games/blackjack";
 import type { User as UserType } from "@/lib/schemas";
-import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
+import { canClaimStreak, updateBalance, updateGems } from "@/lib/supabase/actions";
 import { ExternalLink, Menu, Settings, User, CandlestickChart, ChartCandlestick, } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
@@ -90,7 +90,7 @@ export default function BlackJack({ user }: { user: UserType }) {
         setPlayerBalance(gameState.playerBalance);
         setOldBalance(gameState.oldBalance);
         setGameStarted(true);
-    }, 3000);
+    }, 1100);
     }
   };
 
@@ -146,8 +146,12 @@ export default function BlackJack({ user }: { user: UserType }) {
           const audio = new Audio("Sounds/winCash.wav");
           audio.play();
         };
-        
         playWinSound();
+        if(Math.random() < 0.05) {
+          updateGems(user.gems + 1)
+        }
+        
+        
 
       }
       else if (gameState.winner === "dealer") {
@@ -181,9 +185,7 @@ export default function BlackJack({ user }: { user: UserType }) {
 
  
 
-  useEffect(() => {
-    canClaimStreak().then(setStreakClaimable);
-  }, []);
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
