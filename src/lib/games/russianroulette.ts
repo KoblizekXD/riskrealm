@@ -66,16 +66,16 @@ export async function cashout(
       rewardMultiplier = 1;
       break;
     case 2:
-      rewardMultiplier = 2;
+      rewardMultiplier = 1.5;
       break;
     case 3:
-      rewardMultiplier = 3;
+      rewardMultiplier = 2;
       break;
     case 4:
-      rewardMultiplier = 4;
+      rewardMultiplier = 2.5;
       break;
     default:
-      rewardMultiplier = 5;
+      rewardMultiplier = 3;
   }
 
   const cashoutAmount = bet * rewardMultiplier;

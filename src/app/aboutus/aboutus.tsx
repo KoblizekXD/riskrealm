@@ -22,6 +22,10 @@ import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/navbar";
+import aboutHonza from "../assets/aboutHonza.png";
+import aboutJakub from "../assets/aboutJakub.jpg";
+import aboutJarin from "../assets/aboutJarin.jpg";
+
 
 
 
@@ -31,7 +35,7 @@ export function Content() {
     <div className="flex flex-col md:flex-row items-center md:space-x-8 mb-12">
       <div className="w-full md:w-1/2">
         <Image
-          src="/path.jpg"
+          src={aboutHonza.src}
           alt="Honza"
           width={600}
           height={400}
@@ -44,7 +48,7 @@ export function Content() {
           Jan Prokůpek
         </h3>
         <p className="text-[#D4AF37] text-sm md:text-base">
-          Only member of the team who knows what he's doing. He's the one who made the whole backend. Hatsune Miku enjoyer. Laravel hater.
+          Arch user (if you didn't know, he will tell you). Only member of the team who knows what he's doing. He's the one who made the whole backend. Hatsune Miku enjoyer. Laravel hater.
         </p>
       </div>
     </div>
@@ -52,11 +56,11 @@ export function Content() {
     <div className="flex flex-col md:flex-row-reverse items-center md:space-x-8 mb-12">
       <div className="w-full md:w-1/2">
         <Image
-          src="/path.jpg"
+          src={aboutJakub.src}
           alt="Jakub"
           width={600}
           height={400}
-          className="rounded-lg shadow-lg"
+          className="rounded-lg shadow-lg ml-auto"
         />
       </div>
       <div className="w-full md:w-1/2 text-center md:text-left mt-4 md:mt-0">
@@ -64,7 +68,7 @@ export function Content() {
           Jakub Málek
         </h3>
         <p className="text-[#D4AF37] text-sm md:text-base">
-          Gym enthusiast, gambler at heart and a proud member of the Risk Realm team.
+        Certified gym rat, gambler at heart and petrol enjoyer. Professional hater of rainbow users and fridges on wheels.
         </p>
       </div>
     </div>
@@ -72,7 +76,7 @@ export function Content() {
     <div className="flex flex-col md:flex-row items-center md:space-x-8 mb-12">
       <div className="w-full md:w-1/2">
         <Image
-          src="/path.jpg"
+          src={aboutJarin.src}
           alt="Jarin"
           width={600}
           height={400}
