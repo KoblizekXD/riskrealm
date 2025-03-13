@@ -105,12 +105,15 @@ export default function BlackJack({ user }: { user: UserType }) {
         setWinner("player");
         setShowResultPopup(true);
 
-        const playJewSound = () => {
+
+        const playWinSound = () => {
           const audio = new Audio("Sounds/laughingJew.mp3");
           audio.play();
         };
+        
+        playWinSound();
     
-        playJewSound();
+
 
       }
 
@@ -146,6 +149,14 @@ export default function BlackJack({ user }: { user: UserType }) {
         
         playWinSound();
 
+      }
+      else if (gameState.winner === "dealer") {
+        const playWinSound = () => {
+          const audio = new Audio("Sounds/laughingJew.mp3");
+          audio.play();
+        };
+        
+        playWinSound();
       }
 
     }
