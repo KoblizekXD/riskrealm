@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { JSX } from "react";
-import { FaHome, FaCalendarAlt, FaGamepad, FaUser, FaCog, FaTimes, FaInfoCircle } from "react-icons/fa";
+import { House, CalendarDays, Gamepad, User, Settings, Info, Minimize2 } from "lucide-react";
 
 interface NavbarProps {
   isOpen: boolean;
@@ -24,18 +24,18 @@ export default function Navbar({ isOpen, toggleNav }: NavbarProps) {
             type="button"
             onClick={toggleNav}
             className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
-            <FaTimes />
+            <Minimize2 />
           </button>
         </div>
       </div>
 
       <ul className="w-full space-y-4 pl-4">
-        <NavItem href="/" icon={<FaHome />} text="Home" />
-        <NavItem href="/event" icon={<FaCalendarAlt />} text="Event" />
-        <NavItem href="/games" icon={<FaGamepad />} text="Games" />
-        <NavItem href="/profile" icon={<FaUser />} text="Profile" />
-        <NavItem href="/settings" icon={<FaCog />} text="Settings" />
-        <NavItem href="/aboutus" icon={<FaInfoCircle />} text="About Us" />
+        <NavItem href="/" icon={<House />} text="Home" />
+        <NavItem href="/event" icon={<CalendarDays />} text="Event" />
+        <NavItem href="/games" icon={<Gamepad />} text="Games" />
+        <NavItem href="/profile" icon={<User />} text="Profile" />
+        <NavItem href="/settings" icon={<Settings />} text="Settings" />
+        <NavItem href="/aboutus" icon={<Info />} text="About Us" />
       </ul>
     </div>
   );
