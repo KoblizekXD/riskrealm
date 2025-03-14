@@ -150,6 +150,10 @@ export async function updateUserDetails(username: string | null, email: string |
     ...(password && { password }),
   });
 
+  if (res.error) {
+    return res.error.message;
+  }
+
   const user = await supabase.auth.getUser();
   if (username) {
     const res = await supabase.from("users").update({ username }).eq("id", user.data.user?.id).single();
@@ -157,9 +161,5 @@ export async function updateUserDetails(username: string | null, email: string |
     if (res.error) {
       return res.error.message;
     }
-  }
-
-  if (res.error) {
-    return res.error.message;
   }
 }
