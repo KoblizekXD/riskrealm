@@ -18,16 +18,17 @@ import {
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import BlackjackPic from "./assets/blackjack.jpg";
-import CardsPic from "./assets/cardspic.jpg";
-import CasePic from "./assets/casepic.jpg";
-import RoulettePic from "./assets/roulettepic.jpg";
-import SlotPic from "./assets/slotpic.jpg";
-import MinesPic from "./assets/mines.jpg";
-import PlinkoPic from "./assets/plinko.jpg";
-import DicesPic from "./assets/dice.jpg";
-import RusRoulettePic from "./assets/rr.jpg";
+import BlackjackPic from "../assets/blackjack.jpg";
+import CardsPic from "../assets/cardspic.jpg";
+import CasePic from "../assets/casepic.jpg";
+import RoulettePic from "../assets/roulettepic.jpg";
+import SlotPic from "../assets/slotpic.jpg";
+import MinesPic from "../assets/mines.jpg";
+import PlinkoPic from "../assets/plinko.jpg";
+import DicesPic from "../assets/dice.jpg";
+import RusRoulettePic from "../assets/rr.jpg";
 import Navbar from "@/components/navbar";
+import { s } from "framer-motion/client";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -39,34 +40,30 @@ function SimpleCard({
   description,
   title,
   image,
-  link
 }: {
   description: string;
   title: string;
   image?: string;
-  link: string;
 }) {
   return (
-    <Link href={link} className="bg-[#18181b] border border-[#28282b] px-2 py-12 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+    <div className="bg-[#18181b] border border-[#28282b] px-2 py-12 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
       {image && (
-      <img src={image} alt={title} className="w-full h-60 mb-2 rounded-md" />
+        <img src={image} alt={title} className="w-auto h-42 mb-2 rounded-md" />
       )}
       <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-      {title}
+        {title}
       </h3>
       <p className="text-[#D4AF37] text-sm md:text-base">{description}</p>
-    </Link>
+    </div>
   );
 }
 
-export default function LoggedInPage({ user }: { user: UserType }) {
+export default function Games({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
-
   const [tickets, setTickets] = useState(user.tickets);
   const formatNumber = (num: number) => num.toLocaleString("en-US");
  
-
 
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
@@ -186,21 +183,10 @@ export default function LoggedInPage({ user }: { user: UserType }) {
           className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
             isNavOpen ? "ml-64" : "ml-0"
           }`}>
-          <h1
-            className={
-              "md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10 px-4"
-            }>
-            Welcome back, {user.username}!
-          </h1>
-          <p
-            className={`${orbitron.className} self-start px-4 text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}>
-            Ready to make some money?
-          </p>
-          <div className="mt-6 md:mt-10 w-full px-4">
-            <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
-              Trending right now:
-            </h2>
-            <div className="mt-6 md:mt-10 w-full">
+          <h1 className="text-3xl font-bold text-[#FFD700] mb-8">Games</h1>
+          
+
+            <div className="mt-6 md:mt-4 w-full px-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Link
                   href={"/blackjack"}
@@ -211,65 +197,58 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                     className="w-full h-60 object-cover rounded-md mb-2"
                   />
                   <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                    🔥 Blackjack 🔥
+                     Blackjack 
                   </h3>
-                  <p className="text-[#D4AF37] text-sm md:text-base">
-                    Can you beat the dealer and win big? Let's find out!
-                  </p>
                 </Link>
 
                 <Link href={"/russianroulette"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
                     src={RusRoulettePic.src}
                     alt="Roulette Madness"
-                    className="w-full h-60 object-cover bg-center rounded-md mb-2"
+                    className="w-full h-60 object-cover rounded-md mb-2"
                   />
                   <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                  💥 Russian Roulette 💥
+                     Russian Roulette 
                   </h3>
-                  <p className="text-[#D4AF37] text-sm md:text-base">
-                  One bullet, six chambers – feeling lucky?
-                  </p>
                 </Link>
-              </div>
-            </div>
-          </div>
-          <div className="mt-6 md:mt-10 w-full px-4">
-            <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
-              Just for you:
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <SimpleCard
-                title="🔴 Plinko 🔴"
-                description="Drop the ball and watch it bounce to your fortune!"
-                image={PlinkoPic.src}
-                link="/plinko"
-              />
-
-              <SimpleCard
-                title="⛏️ Mines ⛏️"
-                description="Cash or bomb? Choose wisely in this high-stakes game!"
-                image={MinesPic.src}
-                link="/mines"
-              />
-              <SimpleCard
-                title="🎲 Dice 🎲"
-                description="Will the dice bring you luck? Roll and find out!"
-                image={DicesPic.src}
-                link="/dice"
-              />
-              
-            </div>
-          </div>
-          <div className="mt-6 md:mt-10 w-full px-4">
-            <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
-              Coming soon:
-            </h2>
-
-            <div className="mt-6 md:mt-10 w-full px-4" id="comingsoon">           
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Link
-                  href={"#comingsoon"}
+                  href={"/plinko"}
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  <img
+                    src={PlinkoPic.src}
+                    alt="High Stakes"
+                    className="w-full h-60 object-fill rounded-md mb-2"
+                  />
+                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                     Plinko 
+                  </h3>
+                </Link>
+                <Link
+                  href={"/dice"}
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  <img
+                    src={DicesPic.src}
+                    alt="High Stakes"
+                    className="w-full h-60 object-fill rounded-md mb-2"
+                  />
+                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                     Dices 
+                  </h3>
+                </Link>
+                <Link
+                  href={"/mines"}
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  <img
+                    src={MinesPic.src}
+                    alt="High Stakes"
+                    className="w-full h-60 object-fill bg-center bg-cover rounded-md mb-2"
+                  />
+                  <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
+                     Mines 
+                  </h3>
+                </Link>
+                <Link
+                  href={""}
                   className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
                     src={SlotPic.src}
@@ -277,30 +256,30 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                     className="w-full h-60 object-cover rounded-md mb-2"
                   />
                   <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                    🔥 Slots 🔥
+                     Slots 
                   </h3>
                   <p className="text-[#D4AF37] text-sm md:text-base">
-                    Spin the reels on our wide selection of classic and modern slot games!
+                  Coming soon...
                   </p>
                 </Link>
-
-                <Link href={"#comingsoon"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <Link
+                  href={""}
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
                   <img
-                    src={RoulettePic.src}
-                    alt="Roulette Madness"
+                    src={RoulettePic.src} 
+                    alt="High Stakes"
                     className="w-full h-60 object-cover rounded-md mb-2"
                   />
                   <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                  💥 Roulette Madness 💥
+                     Roulette Madness 
                   </h3>
                   <p className="text-[#D4AF37] text-sm md:text-base">
-                    Bet big, win bigger - spin the wheel now!
+                  Coming soon...
                   </p>
                 </Link>
               </div>
             </div>
-          </div>
-          
+
           
         </main>
       </div>

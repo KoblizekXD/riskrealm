@@ -163,3 +163,14 @@ export async function updateUserDetails(username: string | null, email: string |
     }
   }
 }
+
+export async function updateGems(gems: number) {
+  const supabase = await createClient();
+  const user = await supabase.auth.getUser();
+  if (!user.data.user) return false;
+
+  await supabase
+    .from("users")
+    .update({ gems: gems })
+    .eq("id", user.data.user.id);
+}
