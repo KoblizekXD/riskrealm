@@ -142,6 +142,28 @@ export async function updateBalance(balance: number) {
     .eq("id", user.data.user.id);
 }
 
+export async function updateUserDetails(username: string | null, email: string | null, password: string | null): Promise<string | undefined> {
+  const supabase = await createClient();
+
+  const res = await supabase.auth.updateUser({
+    ...(email && { email }),
+    ...(password && { password }),
+  });
+
+  if (res.error) {
+    return res.error.message;
+  }
+
+  const user = await supabase.auth.getUser();
+  if (username) {
+    const res = await supabase.from("users").update({ username }).eq("id", user.data.user?.id).single();
+
+    if (res.error) {
+      return res.error.message;
+    }
+  }
+}
+
 export async function updateGems(gems: number) {
   const supabase = await createClient();
   const user = await supabase.auth.getUser();
