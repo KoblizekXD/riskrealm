@@ -141,3 +141,25 @@ export async function updateBalance(balance: number) {
     .update({ tickets: balance })
     .eq("id", user.data.user.id);
 }
+
+export async function updateUserDetails(username: string | null, email: string | null, password: string | null): Promise<string | undefined> {
+  const supabase = await createClient();
+
+  const res = await supabase.auth.updateUser({
+    ...(email && { email }),
+    ...(password && { password }),
+  });
+
+  const user = await supabase.auth.getUser();
+  if (username) {
+    const res = await supabase.from("users").update({ username }).eq("id", user.data.user?.id).single();
+
+    if (res.error) {
+      return res.error.message;
+    }
+  }
+
+  if (res.error) {
+    return res.error.message;
+  }
+}
