@@ -1,25 +1,34 @@
 "use client";
 
 import DailyRewards from "@/components/daily-rewards";
+import MyDialog from "@/components/dialog";
+import Navbar from "@/components/navbar";
+import Popover from "@/components/popover";
+import Tooltip from "@/components/tooltip";
 import {
   cashout,
   fire,
   startRussianRoulette,
 } from "@/lib/games/russianroulette";
 import type { User as UserType } from "@/lib/schemas";
-import { canClaimStreak, updateBalance, updateGems } from "@/lib/supabase/actions";
+import {
+  canClaimStreak,
+  updateBalance,
+  updateGems,
+} from "@/lib/supabase/actions";
 import { motion } from "framer-motion";
+import {
+  CandlestickChart,
+  ChartCandlestick,
+  ExternalLink,
+  Menu,
+  Settings,
+  User,
+} from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import CylinderImage from "../revolvercylinder.png";
-import MyDialog from "@/components/dialog";
-import { ExternalLink, Menu, Settings, User, CandlestickChart, ChartCandlestick,  } from "lucide-react";
-import Tooltip from "@/components/tooltip";
-import Popover from "@/components/popover";
-import Navbar from "@/components/navbar";
-
-
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -83,7 +92,7 @@ export default function RussianRoulette({ user }: { user: UserType }) {
         currentChamber,
         bulletPosition,
         playerBalance,
-        bet,
+        bet
       );
       setCurrentChamber(gameState.currentChamber);
       setGameOver(gameState.gameOver);
@@ -99,28 +108,17 @@ export default function RussianRoulette({ user }: { user: UserType }) {
           const audio = new Audio("Sounds/fireSound.wav");
           audio.play();
         };
-    
+
         playFireSound();
+      } else {
+        const playClickSound = () => {
+          const audio = new Audio("Sounds/gunClick.mp3");
+          audio.play();
+        };
 
+        playClickSound();
       }
-
-else {
-  const playClickSound = () => {
-    const audio = new Audio("Sounds/gunClick.mp3");
-    audio.play();
-  };
-
-  playClickSound();
-
-}
-
-      
     }
-
-
-
-
-
   };
 
   const handleCashout = async () => {
@@ -133,8 +131,8 @@ else {
 
       await updateBalance(cashoutResult.playerBalance);
     }
-    if(Math.random() < 0.05) {
-      updateGems(user.gems + 1)
+    if (Math.random() < 0.05) {
+      updateGems(user.gems + 1);
     }
     const playWinSound = () => {
       const audio = new Audio("Sounds/winCash.wav");
@@ -142,7 +140,6 @@ else {
     };
 
     playWinSound();
-
   };
 
   const handleReset = () => {
@@ -154,20 +151,23 @@ else {
     setBet(0);
   };
 
-  
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
       <Navbar isOpen={isNavOpen} toggleNav={() => setIsNavOpen(!isNavOpen)} />
       <div className="flex flex-col items-center">
-      <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
+        <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
           <div className={"flex items-center space-x-2 md:space-x-4"}>
             <button
               type="button"
               onClick={() => setIsNavOpen(!isNavOpen)}
-              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
+              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform"
+            >
               <Menu />
             </button>
-            <Link href={"/"} className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
+            <Link
+              href={"/"}
+              className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]"
+            >
               Risk Realm
             </Link>
           </div>
@@ -180,7 +180,8 @@ else {
                 <div className="cursor-pointer hover:scale-105 transition-transform p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
                   <Menu size={32} className="stroke-white" />
                 </div>
-              }>
+              }
+            >
               <div className="flex flex-col gap-y-2">
                 <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
                   Balance:
@@ -192,19 +193,22 @@ else {
                 </p>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/settings"}>
+                  href={"/settings"}
+                >
                   <Settings size={16} />
                   Options
                 </Link>
                 <Link
                   className="font-semibold brightness-50 gap-x-2 flex items-center"
-                  href={"/trade"}>
+                  href={"/trade"}
+                >
                   <ChartCandlestick size={16} />
                   Trade gems
                 </Link>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/signout"}>
+                  href={"/signout"}
+                >
                   <ExternalLink size={16} />
                   Sign-out
                 </Link>
@@ -213,7 +217,11 @@ else {
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
               {streakClaimable && (
-                <DailyRewards setTickets={setPlayerBalance} user={user} />
+                <DailyRewards
+                  setCanClaim={setStreakClaimable}
+                  setTickets={setPlayerBalance}
+                  user={user}
+                />
               )}
               <Tooltip
                 content={
@@ -222,7 +230,8 @@ else {
                     <span> - Tickets 🎫</span>
                     <span> - Gems 💎</span>
                   </div>
-                }>
+                }
+              >
                 <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
                   <span>{formatNumber(playerBalance)} 🎫</span>
                   <span>{user.gems} 💎</span>
@@ -232,11 +241,13 @@ else {
                 trigger={
                   <button
                     type="button"
-                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer">
+                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
+                  >
                     <User size={28} color="#ce9aff" />
                     <span>{user.username}</span>
                   </button>
-                }>
+                }
+              >
                 <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
                   <h2 className="font-semibold">My profile</h2>
                   <p className="text-sm text-gray-300">
@@ -244,19 +255,22 @@ else {
                   </p>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}>
+                    href={"/settings"}
+                  >
                     <Settings size={16} />
                     Options
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}>
+                    href={"/settings"}
+                  >
                     <CandlestickChart size={16} />
                     Trade gems
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/signout"}>
+                    href={"/signout"}
+                  >
                     <ExternalLink size={16} />
                     Sign-out
                   </Link>
@@ -268,7 +282,8 @@ else {
         <main
           className={`overflow-hidden relative text-center flex-grow p-4 lg:p-4 flex flex-col items-center mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
             isNavOpen ? "ml-64" : "ml-0"
-          }`}>
+          }`}
+        >
           <div className="w-full max-w-6xl p-8">
             <h1 className="text-4xl font-bold mb-4 text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A]">
               Russian Roulette
@@ -300,29 +315,43 @@ else {
                   type="button"
                   onClick={() => setBet(playerBalance)}
                   disabled={gameStarted}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1"
+                >
                   All In
                 </button>
                 <button
                   type="button"
-                  onClick={() => setBet(playerBalance % 2 === 0 ? playerBalance / 2 : (playerBalance - 1) / 2)}
+                  onClick={() =>
+                    setBet(
+                      playerBalance % 2 === 0
+                        ? playerBalance / 2
+                        : (playerBalance - 1) / 2
+                    )
+                  }
                   disabled={gameStarted}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1"
+                >
                   ½
                 </button>
                 <button
                   type="button"
-                  onClick={() => setBet((prevBetValue) => (prevBetValue ?? 0) + 100)}
+                  onClick={() =>
+                    setBet((prevBetValue) => (prevBetValue ?? 0) + 100)
+                  }
                   disabled={gameStarted}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1"
+                >
                   100
                 </button>
-                
+
                 <button
                   type="button"
-                  onClick={() => setBet((prevBetValue) => (prevBetValue ?? 0) + 1000)}
+                  onClick={() =>
+                    setBet((prevBetValue) => (prevBetValue ?? 0) + 1000)
+                  }
                   disabled={gameStarted}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1"
+                >
                   1000
                 </button>
               </div>
@@ -331,21 +360,24 @@ else {
                   type="button"
                   onClick={handleStart}
                   disabled={gameStarted}
-                  className="p-2 bg-[#D4AF37] text-white rounded hover:bg-[#FFD700] hover:text-black transition-colors cursor-pointer">
+                  className="p-2 bg-[#D4AF37] text-white rounded hover:bg-[#FFD700] hover:text-black transition-colors cursor-pointer"
+                >
                   Start
                 </button>
                 <button
                   type="button"
                   onClick={handleFire}
                   disabled={!gameStarted || gameOver}
-                  className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors cursor-pointer">
+                  className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors cursor-pointer"
+                >
                   Fire
                 </button>
                 <button
                   type="button"
                   onClick={handleCashout}
                   disabled={!gameStarted || gameOver}
-                  className="p-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors cursor-pointer">
+                  className="p-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors cursor-pointer"
+                >
                   Cashout
                 </button>
               </div>
@@ -377,7 +409,8 @@ else {
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors cursor-pointer">
+                  className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors cursor-pointer"
+                >
                   Play Again
                 </button>
               </div>

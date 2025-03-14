@@ -15,25 +15,30 @@ import { type ChangeEvent, useCallback, useEffect, useState } from "react";
 
 import DailyRewards from "@/components/daily-rewards";
 import MyDialog from "@/components/dialog";
+import Navbar from "@/components/navbar";
 import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
 import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
-import { ExternalLink, Menu, Settings, User, CandlestickChart, ChartCandlestick,  } from "lucide-react";
+import {
+  CandlestickChart,
+  ChartCandlestick,
+  ExternalLink,
+  Menu,
+  Settings,
+  User,
+} from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { MultiplierHistory, PlinkoGameBody } from "./components";
 import { config, getMultiplierSound, multiplyBlocks16Lines } from "./config";
 import { useGameStore } from "./store";
-import Navbar from "@/components/navbar";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
   subsets: ["latin"],
   weight: "variable",
 });
-
-
 
 type LinesType = 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
 type MultiplierValues =
@@ -59,10 +64,10 @@ export function Plinko({ user }: { user: UserType }) {
   const [lines, setLines] = useState<LinesType>(16);
   const inGameBallsCount = useGameStore((state) => state.gamesRunning);
   const incrementInGameBallsCount = useGameStore(
-    (state) => state.incrementGamesRunning,
+    (state) => state.incrementGamesRunning
   );
   const decrementInGameBallsCount = useGameStore(
-    (state) => state.decrementGamesRunning,
+    (state) => state.decrementGamesRunning
   );
   const [lastMultipliers, setLastMultipliers] = useState<number[]>([]);
   const [playerBalance, setPlayerBalance] = useState<number>(user.tickets);
@@ -131,7 +136,7 @@ export function Plinko({ user }: { user: UserType }) {
   //Create pins
   useEffect(() => {
     const existingPins = Composite.allBodies(engine.world).filter((body) =>
-      body.label.includes("pin"),
+      body.label.includes("pin")
     );
     Composite.remove(engine.world, existingPins);
 
@@ -167,10 +172,10 @@ export function Plinko({ user }: { user: UserType }) {
         return;
       }
       incrementInGameBallsCount();
-      const ballSound = new Audio(ballEffect)
-      ballSound.volume = 1
-      ballSound.currentTime = 0
-      ballSound.play()
+      const ballSound = new Audio(ballEffect);
+      ballSound.volume = 1;
+      ballSound.currentTime = 0;
+      ballSound.play();
 
       const minBallX =
         worldWidth / 2 - pinsConfig.pinSize * 3 + pinsConfig.pinGap;
@@ -196,14 +201,14 @@ export function Plinko({ user }: { user: UserType }) {
 
       Composite.add(engine.world, ball);
     },
-    [lines, inGameBallsCount, worldWidth],
+    [lines, inGameBallsCount, worldWidth]
   );
 
   // Create walls, floor, and multipliers
   useEffect(() => {
     // Clear existing walls, floor, and multipliers
     const existingWalls = Composite.allBodies(engine.world).filter(
-      (body) => body.label.includes("wall") || body.label.includes("block"),
+      (body) => body.label.includes("wall") || body.label.includes("block")
     );
     Composite.remove(engine.world, existingWalls);
 
@@ -220,7 +225,7 @@ export function Plinko({ user }: { user: UserType }) {
         render: { visible: false },
         isStatic: true,
         label: "wall-left",
-      },
+      }
     );
 
     const rightWall = Bodies.rectangle(
@@ -236,7 +241,7 @@ export function Plinko({ user }: { user: UserType }) {
         render: { visible: false },
         isStatic: true,
         label: "wall-right",
-      },
+      }
     );
 
     const floor = Bodies.rectangle(0, worldWidth + 10, worldWidth * 10, 40, {
@@ -252,7 +257,7 @@ export function Plinko({ user }: { user: UserType }) {
     let lastMultiplierX =
       worldWidth / 2 - (pinsConfig.pinGap / 2) * lines - pinsConfig.pinGap;
 
-    multipliers.forEach((multiplier: { label: any; img: any; }) => {
+    multipliers.forEach((multiplier: { label: any; img: any }) => {
       const blockSize = 20;
       const multiplierBody = Bodies.rectangle(
         lastMultiplierX + 20,
@@ -269,7 +274,7 @@ export function Plinko({ user }: { user: UserType }) {
               texture: multiplier.img,
             },
           },
-        },
+        }
       );
 
       lastMultiplierX = multiplierBody.position.x;
@@ -312,7 +317,6 @@ export function Plinko({ user }: { user: UserType }) {
     setBetValue(newBetValue);
   };
 
-
   // Handle collision with multiplier
   const onCollideWithMultiplier = useCallback(
     async (ball: Body, multiplier: Body) => {
@@ -322,13 +326,13 @@ export function Plinko({ user }: { user: UserType }) {
 
       const ballValue = ball.label.split("-")[1];
       const multiplierValue = +multiplier.label.split(
-        "-",
+        "-"
       )[1] as MultiplierValues;
 
-      const multiplierSound = new Audio(getMultiplierSound(multiplierValue))
-    multiplierSound.currentTime = 0
-    multiplierSound.volume = 1
-    multiplierSound.play()
+      const multiplierSound = new Audio(getMultiplierSound(multiplierValue));
+      multiplierSound.currentTime = 0;
+      multiplierSound.volume = 1;
+      multiplierSound.play();
 
       setLastMultipliers((prev) => [
         multiplierValue,
@@ -345,7 +349,7 @@ export function Plinko({ user }: { user: UserType }) {
         return prevBalance;
       });
     },
-    [lines],
+    [lines]
   );
 
   // Handle body collisions
@@ -359,7 +363,7 @@ export function Plinko({ user }: { user: UserType }) {
         }
       }
     },
-    [onCollideWithMultiplier],
+    [onCollideWithMultiplier]
   );
 
   // Add collision event listener
@@ -370,10 +374,6 @@ export function Plinko({ user }: { user: UserType }) {
     };
   }, [onBodyCollision]);
 
-  
-
-
-
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
   }, []);
@@ -382,15 +382,19 @@ export function Plinko({ user }: { user: UserType }) {
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
       <Navbar isOpen={isNavOpen} toggleNav={() => setIsNavOpen(!isNavOpen)} />
       <div className="flex flex-col items-center">
-      <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
+        <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
           <div className={"flex items-center space-x-2 md:space-x-4"}>
             <button
               type="button"
               onClick={() => setIsNavOpen(!isNavOpen)}
-              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
+              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform"
+            >
               <Menu />
             </button>
-            <Link href={"/"} className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
+            <Link
+              href={"/"}
+              className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]"
+            >
               Risk Realm
             </Link>
           </div>
@@ -403,7 +407,8 @@ export function Plinko({ user }: { user: UserType }) {
                 <div className="cursor-pointer hover:scale-105 transition-transform p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
                   <Menu size={32} className="stroke-white" />
                 </div>
-              }>
+              }
+            >
               <div className="flex flex-col gap-y-2">
                 <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
                   Balance:
@@ -415,19 +420,22 @@ export function Plinko({ user }: { user: UserType }) {
                 </p>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/settings"}>
+                  href={"/settings"}
+                >
                   <Settings size={16} />
                   Options
                 </Link>
                 <Link
                   className="font-semibold brightness-50 gap-x-2 flex items-center"
-                  href={"/trade"}>
+                  href={"/trade"}
+                >
                   <ChartCandlestick size={16} />
                   Trade gems
                 </Link>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/signout"}>
+                  href={"/signout"}
+                >
                   <ExternalLink size={16} />
                   Sign-out
                 </Link>
@@ -436,7 +444,11 @@ export function Plinko({ user }: { user: UserType }) {
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
               {streakClaimable && (
-                <DailyRewards setTickets={setPlayerBalance} user={user} />
+                <DailyRewards
+                  setCanClaim={setStreakClaimable}
+                  setTickets={setPlayerBalance}
+                  user={user}
+                />
               )}
               <Tooltip
                 content={
@@ -445,7 +457,8 @@ export function Plinko({ user }: { user: UserType }) {
                     <span> - Tickets 🎫</span>
                     <span> - Gems 💎</span>
                   </div>
-                }>
+                }
+              >
                 <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
                   <span>{formatNumber(playerBalance)} 🎫</span>
                   <span>{user.gems} 💎</span>
@@ -455,11 +468,13 @@ export function Plinko({ user }: { user: UserType }) {
                 trigger={
                   <button
                     type="button"
-                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer">
+                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
+                  >
                     <User size={28} color="#ce9aff" />
                     <span>{user.username}</span>
                   </button>
-                }>
+                }
+              >
                 <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
                   <h2 className="font-semibold">My profile</h2>
                   <p className="text-sm text-gray-300">
@@ -467,19 +482,22 @@ export function Plinko({ user }: { user: UserType }) {
                   </p>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}>
+                    href={"/settings"}
+                  >
                     <Settings size={16} />
                     Options
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}>
+                    href={"/settings"}
+                  >
                     <CandlestickChart size={16} />
                     Trade gems
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/signout"}>
+                    href={"/signout"}
+                  >
                     <ExternalLink size={16} />
                     Sign-out
                   </Link>
@@ -489,9 +507,9 @@ export function Plinko({ user }: { user: UserType }) {
           </div>
         </header>
         <main
-          className={`relative text-center flex-grow p-0 md:p-0 lg:p-8 flex flex-col items-center overflow-y-auto my-auto mx-auto max-w-[1550px] lg:min-w-[1000px] transition-all duration-300 `}>
+          className={`relative text-center flex-grow p-0 md:p-0 lg:p-8 flex flex-col items-center overflow-y-auto my-auto mx-auto max-w-[1550px] lg:min-w-[1000px] transition-all duration-300 `}
+        >
           <div className="flex w-full h-fit flex-col items-center justify-between md:flex-row p-8">
-
             <div className="relative w-sm flex flex-col py-8 px-6 rounded-lg border border-[#D4AF37] bg-[#1E1E1E] shadow-lg">
               <div className="flex flex-col gap-2 mb-6">
                 <span className="text-sm font-bold text-[#D4AF37] md:text-lg">
@@ -519,38 +537,55 @@ export function Plinko({ user }: { user: UserType }) {
                   />
 
                   <div className="flex items-stretch gap-2">
-                  <button
-                      onClick={() => setBetValue((prevBetValue) => prevBetValue + 100)}
-                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
+                    <button
+                      onClick={() =>
+                        setBetValue((prevBetValue) => prevBetValue + 100)
+                      }
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
+                    >
                       100
                     </button>
                     <button
-                      onClick={() => setBetValue((prevBetValue) => prevBetValue + 1000)}
-                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
+                      onClick={() =>
+                        setBetValue((prevBetValue) => prevBetValue + 1000)
+                      }
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
+                    >
                       1000
                     </button>
                     <button
-                      onClick={() => setBetValue(playerBalance % 2 === 0 ? playerBalance / 2 : (playerBalance - 1) / 2)}
-                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
+                      onClick={() =>
+                        setBetValue(
+                          playerBalance % 2 === 0
+                            ? playerBalance / 2
+                            : (playerBalance - 1) / 2
+                        )
+                      }
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
+                    >
                       ½
                     </button>
                     <button
-                      onClick={() => setBetValue((prevBetValue) => prevBetValue *2)}
-                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
+                      onClick={() =>
+                        setBetValue((prevBetValue) => prevBetValue * 2)
+                      }
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
+                    >
                       2x
                     </button>
                     <button
                       onClick={() => setBetValue(playerBalance)}
-                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
+                      className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold"
+                    >
                       Max
                     </button>
-                  
                   </div>
                 </div>
 
                 <button
                   onClick={handleRunBet}
-                  className="w-full rounded-md bg-[#1E1E1E] px-6 py-4 font-bold text-[#D4AF37] hover:bg-[#C0A236] hover:text-[#1E1E1E] focus:outline-none border  border-[#D4AF37]">
+                  className="w-full rounded-md bg-[#1E1E1E] px-6 py-4 font-bold text-[#D4AF37] hover:bg-[#C0A236] hover:text-[#1E1E1E] focus:outline-none border  border-[#D4AF37]"
+                >
                   Bet
                 </button>
               </div>
