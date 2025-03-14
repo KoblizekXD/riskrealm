@@ -2,10 +2,11 @@
 
 import DailyRewards from "@/components/daily-rewards";
 import MyDialog from "@/components/dialog";
+import Navbar from "@/components/navbar";
 import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
-import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
+import { canClaimStreak } from "@/lib/supabase/actions";
 import {
   CandlestickChart,
   ChartCandlestick,
@@ -13,21 +14,17 @@ import {
   Menu,
   Settings,
   User,
-  X,
 } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import BlackjackPic from "./assets/blackjack.jpg";
-import CardsPic from "./assets/cardspic.jpg";
-import CasePic from "./assets/casepic.jpg";
-import RoulettePic from "./assets/roulettepic.jpg";
-import SlotPic from "./assets/slotpic.jpg";
+import DicesPic from "./assets/dice.jpg";
 import MinesPic from "./assets/mines.jpg";
 import PlinkoPic from "./assets/plinko.jpg";
-import DicesPic from "./assets/dice.jpg";
+import RoulettePic from "./assets/roulettepic.jpg";
 import RusRoulettePic from "./assets/rr.jpg";
-import Navbar from "@/components/navbar";
+import SlotPic from "./assets/slotpic.jpg";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -39,7 +36,7 @@ function SimpleCard({
   description,
   title,
   image,
-  link
+  link,
 }: {
   description: string;
   title: string;
@@ -47,12 +44,15 @@ function SimpleCard({
   link: string;
 }) {
   return (
-    <Link href={link} className="bg-[#18181b] border border-[#28282b] px-2 py-12 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+    <Link
+      href={link}
+      className="bg-[#18181b] border border-[#28282b] px-2 py-12 md:px-6 text-[#D4AF37] rounded-xl shadow-lg hover:scale-105 hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center"
+    >
       {image && (
-      <img src={image} alt={title} className="w-full h-60 mb-2 rounded-md" />
+        <img src={image} alt={title} className="w-full h-60 mb-2 rounded-md" />
       )}
       <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-      {title}
+        {title}
       </h3>
       <p className="text-[#D4AF37] text-sm md:text-base">{description}</p>
     </Link>
@@ -65,8 +65,6 @@ export default function LoggedInPage({ user }: { user: UserType }) {
 
   const [tickets, setTickets] = useState(user.tickets);
   const formatNumber = (num: number) => num.toLocaleString("en-US");
- 
-
 
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
@@ -81,10 +79,14 @@ export default function LoggedInPage({ user }: { user: UserType }) {
             <button
               type="button"
               onClick={() => setIsNavOpen(!isNavOpen)}
-              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
+              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform"
+            >
               <Menu />
             </button>
-            <Link href={"/"} className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
+            <Link
+              href={"/"}
+              className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]"
+            >
               Risk Realm
             </Link>
           </div>
@@ -97,7 +99,8 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                 <div className="cursor-pointer hover:scale-105 transition-transform p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
                   <Menu size={32} className="stroke-white" />
                 </div>
-              }>
+              }
+            >
               <div className="flex flex-col gap-y-2">
                 <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
                   Balance:
@@ -109,19 +112,22 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                 </p>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/settings"}>
+                  href={"/settings"}
+                >
                   <Settings size={16} />
                   Options
                 </Link>
                 <Link
                   className="font-semibold brightness-50 gap-x-2 flex items-center"
-                  href={"/trade"}>
+                  href={"/trade"}
+                >
                   <ChartCandlestick size={16} />
                   Trade gems
                 </Link>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/signout"}>
+                  href={"/signout"}
+                >
                   <ExternalLink size={16} />
                   Sign-out
                 </Link>
@@ -130,7 +136,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
               {streakClaimable && (
-                <DailyRewards setTickets={setTickets} user={user} />
+                <DailyRewards setCanClaim={setStreakClaimable} setTickets={setTickets} user={user} />
               )}
               <Tooltip
                 content={
@@ -139,7 +145,8 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                     <span> - Tickets 🎫</span>
                     <span> - Gems 💎</span>
                   </div>
-                }>
+                }
+              >
                 <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
                   <span>{formatNumber(tickets)} 🎫</span>
                   <span>{user.gems} 💎</span>
@@ -149,11 +156,13 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                 trigger={
                   <button
                     type="button"
-                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer">
+                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
+                  >
                     <User size={28} color="#ce9aff" />
                     <span>{user.username}</span>
                   </button>
-                }>
+                }
+              >
                 <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
                   <h2 className="font-semibold">My profile</h2>
                   <p className="text-sm text-gray-300">
@@ -161,19 +170,22 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   </p>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}>
+                    href={"/settings"}
+                  >
                     <Settings size={16} />
                     Options
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}>
+                    href={"/settings"}
+                  >
                     <CandlestickChart size={16} />
                     Trade gems
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/signout"}>
+                    href={"/signout"}
+                  >
                     <ExternalLink size={16} />
                     Sign-out
                   </Link>
@@ -185,15 +197,18 @@ export default function LoggedInPage({ user }: { user: UserType }) {
         <main
           className={`relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
             isNavOpen ? "ml-64" : "ml-0"
-          }`}>
+          }`}
+        >
           <h1
             className={
               "md:text-4xl self-start font-extrabold mb-4 pt-6 md:pt-10 px-4"
-            }>
+            }
+          >
             Welcome back, {user.username}!
           </h1>
           <p
-            className={`${orbitron.className} self-start px-4 text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}>
+            className={`${orbitron.className} self-start px-4 text-[#D4AF37] drop-shadow-[0_0_10px_#CFAF4A] text-base md:text-2xl text-center mb-4 md:mb-8 max-w-4xl font-semibold"`}
+          >
             Ready to make some money?
           </p>
           <div className="mt-6 md:mt-10 w-full px-4">
@@ -204,7 +219,8 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Link
                   href={"/blackjack"}
-                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center"
+                >
                   <img
                     src={BlackjackPic.src}
                     alt="High Stakes"
@@ -218,17 +234,20 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   </p>
                 </Link>
 
-                <Link href={"/russianroulette"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <Link
+                  href={"/russianroulette"}
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center"
+                >
                   <img
                     src={RusRoulettePic.src}
                     alt="Roulette Madness"
                     className="w-full h-60 object-cover bg-center rounded-md mb-2"
                   />
                   <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                  💥 Russian Roulette 💥
+                    💥 Russian Roulette 💥
                   </h3>
                   <p className="text-[#D4AF37] text-sm md:text-base">
-                  One bullet, six chambers – feeling lucky?
+                    One bullet, six chambers – feeling lucky?
                   </p>
                 </Link>
               </div>
@@ -258,7 +277,6 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                 image={DicesPic.src}
                 link="/dice"
               />
-              
             </div>
           </div>
           <div className="mt-6 md:mt-10 w-full px-4">
@@ -266,11 +284,12 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               Coming soon:
             </h2>
 
-            <div className="mt-6 md:mt-10 w-full px-4" id="comingsoon">           
+            <div className="mt-6 md:mt-10 w-full px-4" id="comingsoon">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Link
                   href={"#comingsoon"}
-                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center"
+                >
                   <img
                     src={SlotPic.src}
                     alt="High Stakes"
@@ -280,18 +299,22 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                     🔥 Slots 🔥
                   </h3>
                   <p className="text-[#D4AF37] text-sm md:text-base">
-                    Spin the reels on our wide selection of classic and modern slot games!
+                    Spin the reels on our wide selection of classic and modern
+                    slot games!
                   </p>
                 </Link>
 
-                <Link href={"#comingsoon"} className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center">
+                <Link
+                  href={"#comingsoon"}
+                  className="bg-[#18181b] border border-[#28282b] px-2 py-6 md:px-6 text-[#b090b5] rounded-xl shadow-lg hover:shadow-[0px_0px_14px_#CFAF4A] transition transform cursor-pointer text-center"
+                >
                   <img
                     src={RoulettePic.src}
                     alt="Roulette Madness"
                     className="w-full h-60 object-cover rounded-md mb-2"
                   />
                   <h3 className="text-lg md:text-2xl font-bold text-[#FFD700] mb-2">
-                  💥 Roulette Madness 💥
+                    💥 Roulette Madness 💥
                   </h3>
                   <p className="text-[#D4AF37] text-sm md:text-base">
                     Bet big, win bigger - spin the wheel now!
@@ -300,8 +323,6 @@ export default function LoggedInPage({ user }: { user: UserType }) {
               </div>
             </div>
           </div>
-          
-          
         </main>
       </div>
 
