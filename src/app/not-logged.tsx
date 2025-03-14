@@ -39,33 +39,12 @@ export default function LandingPage() {
               Risk Realm
             </div>
           </div>
-          <nav className="flex flex-col items-center space-x-2 md:space-x-6 md:flex-row">
-            <button
-              type="button"
-              className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-2 md:mt-0">
-              Home
-            </button>
-            <button
-              type="button"
-              className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-1 md:mt-0">
-              Games
-            </button>
-            <Link href="/aboutus" passHref>
-              <button
-                type="button"
-                className="text-[#D4AF37] text-lg hover:text-[#FFD700] hover:scale-115 transition transform cursor-pointer mt-1 mb-2 md:mt-0 md:mb-0">
-                About Us
-              </button>
-            </Link>
-          </nav>
-          <div>
             <button
               type="button"
               onClick={() => router.push("/signin")}
               className="bg-[#D4AF37] text-white font-bold px-3 py-2 rounded-lg hover:bg-[#d4bf37] hover:shadow-[0px_0px_15px_#FFD700] shadow-lg md:px-4 cursor-pointer hover:scale-110 transition transform text-sm mb-4 md:mb-0">
               Sign In
             </button>
-          </div>
         </header>
 
         <main className="relative text-center flex-grow p-4 lg:p-8 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px]">
@@ -97,6 +76,12 @@ export default function LandingPage() {
               type="button"
               className="basis-[50%] bg-[#D4AF37] hover:bg-[#d4bf37] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#FFD700] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto">
               Learn more
+            </Link>
+            <Link
+              href={"/aboutus"}
+              type="button"
+              className="basis-[50%] bg-[#D4AF37] hover:bg-[#d4bf37] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#FFD700] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto">
+              About Us
             </Link>
           </div>
 

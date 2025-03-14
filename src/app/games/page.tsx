@@ -1,11 +1,11 @@
 import { getUser } from "@/lib/supabase/actions";
 import { redirect } from "next/navigation";
-import { AboutUsLogged, AboutUsNotLogged } from "./aboutus";
+import Games from "./games";
 
 export default async function Game() {
   const user = await getUser();
 
-  if (!user) return <AboutUsNotLogged />;
+  if (!user) redirect("/signin");
 
-  return <AboutUsLogged user={user} />;
+  return <Games user={user} />;
 }

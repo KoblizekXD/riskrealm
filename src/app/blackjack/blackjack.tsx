@@ -6,12 +6,13 @@ import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import { hit, stand, startGame } from "@/lib/games/blackjack";
 import type { User as UserType } from "@/lib/schemas";
-import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
-import { ExternalLink, Menu, Settings, User } from "lucide-react";
+import { canClaimStreak, updateBalance, updateGems } from "@/lib/supabase/actions";
+import { ExternalLink, Menu, Settings, User, CandlestickChart, ChartCandlestick, } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Card from "./card";
+import Navbar from "@/components/navbar";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -22,7 +23,6 @@ export const orbitron = Orbitron({
 export default function BlackJack({ user }: { user: UserType }) {
   const [streakClaimable, setStreakClaimable] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const cardSound = "cards/card.wav";
   const [playerHand, setPlayerHand] = useState<string[]>([]);
   const [dealerHand, setDealerHand] = useState<string[]>([]);
   const [playerScore, setPlayerScore] = useState<number>(0);
@@ -37,6 +37,9 @@ export default function BlackJack({ user }: { user: UserType }) {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [showBalanceError, setShowBalanceError] = useState<boolean>(false);
   const [showResultPopup, setShowResultPopup] = useState<boolean>(false);
+  const cardSound = "cards/card.wav";
+
+
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -87,7 +90,7 @@ export default function BlackJack({ user }: { user: UserType }) {
         setPlayerBalance(gameState.playerBalance);
         setOldBalance(gameState.oldBalance);
         setGameStarted(true);
-    }, 3000);
+    }, 1100);
     }
   };
 
@@ -101,7 +104,22 @@ export default function BlackJack({ user }: { user: UserType }) {
         setResult("Player busts! Dealer wins!");
         setWinner("player");
         setShowResultPopup(true);
+
+
+        const playWinSound = () => {
+          const audio = new Audio("Sounds/laughingJew.mp3");
+          audio.play();
+        };
+        
+        playWinSound();
+    
+
+
       }
+
+
+
+
     }
   };
 
@@ -121,6 +139,30 @@ export default function BlackJack({ user }: { user: UserType }) {
       setResultMsg(gameState.resultMsg);
       setPlayerBalance(gameState.playerBalance);
       setShowResultPopup(true);
+
+      if (gameState.winner === "player") {
+
+        const playWinSound = () => {
+          const audio = new Audio("Sounds/winCash.wav");
+          audio.play();
+        };
+        playWinSound();
+        if(Math.random() < 0.05) {
+          updateGems(user.gems + 1)
+        }
+        
+        
+
+      }
+      else if (gameState.winner === "dealer") {
+        const playWinSound = () => {
+          const audio = new Audio("Sounds/laughingJew.mp3");
+          audio.play();
+        };
+        
+        playWinSound();
+      }
+
     }
   };
 
@@ -137,75 +179,29 @@ export default function BlackJack({ user }: { user: UserType }) {
     setShowResultPopup(false);
   };
 
-  function Navbar({ isOpen }: { isOpen: boolean }) {
-    return (
-      <div
-        className={`fixed left-0 top-0 h-screen bg-[#151520] shadow-lg border-r-2 border-[#18181B] transition-all duration-300 z-50 ${
-          isOpen ? "w-64" : "hidden"
-        }`}>
-        <div className="p-4">
-          <div className="flex items-center space-x-2 md:space-x-4 justify-between">
-            <h2 className="text-2xl font-bold text-[#d4af37] border-b-2 border-[#d4af37]">
-              Risk Realm
-            </h2>
-            <button
-              type="button"
-              onClick={() => setIsNavOpen(!isNavOpen)}
-              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
-              X
-            </button>
-          </div>
-        </div>
-
-        <ul className="p-4">
-          <li className="mb-2">
-            <Link href="/" className="text-[#D4AF37] hover:text-[#FFD700]">
-              Home
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link href="/games" className="text-[#D4AF37] hover:text-[#FFD700]">
-              Games
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link
-              href="/profile"
-              className="text-[#D4AF37] hover:text-[#FFD700]">
-              Profile
-            </Link>
-          </li>
-          <li className="mb-2">
-            <Link
-              href="/settings"
-              className="text-[#D4AF37] hover:text-[#FFD700]">
-              Settings
-            </Link>
-          </li>
-        </ul>
-      </div>
-    );
-  }
-
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
   }, []);
 
+ 
+
+
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
-      <Navbar isOpen={isNavOpen} />
+      <Navbar isOpen={isNavOpen} toggleNav={() => setIsNavOpen(!isNavOpen)} />
       <div className="flex flex-col items-center">
-        <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
+      <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
           <div className={"flex items-center space-x-2 md:space-x-4"}>
             <button
               type="button"
               onClick={() => setIsNavOpen(!isNavOpen)}
               className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
-              ☰
+              <Menu />
             </button>
-            <div className="text-2xl md:text-2xl font-bold text-[#d4af37]">
+            <Link href={"/"} className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
               Risk Realm
-            </div>
+            </Link>
           </div>
 
           <div className="flex items-center">
@@ -233,6 +229,12 @@ export default function BlackJack({ user }: { user: UserType }) {
                   Options
                 </Link>
                 <Link
+                  className="font-semibold brightness-50 gap-x-2 flex items-center"
+                  href={"/trade"}>
+                  <ChartCandlestick size={16} />
+                  Trade gems
+                </Link>
+                <Link
                   className="font-semibold gap-x-2 flex items-center"
                   href={"/signout"}>
                   <ExternalLink size={16} />
@@ -242,7 +244,9 @@ export default function BlackJack({ user }: { user: UserType }) {
             </MyDialog>
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
-              {streakClaimable && <DailyRewards user={user} />}
+              {streakClaimable && (
+                <DailyRewards setTickets={setPlayerBalance} user={user} />
+              )}
               <Tooltip
                 content={
                   <div className="flex flex-col gap-y-2">
@@ -278,6 +282,12 @@ export default function BlackJack({ user }: { user: UserType }) {
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
+                    href={"/settings"}>
+                    <CandlestickChart size={16} />
+                    Trade gems
+                  </Link>
+                  <Link
+                    className="font-semibold gap-x-2 flex items-center"
                     href={"/signout"}>
                     <ExternalLink size={16} />
                     Sign-out
@@ -298,7 +308,7 @@ export default function BlackJack({ user }: { user: UserType }) {
             <div className="mb-4 flex flex-col items-center justify-center gap-4">
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
                 <p className="text-xl text-[#FFD700]">
-                  Balance: ${formatNumber(playerBalance)}
+                  Balance: {formatNumber(playerBalance)}🎫
                 </p>
                 <input
                   type="number"
@@ -330,7 +340,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setBet(Math.floor(playerBalance / 2))}
+                  onClick={() => setBet(playerBalance % 2 === 0 ? playerBalance / 2 : (playerBalance - 1) / 2)}
                   disabled={gameStarted}
                   className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
                   Half
@@ -344,7 +354,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                   }
                   disabled={gameStarted}
                   className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
-                  +100
+                  100
                 </button>
                 <button
                   type="button"
@@ -355,7 +365,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                   }
                   disabled={gameStarted}
                   className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
-                  +500
+                  500
                 </button>
                 <button
                   type="button"
@@ -366,7 +376,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                   }
                   disabled={gameStarted}
                   className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer">
-                  +1000
+                  1000
                 </button>
               </div>
 
@@ -458,7 +468,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                 <p>{resultMsg}</p>
                 {winner === "player" ? (
                   <p>
-                    Your balance: ${formatNumber(oldBalance)} ➜ ${formatNumber(playerBalance)}
+                    Your balance: {formatNumber(oldBalance)}🎫 ➜ {formatNumber(playerBalance)}🎫
                   </p>
                 ) : (
                   ""
