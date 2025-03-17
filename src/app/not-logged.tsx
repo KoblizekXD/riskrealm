@@ -87,16 +87,16 @@ export default function LandingPage() {
 
           <div className="mt-6 md:mt-10 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
             <SimpleCard
-              title="🎰 Slots 🎰"
-              description="Spin the reels on our wide selection of classic and modern slot games!"
+              title="🎲 Dice 🎲"
+              description="Roll the dice and test your luck with our classic dice game!"
             />
             <SimpleCard
               title="🃏 Cards 🃏"
               description="Test your skills and strategies in thrilling card games with competitive odds!"
             />
             <SimpleCard
-              title="💰🧰 Cases 🧰💰"
-              description="Open cases, win big, and feel the adrenaline rush of every drop!"
+              title="🟣🟡 Plinko 🟣🟡"
+              description="Multiply your money in a satisfying ball-dropping game!"
             />
             <SimpleCard
               title="💰🎁 Daily rewards 🎁💰"
