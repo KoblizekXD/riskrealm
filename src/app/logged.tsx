@@ -6,7 +6,7 @@ import Navbar from "@/components/navbar";
 import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
-import { canClaimStreak } from "@/lib/supabase/actions";
+import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
 import {
   CandlestickChart,
   ChartCandlestick,
@@ -211,6 +211,12 @@ export default function LoggedInPage({ user }: { user: UserType }) {
           >
             Ready to make some money?
           </p>
+          <button
+              onClick={() => updateBalance(100000)}
+              type="button"
+              className="basis-[50%] bg-[#D4AF37] hover:bg-[#d4bf37] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#FFD700] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto">
+              Add Money
+            </button>
           <div className="mt-6 md:mt-10 w-full px-4">
             <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
               Trending right now:
