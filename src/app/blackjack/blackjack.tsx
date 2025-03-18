@@ -83,10 +83,12 @@ export default function BlackJack({ user }: { user: UserType }) {
         setShowBalanceError(true);
         return;
       }
+      setGameStarted(true);
       const blackjackSound = new Audio(cardSound);
       blackjackSound.currentTime = 0;
       blackjackSound.volume = 1;
       blackjackSound.play();
+      
       setTimeout(async () => {
         const gameState = await startGame(playerBalance, bet);
         setPlayerHand(gameState.playerHand);
@@ -98,7 +100,7 @@ export default function BlackJack({ user }: { user: UserType }) {
         setResultMsg("");
         setPlayerBalance(gameState.playerBalance);
         setOldBalance(gameState.oldBalance);
-        setGameStarted(true);
+        
       }, 1100);
     }
   };
