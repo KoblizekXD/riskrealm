@@ -51,6 +51,7 @@ export default function BlackJack({ user }: { user: UserType }) {
   const cardSound = "cards/card.wav";
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  /*
   useEffect(() => {
     if (winner === "player") {
       updateBalance(playerBalance);
@@ -58,7 +59,7 @@ export default function BlackJack({ user }: { user: UserType }) {
       updateBalance(playerBalance);
     }
   }, [winner]);
-
+*/
   const formatNumber = (num: number) => num.toLocaleString("en-US");
 
   useEffect(() => {
@@ -114,6 +115,7 @@ export default function BlackJack({ user }: { user: UserType }) {
       if (gameState.gameOver) {
         setResult("Player busts! Dealer wins!");
         setWinner("player");
+        updateBalance(playerBalance);
         setShowResultPopup(true);
 
         const playWinSound = () => {
@@ -149,16 +151,18 @@ export default function BlackJack({ user }: { user: UserType }) {
           audio.play();
         };
         playWinSound();
+        updateBalance(playerBalance);
         if (Math.random() < 0.05) {
           updateGems(user.gems + 1);
         }
       } else if (gameState.winner === "dealer") {
-        const playWinSound = () => {
+        const playLoseSound = () => {
           const audio = new Audio("Sounds/laughingJew.mp3");
           audio.play();
         };
 
-        playWinSound();
+        playLoseSound();
+        updateBalance(playerBalance);
       }
     }
   };
