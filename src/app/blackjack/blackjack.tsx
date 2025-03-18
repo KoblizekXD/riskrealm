@@ -151,7 +151,7 @@ export default function BlackJack({ user }: { user: UserType }) {
           audio.play();
         };
         playWinSound();
-        console.log(playerBalance);
+        console.log("ticket" + playerBalance);
         updateBalance(playerBalance);
         if (Math.random() < 0.05) {
           updateGems(user.gems + 1);
