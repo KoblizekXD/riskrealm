@@ -51,15 +51,11 @@ export default function BlackJack({ user }: { user: UserType }) {
   const cardSound = "cards/card.wav";
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  /*
-  useEffect(() => {
-    if (winner === "player") {
-      updateBalance(playerBalance);
-    } else if (winner === "dealer") {
-      updateBalance(playerBalance);
-    }
-  }, [winner]);
-*/
+ useEffect(() => {
+  if (winner === "player") {
+    updateBalance(playerBalance);
+  }
+}, [winner, playerBalance]);
   const formatNumber = (num: number) => num.toLocaleString("en-US");
 
   useEffect(() => {
@@ -129,43 +125,42 @@ export default function BlackJack({ user }: { user: UserType }) {
   };
 
   const handleStand = async () => {
-    if (bet !== null) {
-      const gameState = await stand(
-        playerBalance,
-        dealerHand,
-        playerScore,
-        bet
-      );
-      setDealerHand(gameState.dealerHand);
-      setDealerScore(gameState.dealerScore);
-      setGameOver(gameState.gameOver);
-      setResult(gameState.result);
-      setWinner(gameState.winner);
-      setResultMsg(gameState.resultMsg);
-      setPlayerBalance(gameState.playerBalance);
-      setShowResultPopup(true);
+  if (bet !== null) {
+    const gameState = await stand(
+      playerBalance,
+      dealerHand,
+      playerScore,
+      bet
+    );
+    setDealerHand(gameState.dealerHand);
+    setDealerScore(gameState.dealerScore);
+    setGameOver(gameState.gameOver);
+    setResult(gameState.result);
+    setWinner(gameState.winner);
+    setResultMsg(gameState.resultMsg);
+    setPlayerBalance(gameState.playerBalance);
+    setShowResultPopup(true);
 
-      if (gameState.winner === "player") {
-        const playWinSound = () => {
-          const audio = new Audio("Sounds/winCash.wav");
-          audio.play();
-        };
-        playWinSound();
-        await console.log("ticket" + playerBalance);
-        await updateBalance(playerBalance);
-        if (Math.random() < 0.05) {
-          updateGems(user.gems + 1);
-        }
-      } else if (gameState.winner === "dealer") {
-        const playLoseSound = () => {
-          const audio = new Audio("Sounds/laughingJew.mp3");
-          audio.play();
-        };
-
-        playLoseSound();
+    if (gameState.winner === "player") {
+      const playWinSound = () => {
+        const audio = new Audio("Sounds/winCash.wav");
+        audio.play();
+      };
+      playWinSound();
+      await console.log("ticket" + playerBalance);
+      if (Math.random() < 0.05) {
+        updateGems(user.gems + 1);
       }
+    } else if (gameState.winner === "dealer") {
+      const playLoseSound = () => {
+        const audio = new Audio("Sounds/laughingJew.mp3");
+        audio.play();
+      };
+
+      playLoseSound();
     }
-  };
+  }
+};
 
   const handleReset = () => {
     setPlayerHand([]);
