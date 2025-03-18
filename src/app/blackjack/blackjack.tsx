@@ -115,7 +115,7 @@ export default function BlackJack({ user }: { user: UserType }) {
       if (gameState.gameOver) {
         setResult("Player busts! Dealer wins!");
         setWinner("player");
-        updateBalance(playerBalance);
+        
         setShowResultPopup(true);
 
         const playWinSound = () => {
@@ -151,6 +151,7 @@ export default function BlackJack({ user }: { user: UserType }) {
           audio.play();
         };
         playWinSound();
+        console.log(playerBalance);
         updateBalance(playerBalance);
         if (Math.random() < 0.05) {
           updateGems(user.gems + 1);
@@ -162,7 +163,6 @@ export default function BlackJack({ user }: { user: UserType }) {
         };
 
         playLoseSound();
-        updateBalance(playerBalance);
       }
     }
   };
