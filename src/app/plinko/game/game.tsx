@@ -19,7 +19,7 @@ import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
 import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
-import { ExternalLink, Menu, Settings, User, CandlestickChart, ChartCandlestick,  } from "lucide-react";
+import { ExternalLink, Menu, Settings, User, CandlestickChart, ChartCandlestick, } from "lucide-react";
 import { Orbitron } from "next/font/google";
 import Link from "next/link";
 import { MultiplierHistory, PlinkoGameBody } from "./components";
@@ -68,6 +68,7 @@ export function Plinko({ user }: { user: UserType }) {
   const [playerBalance, setPlayerBalance] = useState<number>(user.tickets);
   const [betValue, setBetValue] = useState<number>(0);
   const ballEffect = "plinko/ball.wav";
+  const [remBalance, setRemBalance] = useState<number>(playerBalance);
 
   const formatNumber = (num: number) => num.toLocaleString("en-US");
   const {
@@ -88,6 +89,17 @@ export function Plinko({ user }: { user: UserType }) {
   for (let i = 8; i <= maxLinesQnt; i++) {
     linesOptions.push(i);
   }
+
+  useEffect(() => {
+    const enableAudio = () => {
+      const testAudio = new Audio();
+      testAudio.play().catch(() => {}); 
+  
+      document.removeEventListener("click", enableAudio);
+    };
+  
+    document.addEventListener("click", enableAudio);
+  }, []);
 
   //Matter-js engine
   useEffect(() => {
@@ -163,7 +175,8 @@ export function Plinko({ user }: { user: UserType }) {
   // Add a ball
   const addBall = useCallback(
     async (ballValue: number) => {
-      if (inGameBallsCount >= 15) {
+      if (useGameStore.getState().gamesRunning >= 15) {
+        console.warn("Max 15 balls reached!");
         return;
       }
       incrementInGameBallsCount();
@@ -210,8 +223,8 @@ export function Plinko({ user }: { user: UserType }) {
     // Create new walls and floor
     const leftWall = Bodies.rectangle(
       worldWidth / 3 -
-        pinsConfig.pinSize * pinsConfig.pinGap -
-        pinsConfig.pinGap,
+      pinsConfig.pinSize * pinsConfig.pinGap -
+      pinsConfig.pinGap,
       worldWidth / 2 - pinsConfig.pinSize,
       worldWidth * 2,
       40,
@@ -225,9 +238,9 @@ export function Plinko({ user }: { user: UserType }) {
 
     const rightWall = Bodies.rectangle(
       worldWidth -
-        pinsConfig.pinSize * pinsConfig.pinGap -
-        pinsConfig.pinGap -
-        pinsConfig.pinGap / 2,
+      pinsConfig.pinSize * pinsConfig.pinGap -
+      pinsConfig.pinGap -
+      pinsConfig.pinGap / 2,
       worldWidth / 2 - pinsConfig.pinSize,
       worldWidth * 2,
       40,
@@ -285,25 +298,41 @@ export function Plinko({ user }: { user: UserType }) {
     ]);
   }, [lines, worldWidth]);
 
+  let lastClickTime = 0;
+  let remainingBalance = playerBalance;
+
   const handleRunBet = async () => {
+    const now = Date.now();
+    if (now - lastClickTime < 100) return; // Blokuj kliknutí rychlejší než 100ms
+    lastClickTime = now;
+  
     if (inGameBallsCount >= 15) return;
     if (betValue > playerBalance) {
       setBetValue(playerBalance);
       return;
     }
+    
+    const remainingBalls = 15 - inGameBallsCount;
+  
 
-    addBall(betValue);
-    if (betValue <= 0) return;
-    console.log("x");
-    setPlayerBalance((prevBalance) => {
-      prevBalance = prevBalance - betValue;
-      return prevBalance;
-    });
+      const ballBetValue = Math.floor(remainingBalance);
+      if (ballBetValue <= 0) return;
+  
+      addBall(ballBetValue);
+      remainingBalance -= ballBetValue;
+    
+  
+    setPlayerBalance(remainingBalance);
   };
+  
 
   useEffect(() => {
     updateBalance(playerBalance);
   }, [playerBalance]);
+
+  useEffect(() => {
+    updateBalance(remainingBalance);
+  }, [remainingBalance]);
 
   const handleChangeBetValue = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -326,9 +355,9 @@ export function Plinko({ user }: { user: UserType }) {
       )[1] as MultiplierValues;
 
       const multiplierSound = new Audio(getMultiplierSound(multiplierValue))
-    multiplierSound.currentTime = 0
-    multiplierSound.volume = 1
-    multiplierSound.play()
+      multiplierSound.currentTime = 0
+      multiplierSound.volume = 1
+      multiplierSound.play()
 
       setLastMultipliers((prev) => [
         multiplierValue,
@@ -370,7 +399,7 @@ export function Plinko({ user }: { user: UserType }) {
     };
   }, [onBodyCollision]);
 
-  
+
 
 
 
@@ -382,7 +411,7 @@ export function Plinko({ user }: { user: UserType }) {
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
       <Navbar isOpen={isNavOpen} toggleNav={() => setIsNavOpen(!isNavOpen)} />
       <div className="flex flex-col items-center">
-      <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
+        <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
           <div className={"flex items-center space-x-2 md:space-x-4"}>
             <button
               type="button"
@@ -519,7 +548,7 @@ export function Plinko({ user }: { user: UserType }) {
                   />
 
                   <div className="flex items-stretch gap-2">
-                  <button
+                    <button
                       onClick={() => setBetValue((prevBetValue) => prevBetValue + 100)}
                       className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
                       100
@@ -535,7 +564,7 @@ export function Plinko({ user }: { user: UserType }) {
                       ½
                     </button>
                     <button
-                      onClick={() => setBetValue((prevBetValue) => prevBetValue *2)}
+                      onClick={() => setBetValue((prevBetValue) => prevBetValue * 2)}
                       className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
                       2x
                     </button>
@@ -544,13 +573,15 @@ export function Plinko({ user }: { user: UserType }) {
                       className="flex-1 rounded-md bg-[#1E1E1E] p-3 border border-[#D4AF37] cursor-pointer hover:bg-[#C0A236] transition-colors text-[#D4AF37] hover:text-[#1E1E1E] font-bold">
                       Max
                     </button>
-                  
+
                   </div>
                 </div>
 
                 <button
                   onClick={handleRunBet}
-                  className="w-full rounded-md bg-[#1E1E1E] px-6 py-4 font-bold text-[#D4AF37] hover:bg-[#C0A236] hover:text-[#1E1E1E] focus:outline-none border  border-[#D4AF37]">
+                  disabled={inGameBallsCount >= 15}
+                  className={`w-full rounded-md bg-[#1E1E1E] px-6 py-4 font-bold text-[#D4AF37] 
+    ${inGameBallsCount >= 15 ? "opacity-50 cursor-not-allowed" : "hover:bg-[#C0A236] hover:text-[#1E1E1E]"}`}>
                   Bet
                 </button>
               </div>
