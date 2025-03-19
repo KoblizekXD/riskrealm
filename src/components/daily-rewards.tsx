@@ -10,8 +10,9 @@ import MyDialog from "./dialog";
 
 export default function DailyRewards({
   user,
+  setCanClaim,
   setTickets,
-}: { user: User; setTickets: (a: (prev: number) => number) => void }) {
+}: { user: User; setTickets: (a: (prev: number) => number) => void; setCanClaim: (a: (prev: boolean) => boolean) => void }) {
   const [open, setOpen] = useState(true);
   const streak = user.streak + 1;
 
@@ -58,6 +59,7 @@ export default function DailyRewards({
             toast("Successfully claimed your daily rewards!");
             setTickets((prev) => prev + streakCalculator(streak));
             setOpen(false);
+            setCanClaim(() => false);
           });
         }}
         type="button"
