@@ -52,9 +52,7 @@ export default function BlackJack({ user }: { user: UserType }) {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
  useEffect(() => {
-  if (winner === "player") {
     updateBalance(playerBalance);
-  }
 }, [winner, playerBalance]);
   const formatNumber = (num: number) => num.toLocaleString("en-US");
 
