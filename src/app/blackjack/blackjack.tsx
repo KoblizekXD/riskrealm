@@ -49,6 +49,7 @@ export default function BlackJack({ user }: { user: UserType }) {
   const [showBalanceError, setShowBalanceError] = useState<boolean>(false);
   const [showResultPopup, setShowResultPopup] = useState<boolean>(false);
   const cardSound = "cards/card.wav";
+  const [enableButtons, setEnableButtons] = useState<boolean>(true);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
  useEffect(() => {
@@ -95,7 +96,7 @@ export default function BlackJack({ user }: { user: UserType }) {
         setResultMsg("");
         setPlayerBalance(gameState.playerBalance);
         setOldBalance(gameState.oldBalance);
-        
+        setEnableButtons(true);
       }, 1100);
     }
   };
@@ -412,7 +413,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                 <button
                   type="button"
                   onClick={handleHit}
-                  disabled={!gameStarted || gameOver}
+                  disabled={!gameStarted || gameOver || !enableButtons}
                   className="p-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors cursor-pointer"
                 >
                   Hit
@@ -420,7 +421,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                 <button
                   type="button"
                   onClick={handleStand}
-                  disabled={!gameStarted || gameOver}
+                  disabled={!gameStarted || gameOver || !enableButtons}
                   className="p-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors cursor-pointer"
                 >
                   Stand
