@@ -172,6 +172,7 @@ export default function BlackJack({ user }: { user: UserType }) {
     setBet(0);
     setGameStarted(false);
     setShowResultPopup(false);
+    setEnableButtons(false);
   };
 
   useEffect(() => {
