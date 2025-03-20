@@ -299,7 +299,7 @@ export function Plinko({ user }: { user: UserType }) {
   }, [lines, worldWidth]);
 
   let lastClickTime = 0;
-  let remainingBalance = playerBalance;
+
 
   const handleRunBet = async () => {
     const now = Date.now();
@@ -315,9 +315,8 @@ export function Plinko({ user }: { user: UserType }) {
       return;
     }
       addBall(betValue);
-      remainingBalance -= betValue;
   
-    setPlayerBalance(remainingBalance);
+    setPlayerBalance(playerBalance - betValue);
   };
   
 
@@ -325,9 +324,7 @@ export function Plinko({ user }: { user: UserType }) {
     updateBalance(playerBalance);
   }, [playerBalance]);
 
-  useEffect(() => {
-    updateBalance(remainingBalance);
-  }, [remainingBalance]);
+
 
   const handleChangeBetValue = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
