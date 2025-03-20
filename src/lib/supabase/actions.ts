@@ -174,3 +174,41 @@ export async function updateGems(gems: number) {
     .update({ gems: gems })
     .eq("id", user.data.user.id);
 }
+
+export async function getStockPrice(): Promise<number | undefined> {
+  const supabase = await createClient();
+  const res = await supabase.from("transactions").select("*")
+    .order("created_at", { ascending: false })
+    .limit(1);
+
+  if (res.error) {
+    return undefined;
+  }
+
+  return res.data[0].new_price;
+}
+
+export async function createTransaction(gem_count: number): Promise<number | undefined> {
+  const user = await getUser();
+
+  if (!user) return;
+
+  const ppu = await getStockPrice();
+  if (!ppu) return;
+
+  if (user.gems < gem_count) return;
+
+  const supabase = await createClient();
+
+  await supabase.from("transactions").insert({
+    gem_count,
+    ppu: ppu,
+    new_price: (Math.random() + 0.5) * ppu
+  });
+
+  updateGems(user.gems - gem_count);
+  
+  updateBalance(user.tickets + (gem_count * ppu));
+
+  return getStockPrice();
+}

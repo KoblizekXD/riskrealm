@@ -226,7 +226,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                 </Link>
                 <Link
                   className="font-semibold brightness-50 gap-x-2 flex items-center"
-                  href={"/trade"}
+                  href={"/trading"}
                 >
                   <ChartCandlestick size={16} />
                   Trade gems
@@ -288,7 +288,7 @@ export default function BlackJack({ user }: { user: UserType }) {
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}
+                    href={"/trading"}
                   >
                     <CandlestickChart size={16} />
                     Trade gems
