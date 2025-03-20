@@ -28,6 +28,7 @@ import Link from "next/link";
 import { MultiplierHistory, PlinkoGameBody } from "./components";
 import { config, getMultiplierSound, multiplyBlocks16Lines } from "./config";
 import { useGameStore } from "./store";
+import { set } from "zod";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -68,7 +69,6 @@ export function Plinko({ user }: { user: UserType }) {
   const [playerBalance, setPlayerBalance] = useState<number>(user.tickets);
   const [betValue, setBetValue] = useState<number>(0);
   const ballEffect = "plinko/ball.wav";
-  const [remBalance, setRemBalance] = useState<number>(playerBalance);
 
   const formatNumber = (num: number) => num.toLocaleString("en-US");
   const {
@@ -194,7 +194,7 @@ export function Plinko({ user }: { user: UserType }) {
         pinsConfig.pinGap / 2;
 
       const ballX = Math.random() * (maxBallX - minBallX) + minBallX;
-      const ballColor = ballValue <= 0 ? "white" : "[#D4AF37]";
+      const ballColor = "[#d4af37]";
 
       const ball = Bodies.circle(ballX, 20, ballConfig.ballSize, {
         restitution: 1,
@@ -303,24 +303,19 @@ export function Plinko({ user }: { user: UserType }) {
 
   const handleRunBet = async () => {
     const now = Date.now();
-    if (now - lastClickTime < 100) return; // Blokuj kliknutí rychlejší než 100ms
+    if (now - lastClickTime < 100) {
+      console.warn("Womp Womp");
+      return;
+    }
     lastClickTime = now;
-  
-    if (inGameBallsCount >= 15) return;
+    
+    if (inGameBallsCount >= 15 || betValue <= 0) return;
     if (betValue > playerBalance) {
       setBetValue(playerBalance);
       return;
     }
-    
-    const remainingBalls = 15 - inGameBallsCount;
-  
-
-      const ballBetValue = Math.floor(remainingBalance);
-      if (ballBetValue <= 0) return;
-  
-      addBall(ballBetValue);
-      remainingBalance -= ballBetValue;
-    
+      addBall(betValue);
+      remainingBalance -= betValue;
   
     setPlayerBalance(remainingBalance);
   };
@@ -612,7 +607,7 @@ export function Plinko({ user }: { user: UserType }) {
                   onClick={handleRunBet}
 
                   disabled={inGameBallsCount >= 15}
-                  className={`w-full rounded-md bg-[#1E1E1E] px-6 py-4 font-bold text-[#D4AF37] 
+                  className={`w-full rounded-md bg-[#1E1E1E] px-6 py-4 font-bold text-[#D4AF37] border border-[#D4AF37] cursor-pointer transition-colors 
     ${inGameBallsCount >= 15 ? "opacity-50 cursor-not-allowed" : "hover:bg-[#C0A236] hover:text-[#1E1E1E]"}`}>
 
                   Bet
