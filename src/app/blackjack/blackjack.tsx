@@ -49,7 +49,7 @@ export default function BlackJack({ user }: { user: UserType }) {
   const [showBalanceError, setShowBalanceError] = useState<boolean>(false);
   const [showResultPopup, setShowResultPopup] = useState<boolean>(false);
   const cardSound = "cards/card.wav";
-  const [enableButtons, setEnableButtons] = useState<boolean>(true);
+  const [enableButtons, setEnableButtons] = useState<boolean>(false);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
  useEffect(() => {
