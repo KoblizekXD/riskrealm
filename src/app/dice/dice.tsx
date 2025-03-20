@@ -1,32 +1,21 @@
 "use client";
 
-import DailyRewards from "@/components/daily-rewards";
-import MyDialog from "@/components/dialog";
-import Navbar from "@/components/navbar";
-import Popover from "@/components/popover";
-import Tooltip from "@/components/tooltip";
+import { useState, useEffect } from 'react';
 import { DiceGame } from "@/lib/games/dice";
 import type { User as UserType } from "@/lib/schemas";
-import {
-  canClaimStreak,
-  updateBalance,
-  updateGems,
-} from "@/lib/supabase/actions";
-import {
-  CandlestickChart,
-  ChartCandlestick,
-  ExternalLink,
-  Menu,
-  Settings,
-  User,
-} from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import MyDialog from "@/components/dialog";
+import { ExternalLink, Menu, Settings, User, CandlestickChart, ChartCandlestick,  } from "lucide-react";
+import Tooltip from "@/components/tooltip";
+import { canClaimStreak, updateBalance, updateGems } from "@/lib/supabase/actions";
+import DailyRewards from "@/components/daily-rewards";
+import Popover from "@/components/popover";
+import Image from "next/image";
 import "../globals.css";
+import Navbar from "@/components/navbar";
 
 export default function Dice({ user }: { user: UserType }) {
-  const [target, setTarget] = useState<"over" | "under">("over");
+  const [target, setTarget] = useState<'over' | 'under'>('over');
   const [result, setResult] = useState<number | null>(null);
   const [isWin, setIsWin] = useState<boolean | null>(null);
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -56,10 +45,7 @@ export default function Dice({ user }: { user: UserType }) {
       12: 1 / 36,
     };
 
-    static getMultiplier(
-      dicePrediction: number,
-      target: "over" | "under"
-    ): number {
+    static getMultiplier(dicePrediction: number, target: "over" | "under"): number {
       let probability = 0;
 
       if (target === "over") {
@@ -96,10 +82,10 @@ export default function Dice({ user }: { user: UserType }) {
     const game = new DiceGame(dicePrediction, target);
     const total = game.rollDices();
     const finalFaces = [total.dice1, total.dice2];
-    const diceRollSound = new Audio(diceSound);
-    diceRollSound.currentTime = 0;
-    diceRollSound.volume = 1;
-    diceRollSound.play();
+    const diceRollSound = new Audio(diceSound)
+    diceRollSound.currentTime = 0
+    diceRollSound.volume = 1 
+    diceRollSound.play()
 
     let elapsed = 0;
     const rollInterval = setInterval(() => {
@@ -121,29 +107,36 @@ export default function Dice({ user }: { user: UserType }) {
           setPlayerBalance((prevBalance) => prevBalance + newWin);
           updateBalance(playerBalance + newWin);
 
+
           const playWinSound = () => {
             const audio = new Audio("Sounds/winCash.wav");
             audio.play();
           };
-
+      
           playWinSound();
-          if (Math.random() < 0.05) {
-            updateGems(user.gems + 1);
+          if(Math.random() < 0.05) {
+            updateGems(user.gems + 1)
           }
-        } else {
+        }
+
+        else {
           const playJewSound = () => {
             const audio = new Audio("Sounds/laughingJew.mp3");
             audio.play();
           };
-
+      
           playJewSound();
+
+          
         }
+
 
         setResult(total.sum);
         setIsWin(win);
       }
     }, 500);
   };
+
 
   useEffect(() => {
     setMultiplier(DiceGameLogic.getMultiplier(dicePrediction, target));
@@ -153,6 +146,8 @@ export default function Dice({ user }: { user: UserType }) {
     canClaimStreak().then(setStreakClaimable);
   }, []);
 
+  
+
   useEffect(() => {
     canClaimStreak().then(setStreakClaimable);
   }, []);
@@ -161,19 +156,15 @@ export default function Dice({ user }: { user: UserType }) {
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
       <Navbar isOpen={isNavOpen} toggleNav={() => setIsNavOpen(!isNavOpen)} />
       <div className="flex flex-col items-center">
-        <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
+      <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
           <div className={"flex items-center space-x-2 md:space-x-4"}>
             <button
               type="button"
               onClick={() => setIsNavOpen(!isNavOpen)}
-              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform"
-            >
+              className="text-4xl md:text-3xl font-bold text-[#d4af37] cursor-pointer hover:scale-110 transition-transform">
               <Menu />
             </button>
-            <Link
-              href={"/"}
-              className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]"
-            >
+            <Link href={"/"} className="text-2xl -translate-y-[1px] md:text-2xl font-bold text-[#d4af37]">
               Risk Realm
             </Link>
           </div>
@@ -186,8 +177,7 @@ export default function Dice({ user }: { user: UserType }) {
                 <div className="cursor-pointer hover:scale-105 transition-transform p-1 border-gray-500 bg-black border rounded-md md:hidden z-40">
                   <Menu size={32} className="stroke-white" />
                 </div>
-              }
-            >
+              }>
               <div className="flex flex-col gap-y-2">
                 <div className="rounded gap-x-3 flex justify-start items-center bg-[#11111b] h-fit p-2">
                   Balance:
@@ -199,22 +189,19 @@ export default function Dice({ user }: { user: UserType }) {
                 </p>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/settings"}
-                >
+                  href={"/settings"}>
                   <Settings size={16} />
                   Options
                 </Link>
                 <Link
                   className="font-semibold brightness-50 gap-x-2 flex items-center"
-                  href={"/trade"}
-                >
+                  href={"/trade"}>
                   <ChartCandlestick size={16} />
                   Trade gems
                 </Link>
                 <Link
                   className="font-semibold gap-x-2 flex items-center"
-                  href={"/signout"}
-                >
+                  href={"/signout"}>
                   <ExternalLink size={16} />
                   Sign-out
                 </Link>
@@ -223,11 +210,7 @@ export default function Dice({ user }: { user: UserType }) {
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
               {streakClaimable && (
-                <DailyRewards
-                  setCanClaim={setStreakClaimable}
-                  setTickets={setPlayerBalance}
-                  user={user}
-                />
+                <DailyRewards setTickets={setPlayerBalance} user={user} />
               )}
               <Tooltip
                 content={
@@ -236,8 +219,7 @@ export default function Dice({ user }: { user: UserType }) {
                     <span> - Tickets 🎫</span>
                     <span> - Gems 💎</span>
                   </div>
-                }
-              >
+                }>
                 <div className="rounded gap-x-3 flex justify-center items-center bg-[#11111b] h-fit p-2">
                   <span>{formatNumber(playerBalance)} 🎫</span>
                   <span>{user.gems} 💎</span>
@@ -247,13 +229,11 @@ export default function Dice({ user }: { user: UserType }) {
                 trigger={
                   <button
                     type="button"
-                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer"
-                  >
+                    className="font-semibold hover:bg-white/30 p-2 flex items-center gap-x-2 rounded-lg transition-colors cursor-pointer">
                     <User size={28} color="#ce9aff" />
                     <span>{user.username}</span>
                   </button>
-                }
-              >
+                }>
                 <div className="rounded gap-y-2 flex flex-col bg-[#11111B] p-4">
                   <h2 className="font-semibold">My profile</h2>
                   <p className="text-sm text-gray-300">
@@ -261,22 +241,19 @@ export default function Dice({ user }: { user: UserType }) {
                   </p>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}
-                  >
+                    href={"/settings"}>
                     <Settings size={16} />
                     Options
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}
-                  >
+                    href={"/settings"}>
                     <CandlestickChart size={16} />
                     Trade gems
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/signout"}
-                  >
+                    href={"/signout"}>
                     <ExternalLink size={16} />
                     Sign-out
                   </Link>
@@ -286,68 +263,64 @@ export default function Dice({ user }: { user: UserType }) {
           </div>
         </header>
         <main
-          className={`relative text-center flex-grow p-4 lg:p-4 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${
-            isNavOpen ? "ml-64" : "ml-0"
-          }`}
-        >
-          <div className="bg-gray-900 text-white p-4 rounded-lg w-full min-w-xl mx-auto shadow-lg ">
+          className={`relative text-center flex-grow p-4 lg:p-4 flex flex-col items-center overflow-y-auto mr-auto ml-auto max-w-[1550px] transition-all duration-300 ${isNavOpen ? "ml-64" : "ml-0"
+            }`}>
+
+
+          <div className="text-white p-4 rounded-lg w-full min-w-xl mx-auto shadow-lg ">
+
             <div className="text-4xl font-bold mb-4 text-[#D4AF37] drop-shadow-[0_0_5px_#CFAF4A] text-center">
               Roll the Dice
             </div>
 
-            <div className="flex mt-6">
+
+
+
+            <div className="flex mt-6 justify-center">
               <div className="bg-gray-800 p-4 rounded-lg w-1/2">
                 <button
-                  className={`block w-full py-2 text-center text-lg font-bold cursor-pointer ${
-                    target === "over" ? "bg-green-500" : "bg-gray-700"
-                  }`}
+                  className={`block w-full py-2 text-center text-lg font-bold cursor-pointer ${target === "over" ? "bg-[#6D28D9]" : "bg-gray-700"
+                    }`}
                   onClick={() => setTarget("over")}
                 >
                   OVER
                 </button>
                 <button
-                  className={`block w-full py-2 text-center text-lg font-bold mt-2 cursor-pointer ${
-                    target === "under" ? "bg-green-500" : "bg-gray-700"
-                  }`}
+                  className={`block w-full py-2 text-center text-lg font-bold mt-2 cursor-pointer ${target === "under" ? "bg-[#6D28D9]" : "bg-gray-700"
+                    }`}
                   onClick={() => setTarget("under")}
                 >
                   UNDER
                 </button>
 
                 <div className="mt-4 text-center">
-                  <label className="block text-sm font-medium mb-2 text-[#FFD700]">
-                    Prediction (3-11):
-                  </label>
+                  <label className="block text-sm font-medium mb-2 text-[#FFD700]">Prediction (3-11):</label>
                   <input
                     type="number"
                     min="3"
                     max="11"
                     value={dicePrediction}
-                    onChange={(e) =>
-                      setDicePrediction(parseInt(e.target.value))
-                    }
+                    onChange={(e) => setDicePrediction(parseInt(e.target.value))}
                     className="p-2 rounded text-[#FFD700] border border-[#D4AF37] focus:outline-none focus:ring focus:ring-[#D4AF37] focus:ring-opacity-50 transition-colors"
                   />
-                  <div className="text-[#FFD700] mt-2 text-lg">
-                    PAYS: {multiplier}x
-                  </div>
+                  <div className="text-[#FFD700] mt-2 text-lg">PAYS: {multiplier}x</div>
                 </div>
               </div>
               {result !== null && (
-                <div className="p-4 w-1/2">
-                  <p className="text-xl">
-                    You rolled: <span className="font-bold">{result}</span>
-                  </p>
-                  <p className="text-xl">
-                    <span className={isWin ? "text-green-600" : "text-red-600"}>
-                      {isWin
-                        ? "You Win +" + formatNumber(newWin) + "🎫"
-                        : "You Lose!"}
-                    </span>
-                  </p>
-                </div>
-              )}
+              <div className="p-4 w-1/2">
+                <p className="text-xl">
+                  You rolled: <span className="font-bold">{result}</span>
+                </p>
+                <p className="text-xl">
+                  <span className={isWin ? 'text-green-600' : 'text-red-600'}>
+                    {isWin ? 'You Win +' + formatNumber(newWin) + '🎫' : 'You Lose!'}
+                  </span>                  
+                </p>
+              </div>
+            )}
             </div>
+
+            
 
             <div className="flex justify-center items-center mb-6 relative">
               <div className="relative w-full h-32 flex justify-center items-center">
@@ -358,30 +331,24 @@ export default function Dice({ user }: { user: UserType }) {
                     alt={`Dice ${face}`}
                     width={64}
                     height={64}
-                    className={`transition-transform duration-3000 ease-out mx-4 ${
-                      rolling ? "animate-dice-roll" : ""
-                    }`}
+                    className={`transition-transform duration-3000 ease-out mx-4 ${rolling ? "animate-dice-roll" : ""
+                      }`}
                   />
                 ))}
               </div>
             </div>
 
+
             <div className="mt-6 bg-gray-800 p-4 rounded">
-              <div className="text-xl flex">
-                Balance:{" "}
-                <span className="text-[#FFD700] ml-2">
-                  {formatNumber(playerBalance)}
-                </span>
-                🎫
-              </div>
+            <div className="text-xl flex">Balance: <span className="text-[#FFD700] ml-2">{formatNumber(playerBalance)}</span>🎫</div>
               <div className="flex items-center mt-2 ">
                 <span className="text-xl">Bet:</span>
                 <input
                   type="number"
                   min="1"
                   max="30000"
-                  placeholder="Enter your bet"
-                  value={betValue === null ? "" : betValue}
+                  placeholder='Enter your bet'
+                  value={betValue === null ? '' : betValue}
                   onChange={(e) => setBetValue(parseFloat(e.target.value))}
                   className="p-2 rounded text-[#FFD700]  border border-[#D4AF37] focus:outline-none focus:ring focus:ring-[#D4AF37] focus:ring-opacity-50 transition-colors w-1/3 mx-2"
                 />
@@ -389,56 +356,50 @@ export default function Dice({ user }: { user: UserType }) {
                   type="button"
                   onClick={() => setBetValue(playerBalance)}
                   disabled={rolling}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1"
-                >
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
                   All In
                 </button>
                 <button
                   type="button"
-                  onClick={() =>
-                    setBetValue(
-                      playerBalance % 2 === 0
-                        ? playerBalance / 2
-                        : (playerBalance - 1) / 2
-                    )
-                  }
+                  onClick={() => setBetValue(playerBalance % 2 === 0 ? playerBalance / 2 : (playerBalance - 1) / 2)}
                   disabled={rolling}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1"
-                >
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
                   ½
                 </button>
                 <button
                   type="button"
-                  onClick={() =>
-                    setBetValue((prevBetValue) => (prevBetValue ?? 0) + 100)
-                  }
+                  onClick={() => setBetValue((prevBetValue) => (prevBetValue ?? 0) + 100)}
                   disabled={rolling}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1"
-                >
+                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
                   100
                 </button>
-
+                
                 <button
                   type="button"
-                  onClick={() =>
-                    setBetValue((prevBetValue) => (prevBetValue ?? 0) + 1000)
-                  }
+                  onClick={() => setBetValue((prevBetValue) => (prevBetValue ?? 0) + 1000)}
                   disabled={rolling}
-                  className="p-2 bg-[#6D28D9] text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1"
-                >
+                  className="p-2 6D28D9 text-white rounded hover:bg-[#7C3AED] transition-colors cursor-pointer w-1/8 mx-1">
                   1000
                 </button>
+               
+                
               </div>
+              
             </div>
+
+
 
             {/* ROLL BUTTON */}
             <button
               onClick={handleRoll}
-              className="mt-4 w-full py-3 bg-green-500 text-lg font-bold rounded hover:bg-green-600 cursor-pointer"
+              className="mt-4 w-full py-3 bg-[#6D28D9] text-lg font-bold rounded hover:bg-[#7C3AED] cursor-pointer"
             >
               Roll Dice
             </button>
           </div>
+
+
+
 
           {showBalanceError && (
             <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center">
@@ -452,13 +413,14 @@ export default function Dice({ user }: { user: UserType }) {
                 <button
                   type="button"
                   onClick={() => setShowBalanceError(false)}
-                  className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors cursor-pointer"
-                >
+                  className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors cursor-pointer">
                   Close
                 </button>
               </div>
             </div>
           )}
+
+
         </main>
       </div>
 
