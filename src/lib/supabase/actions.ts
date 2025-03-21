@@ -136,9 +136,9 @@ export async function updateBalance(balance: number) {
   const user = await supabase.auth.getUser();
   if (!user.data.user) return false;
 
-  await supabase
+  const res = await supabase
     .from("users")
-    .update({ tickets: balance })
+    .update({ tickets: Math.floor(balance) })
     .eq("id", user.data.user.id);
 }
 
@@ -207,6 +207,8 @@ export async function createTransaction(gem_count: number): Promise<number | und
   });
 
   updateGems(user.gems - gem_count);
+  
+  console.log(user.tickets, user.tickets + (gem_count * ppu));
   
   updateBalance(user.tickets + (gem_count * ppu));
 
