@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { JSX } from "react";
-import { House, CalendarDays, Gamepad, User, Settings, Info, Minimize2 } from "lucide-react";
+import type { JSX } from "react";
+import { House, CalendarDays, Gamepad, User, Settings, Info, Minimize2, DollarSign } from "lucide-react";
 
 interface NavbarProps {
   isOpen: boolean;
@@ -36,6 +36,7 @@ export default function Navbar({ isOpen, toggleNav }: NavbarProps) {
         <NavItem href="/profile" icon={<User />} text="Profile" />
         <NavItem href="/settings" icon={<Settings />} text="Settings" />
         <NavItem href="/aboutus" icon={<Info />} text="About Us" />
+        <NavItem href="/leaderboards" icon={<DollarSign />} text="Leaderboard" />
       </ul>
     </div>
   );

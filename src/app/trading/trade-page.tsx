@@ -31,7 +31,8 @@ export function TradePage({ user }: { user: User }) {
         <p className="text-lg font-medium">
           You have {userData.tickets} 🎫 tickets.
         </p>
-        <p className="text-lg font-medium">Current stock price is: {stockPrice}</p>
+        <p className="text-lg font-medium">Current stock price is: {stockPrice}/💎</p>
+        <p className="text-sm text-gray-500">With every purchase done, the price of tickets for gem changes</p>
         <form onSubmit={async (form) => {
           form.preventDefault();
           const fd = new FormData(form.currentTarget);
@@ -53,7 +54,7 @@ export function TradePage({ user }: { user: User }) {
             placeholder="Amount of gems"
             className="p-2 rounded border border-black"
           />
-          <button type="submit" className="p-2 hover:scale-105 transition-transform cursor-pointer bg-[#3f0e40] text-white rounded">
+          <button type="submit" className="p-2 hover:scale-105 shadow-xl transition-transform cursor-pointer bg-[#3f0e40] text-white rounded">
             Trade
           </button>
         </form>

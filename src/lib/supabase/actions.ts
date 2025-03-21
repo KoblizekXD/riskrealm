@@ -196,7 +196,7 @@ export async function createTransaction(gem_count: number): Promise<number | und
   const ppu = await getStockPrice();
   if (!ppu) return;
 
-  if (user.gems < gem_count) return;
+  if (user.gems < gem_count || gem_count === 0) return;
 
   const supabase = await createClient();
 
@@ -211,4 +211,34 @@ export async function createTransaction(gem_count: number): Promise<number | und
   updateBalance(user.tickets + (gem_count * ppu));
 
   return getStockPrice();
+}
+
+export async function getTicketLeaderboard(): Promise<User[] | string> {
+  const supabase = await createClient();
+  const res = await supabase
+    .from("users")
+    .select("*")
+    .order("tickets", { ascending: false })
+    .limit(10);
+
+  if (res.error) {
+    return res.error.message;
+  }
+
+  return res.data;
+}
+
+export async function getGemLeaderboard(): Promise<User[] | string> {
+  const supabase = await createClient();
+  const res = await supabase
+    .from("users")
+    .select("*")
+    .order("gems", { ascending: false })
+    .limit(10);
+
+  if (res.error) {
+    return res.error.message;
+  }
+
+  return res.data;
 }
