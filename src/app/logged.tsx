@@ -1,12 +1,13 @@
 "use client";
 
+import { CheatToolbox } from "@/components/cheat-toolbox";
 import DailyRewards from "@/components/daily-rewards";
 import MyDialog from "@/components/dialog";
 import Navbar from "@/components/navbar";
 import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
-import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
+import { canClaimStreak } from "@/lib/supabase/actions";
 import {
   CandlestickChart,
   ChartCandlestick,
@@ -25,7 +26,6 @@ import PlinkoPic from "./assets/plinko.jpg";
 import RoulettePic from "./assets/roulettepic.jpg";
 import RusRoulettePic from "./assets/rr.jpg";
 import SlotPic from "./assets/slotpic.jpg";
-import { CheatToolbox } from "@/components/cheat-toolbox";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -138,7 +138,11 @@ export default function LoggedInPage({ user }: { user: UserType }) {
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
               {streakClaimable && (
-                <DailyRewards setCanClaim={setStreakClaimable} setTickets={setTickets} user={user} />
+                <DailyRewards
+                  setCanClaim={setStreakClaimable}
+                  setTickets={setTickets}
+                  user={user}
+                />
               )}
               <Tooltip
                 content={
@@ -213,12 +217,6 @@ export default function LoggedInPage({ user }: { user: UserType }) {
           >
             Ready to make some money?
           </p>
-          <button
-              onClick={() => updateBalance(100000)}
-              type="button"
-              className="basis-[50%] bg-[#D4AF37] hover:bg-[#d4bf37] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#FFD700] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto">
-              Add Money
-            </button>
           <div className="mt-6 md:mt-10 w-full px-4">
             <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
               Trending right now:
