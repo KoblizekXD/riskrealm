@@ -25,6 +25,7 @@ import PlinkoPic from "./assets/plinko.jpg";
 import RoulettePic from "./assets/roulettepic.jpg";
 import RusRoulettePic from "./assets/rr.jpg";
 import SlotPic from "./assets/slotpic.jpg";
+import { CheatToolbox } from "@/components/cheat-toolbox";
 
 export const orbitron = Orbitron({
   variable: "--font-luckiest-guy",
@@ -72,6 +73,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
+      <CheatToolbox />
       <Navbar isOpen={isNavOpen} toggleNav={() => setIsNavOpen(!isNavOpen)} />
       <div className="flex flex-col items-center">
         <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
