@@ -1,12 +1,13 @@
 "use client";
 
+import { CheatToolbox } from "@/components/cheat-toolbox";
 import DailyRewards from "@/components/daily-rewards";
 import MyDialog from "@/components/dialog";
 import Navbar from "@/components/navbar";
 import Popover from "@/components/popover";
 import Tooltip from "@/components/tooltip";
 import type { User as UserType } from "@/lib/schemas";
-import { canClaimStreak, updateBalance } from "@/lib/supabase/actions";
+import { canClaimStreak } from "@/lib/supabase/actions";
 import {
   CandlestickChart,
   ChartCandlestick,
@@ -72,6 +73,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a1124] to-[#110b18] text-[#D4AF37] flex flex-col overflow-hidden">
+      <CheatToolbox />
       <Navbar isOpen={isNavOpen} toggleNav={() => setIsNavOpen(!isNavOpen)} />
       <div className="flex flex-col items-center">
         <header className="h-20 bg-[#151520] shadow-lg border-b-2 border-[#18181B] items-center flex w-full justify-between px-2 md:px-6">
@@ -119,7 +121,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                 </Link>
                 <Link
                   className="font-semibold brightness-50 gap-x-2 flex items-center"
-                  href={"/trade"}
+                  href={"/trading"}
                 >
                   <ChartCandlestick size={16} />
                   Trade gems
@@ -136,7 +138,11 @@ export default function LoggedInPage({ user }: { user: UserType }) {
 
             <div className="h-full gap-x-2 items-center hidden md:flex">
               {streakClaimable && (
-                <DailyRewards setCanClaim={setStreakClaimable} setTickets={setTickets} user={user} />
+                <DailyRewards
+                  setCanClaim={setStreakClaimable}
+                  setTickets={setTickets}
+                  user={user}
+                />
               )}
               <Tooltip
                 content={
@@ -177,7 +183,7 @@ export default function LoggedInPage({ user }: { user: UserType }) {
                   </Link>
                   <Link
                     className="font-semibold gap-x-2 flex items-center"
-                    href={"/settings"}
+                    href={"/trading"}
                   >
                     <CandlestickChart size={16} />
                     Trade gems
@@ -211,12 +217,6 @@ export default function LoggedInPage({ user }: { user: UserType }) {
           >
             Ready to make some money?
           </p>
-          <button
-              onClick={() => updateBalance(100000)}
-              type="button"
-              className="basis-[50%] bg-[#D4AF37] hover:bg-[#d4bf37] text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-[0px_0px_15px_#FFD700] font-semibold md:px-6 cursor-pointer hover:scale-105 transition transform w-full md:w-auto">
-              Add Money
-            </button>
           <div className="mt-6 md:mt-10 w-full px-4">
             <h2 className="text-left text-2xl md:text-3xl font-bold text-[#D4AF37] mb-4">
               Trending right now:

@@ -136,9 +136,9 @@ export async function updateBalance(balance: number) {
   const user = await supabase.auth.getUser();
   if (!user.data.user) return false;
 
-  await supabase
+  const res = await supabase
     .from("users")
-    .update({ tickets: balance })
+    .update({ tickets: Math.floor(balance) })
     .eq("id", user.data.user.id);
 }
 
@@ -173,4 +173,74 @@ export async function updateGems(gems: number) {
     .from("users")
     .update({ gems: gems })
     .eq("id", user.data.user.id);
+}
+
+export async function getStockPrice(): Promise<number | undefined> {
+  const supabase = await createClient();
+  const res = await supabase.from("transactions").select("*")
+    .order("created_at", { ascending: false })
+    .limit(1);
+
+  if (res.error) {
+    return undefined;
+  }
+
+  return res.data[0].new_price;
+}
+
+export async function createTransaction(gem_count: number): Promise<number | undefined> {
+  const user = await getUser();
+
+  if (!user) return;
+
+  const ppu = await getStockPrice();
+  if (!ppu) return;
+
+  if (user.gems < gem_count || gem_count === 0) return;
+
+  const supabase = await createClient();
+
+  await supabase.from("transactions").insert({
+    gem_count,
+    ppu: ppu,
+    new_price: (Math.random() + 0.5) * ppu
+  });
+
+  updateGems(user.gems - gem_count);
+  
+  console.log(user.tickets, user.tickets + (gem_count * ppu));
+  
+  updateBalance(user.tickets + (gem_count * ppu));
+
+  return getStockPrice();
+}
+
+export async function getTicketLeaderboard(): Promise<User[] | string> {
+  const supabase = await createClient();
+  const res = await supabase
+    .from("users")
+    .select("*")
+    .order("tickets", { ascending: false })
+    .limit(10);
+
+  if (res.error) {
+    return res.error.message;
+  }
+
+  return res.data;
+}
+
+export async function getGemLeaderboard(): Promise<User[] | string> {
+  const supabase = await createClient();
+  const res = await supabase
+    .from("users")
+    .select("*")
+    .order("gems", { ascending: false })
+    .limit(10);
+
+  if (res.error) {
+    return res.error.message;
+  }
+
+  return res.data;
 }
